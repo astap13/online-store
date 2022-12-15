@@ -9,22 +9,26 @@ const baseConfig = {
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-            {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
             {
-                test: /\.scss$/,
+                test: /\.s?css$/i,
                 use: [
-                  'style-loader',
-                  'css-loader',
-                  'sass-loader'
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
                 ]
-            }
+            },
+            {
+                test: /\.html$/i,
+                use: "html-loader",
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/,
+                type: 'asset/resource'
+            },
         ],
     },
     resolve: {
@@ -33,6 +37,7 @@ const baseConfig = {
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, 'dist'),
+        assetModuleFilename: 'assets/img/[name][ext]'
     },
     plugins: [
         new HtmlWebpackPlugin({
