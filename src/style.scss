@@ -1,0 +1,52 @@
+$main_color: rgb(165, 108, 108);
+$bg_color: rgb(215, 145, 145);
+.body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 100vh;
+  height: max-content;
+  justify-content: center;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.header {
+  background-color: $main_color;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 60px;
+  align-items: center;
+}
+.main {
+  background-color: $bg_color;
+  display: flex;
+  flex-grow: 1;
+}
+.filters {
+  width: 30%;
+  min-width: 200px;
+  height: fit-content;
+  min-height: 500px;
+  background-color: $main_color;
+  border: 1px solid black;
+}
+.products {
+  background-color: darken($bg_color, 5);
+  width: 100%;
+}
+.item {
+  height: 100px;
+  width: 100px;
+  border: 2px solid red;
+}
+.footer {
+  background-color: $main_color;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  height: 60px;
+  align-items: center;
+}

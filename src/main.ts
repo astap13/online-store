@@ -1,2 +1,2 @@
-const a: number = 5;
-console.log(a);
+import './style.scss';
+import './normalize.css';
