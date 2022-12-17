@@ -1,0 +1,16 @@
+.products__list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: .5%;
+    gap: 2%
+  }
+  
+  .products_item {
+    list-style-type: none;
+    height: 100px;
+    width: 100px;
+    position: relative;
+    width: 23%;
+    overflow: hidden;
+  }
