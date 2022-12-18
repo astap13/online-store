@@ -10,7 +10,16 @@ class Products {
             HTMLCatalog += `
             <li class='products_item'>
                 <span>${element.title}</span>
-                <img src = "${element.thumbnail}"/>
+                <div class='item_info'>
+                    <p class='item_content'>Category: ${element.category}</p>
+                    <p class='item_content'>Brand: ${element.brand}</p>
+                    <p class='item_content'>Price: ${element.price}EU</p>
+                    <p class='item_content'>Discount: ${element.discountPercentage}</p>
+                    <p class='item_content'>Rating: ${element.rating}</p>
+                    <p class='item_content'>Stock: ${element.stock}</p>
+                </div>
+                <img class='products_img' src = "${element.thumbnail}"/>
+                
             </li>
             `;
         });
