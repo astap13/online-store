@@ -18,9 +18,13 @@ class Products {
                     <p class='item_content'>Rating: ${element.rating}</p>
                     <p class='item_content'>Stock: ${element.stock}</p>
                 </div>
+                <div class='button_container'>
+                <button>Add to cart</button>
+                <button>Details</button></div>
                 <img class='products_img' src = "${element.thumbnail}"/>
                 
             </li>
+            
             `;
         });
 

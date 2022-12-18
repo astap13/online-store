@@ -36,3 +36,12 @@
     }
 }
 
+.button_container {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    bottom: 15px;
+    margin: 0 auto;
+    justify-content: space-around;
+}
+
