@@ -10,11 +10,14 @@ interface IProductItem {
     category: string;
     thumbnail: string;
     images: string[];
+    amount?: number;
 }
-type cartItemType = {
-    id: number;
+
+type cartAmountType = {
     amount: number;
 };
 
-type cartItems = [cartItemType?];
-export { IProductItem, cartItems };
+type cartItemType = IProductItem & cartAmountType;
+type cartItems = [cartItemType];
+
+export { IProductItem, cartItems, cartItemType };
