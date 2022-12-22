@@ -1,0 +1,104 @@
+$accent_color: black;
+.cart {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+.cart_products {
+    width: 80%;
+    .cart_products__head {
+        display: flex;
+        border: 1px solid $accent_color;
+        align-items: center;
+        justify-content: space-between;
+        .cart_items_on_page {
+            width: 50px;
+        }
+    }
+}
+.cart_summary {
+    width: 20%;
+    border: $accent_color 1px solid;
+    height: fit-content;
+    text-align: center;
+}
+.cart_item {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid $accent_color;
+    padding: 10px;
+    .cart_item_number {
+        height: 30px;
+        width: 30px;
+        border: 3px solid $accent_color;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: center;
+        margin: 0 20px;
+    }
+    .cart_item_info {
+        display: flex;
+        flex-grow: 1;
+    }
+    .cart_item_amount {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        flex-basis: 100px;
+        .cart_item_amount_controller {
+            display: flex;
+            justify-content: space-between;
+        }
+        .cart_item_stock, .cart_item_price {
+            white-space: nowrap;
+            text-align: center;
+        }
+    }
+}
+.cart_item_img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.cart_item_specs {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    justify-content: center;
+    .cart_item_title::after {
+        content: '';
+        width: 90%;
+        height: 2px;
+        background-color: $accent_color;
+        position: absolute;
+        bottom: 0;
+        left: 5%;
+    }
+    .cart_item_title,
+    .cart_item_description {
+        position: relative;
+        width: 100%;
+        text-align: center;
+    }
+    .cart_item_title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .cart_item_description {
+        width: 90%;
+
+    }
+    .cart_item_rating,
+    .cart_item_discount {
+        width: 50%;
+        text-align: center;
+    }
+}
