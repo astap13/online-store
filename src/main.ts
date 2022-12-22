@@ -4,7 +4,12 @@ import './components/product-details/product-details';
 import './components/router';
 import './components/catalog/catalog.scss';
 
+import Cart from './components/cart/cart';
+import { PRODUCTS } from './products';
 import Products from './components/catalog/catalog';
 
-const productPage = new Products();
-productPage.render();
+export const productPage = new Products();
+
+export const cart = new Cart(PRODUCTS[1]);
+cart.addToCart(PRODUCTS[12]);
+cart.addToCart(PRODUCTS[14]);
