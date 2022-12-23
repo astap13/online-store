@@ -20,4 +20,12 @@ type cartAmountType = {
 type cartItemType = IProductItem & cartAmountType;
 type cartItems = [cartItemType];
 
-export { IProductItem, cartItems, cartItemType };
+interface IRoutes {
+    [key: string]: string;
+}
+declare global {
+    interface Window {
+        route: (event: Event) => void;
+    }
+}
+export { IProductItem, cartItems, cartItemType, IRoutes };

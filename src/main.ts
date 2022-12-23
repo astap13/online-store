@@ -3,13 +3,12 @@ import './normalize.css';
 import './components/product-details/product-details';
 import './components/router';
 import './components/catalog/catalog.scss';
+import './components/app';
 
-import Cart from './components/cart/cart';
+import App from './components/app';
 import { PRODUCTS } from './products';
-import Products from './components/catalog/catalog';
 
-export const productPage = new Products();
-
-export const cart = new Cart(PRODUCTS[1]);
-cart.addToCart(PRODUCTS[12]);
-cart.addToCart(PRODUCTS[14]);
+export const app = new App();
+app.start();
+app.cart.addToCart(PRODUCTS[10]);
+console.log(app);

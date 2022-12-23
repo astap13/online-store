@@ -1,49 +1,48 @@
-import { cart } from '../main';
-import Products from './catalog/catalog';
+import { app } from '../main';
+import { IRoutes } from '../types';
 
-function route(event: Event): void {
-    event = event || window.event;
-    event.preventDefault();
-    window.history.pushState({}, '', (event.target as HTMLAnchorElement).href);
-    handleLocation();
-}
-interface routes {
-    [key: string]: string;
-}
-
-const routes: routes = {
-    '/cart': '/pages/cart.html',
-    '/': '/pages/main.html',
-};
-
-document.querySelectorAll('.link_route').forEach((element) => {
-    element.addEventListener('click', route);
-});
-const handleLocation: () => void = async () => {
-    const path = window.location.pathname;
-    const productPage = new Products();
-    const route = routes[path] || routes[404];
-    const html = await fetch(route).then((data) => data.text());
-    const main = document.querySelector('.main') as HTMLElement;
-    main.innerHTML = '';
-    main.innerHTML = html;
-    switch (path) {
-        case '/':
-            productPage.render();
-            break;
-        case '/cart':
-            cart.renderCart();
-            break;
+class Router {
+    routes: IRoutes;
+    constructor() {
+        this.routes = {
+            '/cart': '/pages/cart.html',
+            '/': '/pages/main.html',
+        };
     }
-    cart.setSumNum();
-};
-window.onpopstate = handleLocation;
-handleLocation();
-
-declare global {
-    interface Window {
-        route: (event: Event) => void;
+    setRoutes(): void {
+        document.querySelectorAll('.link_route').forEach((element) => {
+            element.addEventListener('click', (event) => {
+                this.route(event);
+            });
+        });
+        this.handleLocation();
+        window.onpopstate = this.handleLocation;
+        window.route = this.handleLocation;
+        console.log(1);
+    }
+    route(event: Event): void {
+        event = event || window.event;
+        event.preventDefault();
+        window.history.pushState({}, '', (event.target as HTMLAnchorElement).href);
+        this.handleLocation();
+    }
+    async handleLocation(): Promise<void> {
+        const path = window.location.pathname;
+        const route = this.routes[path] || this.routes[404];
+        const html = await fetch(route).then((data) => data.text());
+        const main = document.querySelector('.main') as HTMLElement;
+        main.innerHTML = '';
+        main.innerHTML = html;
+        switch (path) {
+            case '/':
+                app.renderProducts();
+                break;
+            case '/cart':
+                app.cart.renderCart();
+                break;
+        }
+        app.cart.setSumNum();
     }
 }
-window.route = route;
-export { route };
+
+export { Router };

@@ -1,9 +1,8 @@
 import { PRODUCTS } from '../../products';
 
 class Products {
-    render() {
+    renderProducts() {
         const rootProducts = document.querySelector('.products') as HTMLDivElement;
-        console.log(rootProducts);
         let HTMLCatalog = '';
 
         PRODUCTS.forEach((element) => {
@@ -19,8 +18,8 @@ class Products {
                     <p class='item_content'>Stock: ${element.stock}</p>
                 </div>
                 <div class='button_container'>
-                <button>Add to cart</button>
-                <button>Details</button></div>
+                <button class='btn_product_item product_item_add_to_cart_id_${element.id}'>Add to cart</button>
+                <button class='btn_product_item product_item_details_id_${element.id}'>Details</button></div>
                 <img class='products_img' src = "${element.thumbnail}"/>
                 
             </li>
