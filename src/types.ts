@@ -10,5 +10,14 @@ interface IProductItem {
     category: string;
     thumbnail: string;
     images: string[];
+    amount?: number;
 }
-export { IProductItem };
+
+type cartAmountType = {
+    amount: number;
+};
+
+type cartItemType = IProductItem & cartAmountType;
+type cartItems = [cartItemType];
+
+export { IProductItem, cartItems, cartItemType };
