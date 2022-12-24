@@ -100,6 +100,7 @@ class Cart {
             amount: 1,
         };
         this.cart.push(productInCart);
+        this.setSumNum();
     }
     increaseAmountItem(item: cartItemType): void {
         console.log('increaseAmountItem');

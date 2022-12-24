@@ -1,4 +1,5 @@
 interface IProductItem {
+    [key: string]: number | string | string[] | undefined;
     id: number;
     title: string;
     description: string;

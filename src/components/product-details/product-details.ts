@@ -1,11 +1,11 @@
 import { IProductItem } from '../../types';
 import { capetalize, createElementWithClass } from '../../functions';
-import './style.scss';
+import './product-details.scss';
+import { app } from '../../main';
 
 class ProductDetails {
     renderItemPage(element: IProductItem): void {
-        const template = document.querySelector('.product-details') as HTMLTemplateElement;
-        const node = template.content.cloneNode(true) as HTMLElement;
+        const node = document.querySelector('.product-details') as HTMLElement;
         (node.querySelector('.product-details__title') as HTMLElement).textContent = capetalize(element.title);
         // Place path to product
         for (let i = 0; i <= 6; i++) {
@@ -60,15 +60,16 @@ class ProductDetails {
             } else {
                 specHead.textContent = capetalize(key);
             }
-            /* const specText = objOfSpec[key as keyof filtered].toString();
-            specMain.textContent = capetalize(specText); */
+            specMain.textContent = capetalize(element[key]?.toString() as string);
             spec.append(specMain);
             (document.querySelector('.product-details__specs') as HTMLElement).append(spec);
         }
         // Render buttons to buy product
         const addToCartBtn = createElementWithClass('div', 'product_details__btn');
         addToCartBtn.textContent = 'ADD TO CART';
-        addToCartBtn.addEventListener('click', this.addRemoveToCart);
+        addToCartBtn.addEventListener('click', () => {
+            app.cart.addToCart(element);
+        });
         const buyNowBtn = createElementWithClass('div', 'product_details__btn');
         buyNowBtn.textContent = 'BUY NOW';
         buyNowBtn.addEventListener('click', this.buyNow);

@@ -19,7 +19,7 @@ class Products {
                 </div>
                 <div class='button_container'>
                 <button class='btn_product_item product_item_add_to_cart_id_${element.id}'>Add to cart</button>
-                <button class='btn_product_item product_item_details_id_${element.id}'>Details</button></div>
+                <a class='btn_product_item product_item_details_id_${element.id}' href="/product-details/${element.id}">Details</a></div>
                 <img class='products_img' src = "${element.thumbnail}"/>
                 
             </li>
