@@ -65,8 +65,8 @@ class RenderDetails {
             } else {
                 specHead.textContent = capetalize(key);
             }
-            const specText = objOfSpec[key as keyof filtered].toString();
-            specMain.textContent = capetalize(specText);
+            // const specText = objOfSpec[key as keyof filtered].toString();
+            // specMain.textContent = capetalize(specText);
             spec.append(specMain);
             (document.querySelector('.product-details__specs') as HTMLElement).append(spec);
         }
