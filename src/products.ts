@@ -723,7 +723,7 @@ export const PRODUCTS = [
             'https://i.dummyjson.com/data/products/39/thumbnail.jpg',
         ],
     },
-    {
+    /* {
         id: 40,
         title: 'women winter clothes',
         description:
@@ -1844,5 +1844,5 @@ export const PRODUCTS = [
             'https://i.dummyjson.com/data/products/100/3.jpg',
             'https://i.dummyjson.com/data/products/100/thumbnail.jpg',
         ],
-    },
+    }, */
 ];

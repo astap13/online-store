@@ -1,49 +1,68 @@
-import { cart } from '../main';
-import Products from './catalog/catalog';
+import { app } from '../main';
+import { PRODUCTS } from '../products';
+import { IRoutes } from '../types';
 
-function route(event: Event): void {
-    event = event || window.event;
-    event.preventDefault();
-    window.history.pushState({}, '', (event.target as HTMLAnchorElement).href);
-    handleLocation();
-}
-interface routes {
-    [key: string]: string;
-}
-
-const routes: routes = {
-    '/cart': '/pages/cart.html',
-    '/': '/pages/main.html',
-};
-
-document.querySelectorAll('.link_route').forEach((element) => {
-    element.addEventListener('click', route);
-});
-const handleLocation: () => void = async () => {
-    const path = window.location.pathname;
-    const productPage = new Products();
-    const route = routes[path] || routes[404];
-    const html = await fetch(route).then((data) => data.text());
-    const main = document.querySelector('.main') as HTMLElement;
-    main.innerHTML = '';
-    main.innerHTML = html;
-    switch (path) {
-        case '/':
-            productPage.render();
-            break;
-        case '/cart':
-            cart.renderCart();
-            break;
+class Router {
+    routes: IRoutes;
+    constructor() {
+        this.routes = {
+            '/cart': '/pages/cart.html',
+            '/': '/pages/main.html',
+            '/product-details': '/pages/products-details.html',
+            '404': '/pages/404.html',
+        };
     }
-    cart.setSumNum();
-};
-window.onpopstate = handleLocation;
-handleLocation();
-
-declare global {
-    interface Window {
-        route: (event: Event) => void;
+    setRoutes(): void {
+        document.querySelectorAll('.link_route').forEach((element) => {
+            element.addEventListener('click', (event) => {
+                this.route(event);
+            });
+        });
+        this.handleLocation();
+        window.onpopstate = this.handleLocation;
+        window.route = this.handleLocation;
+    }
+    route(event: Event): void {
+        event = event || window.event;
+        event.preventDefault();
+        window.history.pushState({}, '', (event.target as HTMLAnchorElement).href);
+        this.handleLocation();
+    }
+    async handleLocation(): Promise<void> {
+        let path: string = window.location.pathname;
+        let num = 0;
+        console.log(path);
+        if (path.includes('/product-details')) {
+            num = +path.split('/')[2];
+            console.log(num);
+            path = '/product-details';
+        }
+        console.log(path);
+        const routes: IRoutes = {
+            '/cart': '/pages/cart.html',
+            '/': '/pages/main.html',
+            '/product-details': '/pages/product-details.html',
+            '404': '/pages/404.html',
+        };
+        const route = routes[path] || routes[404];
+        console.log(route);
+        const html = await fetch(route).then((data) => data.text());
+        const main = document.querySelector('.main') as HTMLElement;
+        main.innerHTML = '';
+        main.innerHTML = html;
+        switch (path) {
+            case '/':
+                app.renderProducts();
+                break;
+            case '/cart':
+                app.cart.renderCart();
+                break;
+            case '/product-details':
+                app.renderDetails.renderItemPage(PRODUCTS[num - 1]);
+                break;
+        }
+        app.cart.setSumNum();
     }
 }
-window.route = route;
-export { route };
+
+export { Router };

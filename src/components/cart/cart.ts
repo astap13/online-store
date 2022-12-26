@@ -1,6 +1,6 @@
 import './cart.scss';
 import { cartItems, IProductItem, cartItemType } from '../../types';
-import { createElementWithClass } from '../../functions';
+import { capetalize, createElementWithClass } from '../../functions';
 
 class Cart {
     cart: cartItems;
@@ -13,6 +13,7 @@ class Cart {
                 amount: 1,
             },
         ];
+        this.cart.pop();
         this._cartSum = cart.price;
         this._cartNum = 1;
     }
@@ -30,7 +31,7 @@ class Cart {
             const cartAmount = createElementWithClass('div', 'cart_item_amount');
             const cartItemImg = createElementWithClass('img', 'cart_item_img') as HTMLImageElement;
             cartNumberItem.textContent = (id + 1).toString();
-            const specs = `<div class="cart_item_title">${product.title}</div>
+            const specs = `<div class="cart_item_title">${capetalize(product.title)}</div>
                 <p class="cart_item_description">${product.description}</p>
                 <span class="cart_item_rating">Rating: ${product.rating}</span>
                 <span class="cart_item_discount">Discount: ${product.discountPercentage}%</span>`;
@@ -99,6 +100,7 @@ class Cart {
             amount: 1,
         };
         this.cart.push(productInCart);
+        this.setSumNum();
     }
     increaseAmountItem(item: cartItemType): void {
         console.log('increaseAmountItem');

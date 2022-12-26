@@ -1,5 +1,8 @@
-$acent_color: #6f73b4;
-
+@import "/src/style.scss";
+.product-details {
+    margin: 0 auto;
+    width: auto;
+}
 .product_item {
     display: flex;
     align-items: center;
@@ -54,7 +57,7 @@ $acent_color: #6f73b4;
         border: 1px solid black;
         text-align: center;
         .spec_head {
-            background-color: $acent_color;
+            background-color: $accent_color;
         }
     }
 }
