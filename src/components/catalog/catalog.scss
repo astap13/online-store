@@ -1,7 +1,8 @@
+@import '/src/style.scss';
 .products__list {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    justify-content: space-evenly;
     padding: .5%;
     gap: 2%;
   }
@@ -10,9 +11,8 @@
     display: block;
     list-style-type: none;
     height: 220px;
-    width: 100px;
+    width: 220px;
     position: relative;
-    width: 23%;
     overflow: hidden;
     margin-top: 5px;
   }
@@ -43,5 +43,14 @@
     bottom: 15px;
     margin: 0 auto;
     justify-content: space-around;
+    .btn_product_item {
+      padding: 5px;
+      background-color: $main_color;
+      display: block;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 }
+
 
