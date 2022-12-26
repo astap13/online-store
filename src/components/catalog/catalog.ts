@@ -1,4 +1,6 @@
 import { PRODUCTS } from '../../products';
+import Search from '../search/search';
+export const SearchOfProucts = new Search();
 
 class Products {
     renderProducts() {
@@ -30,6 +32,8 @@ class Products {
         const HTMLListContainer = `<ul class="products__list">${HTMLCatalog}</ul>`;
 
         rootProducts.innerHTML = HTMLListContainer;
+        SearchOfProucts.renderSearch();
+        // SearchOfProucts.search();
     }
 }
 

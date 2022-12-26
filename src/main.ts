@@ -3,6 +3,7 @@ import './normalize.css';
 import './components/product-details/product-details';
 import './components/router';
 import './components/catalog/catalog.scss';
+import './components/search/search.scss';
 import './components/app';
 
 import App from './components/app';
