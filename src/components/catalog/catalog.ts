@@ -33,6 +33,7 @@ class Products {
 
         rootProducts.innerHTML = HTMLListContainer;
         SearchOfProucts.renderSearch();
+        // SearchOfProucts.viewMode();
         // SearchOfProucts.search();
     }
 }
