@@ -48,23 +48,13 @@ class Search {
             }
         });
     }
+    async search() {
+        const input = document.querySelector('.searhProducts') as HTMLInputElement;
+        console.log(input);
+        input.addEventListener('input', function () {
+            console.log(input.value);
+        });
+    }
 }
-
-//     search() {
-//         (document.querySelector('.searhProducts') as HTMLInputElement).oninput = function () {
-//             const val = this.value.trim();
-//             const items = document.querySelectorAll('.products_item');
-//             if (val != '') {
-//                 items.forEach(function (elem) {
-//                     if (elem.innerText.search(val) == -1){
-//                         elem.classList.add('hide');
-//                     } else {elem.classList.remove('hide');}
-
-//                     }
-//                 });
-//             }
-
-//         }
-//     }
 
 export default Search;
