@@ -31,7 +31,6 @@ export class Products {
 
         const HTMLListContainer = `<ul class="products__list">${HTMLCatalog}</ul>`;
 
-        console.log('root', rootProducts);
         rootProducts.innerHTML = HTMLListContainer;
         SearchOfProucts.renderSearch();
     }
