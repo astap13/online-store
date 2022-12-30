@@ -1,4 +1,8 @@
+import { app } from '../../main';
 import { PRODUCTS } from '../../products';
+import { IProductItem } from '../../types';
+import { Products } from '../catalog/catalog';
+// export const RenderOfProd = new Products();
 
 class Search {
     static search() {
@@ -15,7 +19,7 @@ class Search {
         const stat = PRODUCTS.length;
         document.querySelector('.stat')!.innerHTML = `Found: ${stat}`;
         this.viewMode();
-        // this.search();
+        this.search();
     }
     async viewMode() {
         const smallBtn = document.querySelector('.small-v') as HTMLButtonElement;
@@ -48,35 +52,26 @@ class Search {
             }
         });
     }
-    // async search() {
-    //     const newPRODUCTS: {
-    //         id: number;
-    //         title: string;
-    //         description: string;
-    //         price: number;
-    //         discountPercentage: number;
-    //         rating: number;
-    //         stock: number;
-    //         brand: string;
-    //         category: string;
-    //         thumbnail: string;
-    //         images: string[];
-    //     }[] = [];
-    //     const input = document.querySelector('.searhProducts') as HTMLInputElement;
-    //     const elements = document.querySelectorAll('.products_item');
-    //     console.log('проверка массива', elements);
-    //     input.addEventListener('input', function () {
-    //         if (input.value !== '') {
-    //             PRODUCTS.forEach(function (el) {
-    //                 if (el.title == input.value) {
-    //                     newPRODUCTS.push(el);
-    //                 }
-    //             });
-    //         }
-    //         console.log(newPRODUCTS);
-    //     });
-    // }
-    async sort() {}
+
+    search() {
+        const input = document.querySelector('.searhProducts') as HTMLInputElement;
+        input.addEventListener('input', function () {
+            // console.log(PRODUCTS);
+            // console.log('123', Object.values(PRODUCTS[0]));
+            // console.log('123', Object.values(PRODUCTS[0]).includes(input.value));
+            const newArr = PRODUCTS.filter((el) => {
+                return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
+            });
+
+            console.log(newArr);
+            // renderResults(newArr);
+        });
+
+        // const renderResults = (newArr: IProductItem[]) => {
+        //     app.products.renderProducts(newArr);
+        // };
+    }
+    // async sort() {}
 }
 
 export default Search;
