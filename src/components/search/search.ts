@@ -20,6 +20,7 @@ class Search {
         document.querySelector('.stat')!.innerHTML = `Found: ${stat}`;
         this.viewMode();
         this.search();
+        this.sort();
     }
     async viewMode() {
         const smallBtn = document.querySelector('.small-v') as HTMLButtonElement;
@@ -71,7 +72,42 @@ class Search {
         //     app.products.renderProducts(newArr);
         // };
     }
-    // async sort() {}
+    async sort() {
+        const input = document.querySelector('.sort-bar') as HTMLInputElement;
+        input.addEventListener('change', function () {
+            console.log('величина инпута', input.value);
+            if (input.value == 'price-ASC') {
+                const newArr = PRODUCTS.sort((a, b) => (a.price > b.price ? 1 : -1));
+                console.log(newArr);
+            }
+            if (input.value == 'price-DESC') {
+                const newArr = PRODUCTS.sort((a, b) => (a.price < b.price ? 1 : -1));
+                console.log(newArr);
+            }
+            if (input.value == 'rating-ASC') {
+                const newArr = PRODUCTS.sort((a, b) => (a.rating > b.rating ? 1 : -1));
+                console.log(newArr);
+            }
+            if (input.value == 'rating-DESC') {
+                const newArr = PRODUCTS.sort((a, b) => (a.rating < b.rating ? 1 : -1));
+                console.log(newArr);
+            }
+            if (input.value == 'discount-ASC') {
+                const newArr = PRODUCTS.sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
+                console.log(newArr);
+            }
+            if (input.value == 'discount-DESC') {
+                const newArr = PRODUCTS.sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
+                console.log(newArr);
+            }
+
+            // const newArr = PRODUCTS.filter((el) => {
+            //     return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
+        });
+
+        // console.log(newArr);
+        // renderResults(newArr);
+    }
 }
 
 export default Search;
