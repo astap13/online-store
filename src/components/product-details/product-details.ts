@@ -3,7 +3,7 @@ import { capetalize, createElementWithClass } from '../../functions';
 import './product-details.scss';
 import { app } from '../../main';
 
-class ProductDetails {
+export class ProductDetails {
     renderItemPage(element: IProductItem): void {
         const node = document.querySelector('.product-details') as HTMLElement;
         (node.querySelector('.product-details__title') as HTMLElement).textContent = capetalize(element.title);
