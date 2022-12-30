@@ -25,7 +25,7 @@ class Router {
     route(event: Event): void {
         event = event || window.event;
         event.preventDefault();
-        window.history.pushState({}, '', (event.target as HTMLAnchorElement).href);
+        window.history.pushState({}, '', (event.target as HTMLAnchorElement).href || (event.target as HTMLInputElement).src);
         this.handleLocation();
     }
     async handleLocation(): Promise<void> {

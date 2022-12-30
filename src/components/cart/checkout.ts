@@ -38,13 +38,11 @@ class Checkout {
         const inputCardNumber = createInput('cart_buy_card_input', 'text', 'Card number');
         inputCardNumber.classList.add('cart_buy_personal_input', 'card_number');
         inputCardNumber.addEventListener('input', (event) => {
-            console.log(event);
             const events = event as InputEvent;
             const target = event.target as HTMLInputElement;
             if (isNaN(+target.value.slice(-1))) {
                 target.value = target.value.slice(0, -1);
             }
-            console.log(target.value.length % 4);
             if (!((target.value.length + 1) % 5)) {
                 if (!events.data) {
                     target.value = target.value.slice(0, -1);
@@ -109,13 +107,27 @@ class Checkout {
         inputCardCvv.title = 'Please enter your cvv';
         card.append(inputCardNumber, logoCard, inputCardDate, inputCardCvv);
         formBlock.append(card, inputSubmit);
-        inputSubmit.addEventListener('click', () => {
+        inputSubmit.src = '/';
+        inputSubmit.addEventListener('click', (event) => {
+            let valid = true;
             document.querySelectorAll('.cart_buy_personal_input').forEach((element) => {
                 app.cart.checkout.validate(element as HTMLInputElement);
                 element.addEventListener('input', () => {
                     app.cart.checkout.validate(element as HTMLInputElement);
                 });
+                if (!(element as HTMLInputElement).checkValidity()) {
+                    valid = false;
+                }
             });
+            if (valid) {
+                setTimeout(() => {
+                    app.cart.cart.forEach((item) => {
+                        item.amount = 0;
+                        app.cart.cleanCart();
+                    });
+                    app.router.route(event);
+                }, 3000);
+            }
         });
     }
     closePopup() {
