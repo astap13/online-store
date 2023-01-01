@@ -5,6 +5,7 @@ import './components/router';
 import './components/catalog/catalog.scss';
 import './components/search/search.scss';
 import './components/app';
+import './components/filters/filters.scss';
 
 import App from './components/app';
 
