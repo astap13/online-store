@@ -1,10 +1,31 @@
 $accent_color: black;
+@import '/src/style.scss';
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .cart {
     display: flex;
     width: 100%;
     justify-content: center;
     padding: 20px;
     gap: 20px;
+    .btn_mini {
+        background-color: $btn_color;
+        border: none;
+        border-radius: 50%;
+        height: 35px;
+        width: 35px;
+        padding: 5px;
+        transition: 0.3s;
+        cursor: pointer;
+        &:hover {
+            background-color: lighten($btn_color, $amount: 10%) ;
+            transition: 0.3s;
+        }
+    }
 }
 .cart_products {
     width: 80%;
@@ -18,11 +39,15 @@ $accent_color: black;
         }
     }
 }
+
 .cart_summary {
     width: 20%;
     border: $accent_color 1px solid;
     height: fit-content;
     text-align: center;
+    background: $block_color;
+    padding: 20px;
+    border-radius: 20px;
 }
 .cart_item {
     display: flex;
@@ -54,6 +79,7 @@ $accent_color: black;
         .cart_item_amount_controller {
             display: flex;
             justify-content: space-between;
+            width: 100px;
         }
         .cart_item_stock, .cart_item_price {
             white-space: nowrap;
@@ -101,4 +127,103 @@ $accent_color: black;
         width: 50%;
         text-align: center;
     }
+}
+.modal_buy {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.379);
+    top: 0;
+    span {
+        font-size: 24px;
+    }
+    .buy_block {
+        background-color: $block_color;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 20px;
+        gap: 10px;
+        .cart_buy_personal_input {
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 20px;
+            width: 100%;
+            border: none;
+            transition: 0.3s;
+            &:focus {
+                outline: none;
+                transform: translateX(10px);
+                transition: 0.3s;
+            }
+        }
+        .cart_buy_personal_input:invalid {
+            box-shadow: inset 0px 0px 10px red;
+            transition: 0.2s;
+        }
+        .cart_credit_card {
+            border-radius: 10px;
+            width: 300px;
+            height: 150px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgb(84, 141, 221);
+            gap: 10px;
+            .cart_buy_card_input {
+
+                &:focus {
+                    outline: none;
+                    transform: translateY(-5px);
+                    transition: 0.3s;
+                }
+            }
+            .card_number {
+                width: 250px;
+                padding: 5px;
+                font-size: 20px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            .card_half_width {
+                width: 30%;
+                height: 25px;
+                padding: 10px 15px;
+                text-align: center;
+            }
+            .logo_card {
+                height: 40px;
+                width: 100px;
+                object-fit: contain;
+            }
+            .valid_date {
+                width: 105px;
+            }
+            .cvv {
+                width: 70px;
+            }
+        }
+    }
+}
+.cart_buy_btn {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: $btn_color;
+    cursor: pointer;
+}
+.modal_buy__active {
+    display: flex;
+}
+.hide {
+    display: none;
 }

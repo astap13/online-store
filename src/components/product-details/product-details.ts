@@ -66,13 +66,35 @@ class ProductDetails {
         }
         // Render buttons to buy product
         const addToCartBtn = createElementWithClass('div', 'product_details__btn');
-        addToCartBtn.textContent = 'ADD TO CART';
+        if (JSON.stringify(app.cart.cart).includes(element.description)) {
+            addToCartBtn.textContent = 'DROP FROM CART';
+        } else {
+            addToCartBtn.textContent = 'ADD TO CART';
+        }
         addToCartBtn.addEventListener('click', () => {
-            app.cart.addToCart(element);
+            if (!app.cart.cart.find((el) => el.description === element.description)) {
+                app.cart.addToCart(element);
+                addToCartBtn.textContent = 'DROP FROM CART';
+            } else {
+                app.cart.drop(element);
+                addToCartBtn.textContent = 'ADD TO CART';
+            }
+            app.cart.cleanCart();
         });
-        const buyNowBtn = createElementWithClass('div', 'product_details__btn');
+        const buyNowBtn = createElementWithClass('a', 'product_details__btn') as HTMLAnchorElement;
+        buyNowBtn.href = '/cart';
+        buyNowBtn.classList.add('.link_roite');
         buyNowBtn.textContent = 'BUY NOW';
-        buyNowBtn.addEventListener('click', this.buyNow);
+        buyNowBtn.addEventListener('click', (e) => {
+            if (!app.cart.cart.find((el) => el.description === element.description)) {
+                app.cart.addToCart(element);
+            }
+            app.router.route(e);
+            this.buyNow();
+            setTimeout(() => {
+                app.cart.checkout.openPopup();
+            }, 200);
+        });
         (document.querySelector('.product-details__buy') as HTMLElement).append(addToCartBtn, buyNowBtn);
     }
     buyNow(): void {
