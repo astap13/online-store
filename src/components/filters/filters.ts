@@ -8,12 +8,11 @@ class Filters {
         const filtersElement = document.createElement('div');
         filtersElement.className = 'filters-container';
         filtersElement.innerHTML = html;
-        const filterListCategory = document.querySelector('.filter-list-category') as HTMLDivElement;
         root.append(filtersElement);
-        this.renderItems();
+        this.renderItemsCategory();
     }
 
-    async renderItems() {
+    async renderItemsCategory() {
         const filterListCategory = document.querySelector('.filter-list-category') as HTMLDivElement;
         const array: string[] = [];
         PRODUCTS.forEach((el) => {
@@ -30,6 +29,27 @@ class Filters {
                 <span>(${array.filter((item) => item === element).length}/${5})</span>
             `;
             filterListCategory.append(filterListItem);
+        });
+        this.renderFiltersBrands();
+    }
+
+    async renderFiltersBrands() {
+        const filterListBrands = document.querySelector('.filter-list-brand') as HTMLDivElement;
+        const array: string[] = [];
+        PRODUCTS.forEach((el) => {
+            array.push(el.brand);
+        });
+        const arrayOfBrands = Array.from(new Set(array));
+        console.log(arrayOfBrands);
+        arrayOfBrands.forEach((element) => {
+            const filterListItem = document.createElement('div');
+            filterListItem.className = 'checkbox-line';
+            filterListItem.innerHTML = `
+                <input type="checkbox" id="${element}">
+                <label>${element}</label>
+                <span>(${array.filter((item) => item === element).length}/${5})</span>
+            `;
+            filterListBrands.append(filterListItem);
         });
     }
 }
