@@ -11,8 +11,6 @@ export const PRODUCTS = [
         category: 'smartphones',
         thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
         images: [
-            'https://i.dummyjson.com/data/products/1/1.jpg',
-            'https://i.dummyjson.com/data/products/1/2.jpg',
             'https://i.dummyjson.com/data/products/1/3.jpg',
             'https://i.dummyjson.com/data/products/1/4.jpg',
             'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
@@ -38,16 +36,21 @@ export const PRODUCTS = [
     },
     {
         id: 3,
-        title: 'Samsung Universe 9',
-        description: "Samsung's new variant which goes beyond Galaxy to the Universe",
-        price: 1249,
-        discountPercentage: 15.46,
-        rating: 4.09,
-        stock: 36,
-        brand: 'Samsung',
-        category: 'smartphones',
-        thumbnail: 'https://i.dummyjson.com/data/products/3/thumbnail.jpg',
-        images: ['https://i.dummyjson.com/data/products/3/1.jpg'],
+        title: 'Crystal chandelier maria theresa for 12 light',
+        description: 'Crystal chandelier maria theresa for 12 light',
+        price: 47,
+        discountPercentage: 16,
+        rating: 4.74,
+        stock: 133,
+        brand: 'YIOSI',
+        category: 'lighting',
+        thumbnail: 'https://i.dummyjson.com/data/products/100/thumbnail.jpg',
+        images: [
+            'https://i.dummyjson.com/data/products/100/1.jpg',
+            'https://i.dummyjson.com/data/products/100/2.jpg',
+            'https://i.dummyjson.com/data/products/100/3.jpg',
+            'https://i.dummyjson.com/data/products/100/thumbnail.jpg',
+        ],
     },
     {
         id: 4,
@@ -172,7 +175,6 @@ export const PRODUCTS = [
         category: 'laptops',
         thumbnail: 'https://i.dummyjson.com/data/products/10/thumbnail.jpeg',
         images: [
-            'https://i.dummyjson.com/data/products/10/1.jpg',
             'https://i.dummyjson.com/data/products/10/2.jpg',
             'https://i.dummyjson.com/data/products/10/3.jpg',
             'https://i.dummyjson.com/data/products/10/thumbnail.jpeg',
@@ -285,7 +287,6 @@ export const PRODUCTS = [
         images: [
             'https://i.dummyjson.com/data/products/16/1.png',
             'https://i.dummyjson.com/data/products/16/2.webp',
-            'https://i.dummyjson.com/data/products/16/3.jpg',
             'https://i.dummyjson.com/data/products/16/4.jpg',
             'https://i.dummyjson.com/data/products/16/thumbnail.jpg',
         ],
@@ -359,8 +360,6 @@ export const PRODUCTS = [
         thumbnail: 'https://i.dummyjson.com/data/products/20/thumbnail.jpg',
         images: [
             'https://i.dummyjson.com/data/products/20/1.jpg',
-            'https://i.dummyjson.com/data/products/20/2.jpg',
-            'https://i.dummyjson.com/data/products/20/3.jpg',
             'https://i.dummyjson.com/data/products/20/4.jpg',
             'https://i.dummyjson.com/data/products/20/thumbnail.jpg',
         ],
@@ -414,7 +413,6 @@ export const PRODUCTS = [
             'https://i.dummyjson.com/data/products/23/1.jpg',
             'https://i.dummyjson.com/data/products/23/2.jpg',
             'https://i.dummyjson.com/data/products/23/3.jpg',
-            'https://i.dummyjson.com/data/products/23/4.jpg',
             'https://i.dummyjson.com/data/products/23/thumbnail.jpg',
         ],
     },
@@ -434,7 +432,6 @@ export const PRODUCTS = [
             'https://i.dummyjson.com/data/products/24/1.jpg',
             'https://i.dummyjson.com/data/products/24/2.jpg',
             'https://i.dummyjson.com/data/products/24/3.jpg',
-            'https://i.dummyjson.com/data/products/24/4.jpg',
             'https://i.dummyjson.com/data/products/24/thumbnail.jpg',
         ],
     },
@@ -473,7 +470,6 @@ export const PRODUCTS = [
             'https://i.dummyjson.com/data/products/26/2.jpg',
             'https://i.dummyjson.com/data/products/26/3.jpg',
             'https://i.dummyjson.com/data/products/26/4.jpg',
-            'https://i.dummyjson.com/data/products/26/5.jpg',
             'https://i.dummyjson.com/data/products/26/thumbnail.jpg',
         ],
     },
@@ -530,7 +526,6 @@ export const PRODUCTS = [
             'https://i.dummyjson.com/data/products/29/1.jpg',
             'https://i.dummyjson.com/data/products/29/2.jpg',
             'https://i.dummyjson.com/data/products/29/3.webp',
-            'https://i.dummyjson.com/data/products/29/4.webp',
             'https://i.dummyjson.com/data/products/29/thumbnail.webp',
         ],
     },
@@ -723,7 +718,7 @@ export const PRODUCTS = [
             'https://i.dummyjson.com/data/products/39/thumbnail.jpg',
         ],
     },
-    /* {
+     {
         id: 40,
         title: 'women winter clothes',
         description:
@@ -736,7 +731,7 @@ export const PRODUCTS = [
         category: 'tops',
         thumbnail: 'https://i.dummyjson.com/data/products/40/thumbnail.jpg',
         images: ['https://i.dummyjson.com/data/products/40/1.jpg', 'https://i.dummyjson.com/data/products/40/2.jpg'],
-    },
+    } /*,
     {
         id: 41,
         title: 'NIGHT SUIT',
@@ -1827,22 +1822,5 @@ export const PRODUCTS = [
             'https://i.dummyjson.com/data/products/99/thumbnail.jpg',
         ],
     },
-    {
-        id: 100,
-        title: 'Crystal chandelier maria theresa for 12 light',
-        description: 'Crystal chandelier maria theresa for 12 light',
-        price: 47,
-        discountPercentage: 16,
-        rating: 4.74,
-        stock: 133,
-        brand: 'YIOSI',
-        category: 'lighting',
-        thumbnail: 'https://i.dummyjson.com/data/products/100/thumbnail.jpg',
-        images: [
-            'https://i.dummyjson.com/data/products/100/1.jpg',
-            'https://i.dummyjson.com/data/products/100/2.jpg',
-            'https://i.dummyjson.com/data/products/100/3.jpg',
-            'https://i.dummyjson.com/data/products/100/thumbnail.jpg',
-        ],
-    }, */
+     */
 ];
