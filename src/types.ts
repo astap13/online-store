@@ -24,9 +24,12 @@ type cartItems = [cartItemType];
 interface IRoutes {
     [key: string]: string;
 }
+type IQueryParams = IRoutes;
+
 declare global {
     interface Window {
         route: (event: Event) => void;
     }
 }
-export { IProductItem, cartItems, cartItemType, IRoutes };
+
+export { IProductItem, cartItems, cartItemType, IRoutes, IQueryParams };

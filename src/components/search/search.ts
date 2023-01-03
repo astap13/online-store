@@ -1,11 +1,8 @@
+import { createElementWithClass } from '../../functions';
 import { app } from '../../main';
 import { PRODUCTS } from '../../products';
 
 class Search {
-    static search() {
-        throw new Error('Method not implemented.');
-    }
-
     async renderSearch() {
         const root = document.querySelector('.main_container') as HTMLElement;
         const route = '/pages/search.html';
@@ -53,44 +50,47 @@ class Search {
 
     search() {
         const input = document.querySelector('.searhProducts') as HTMLInputElement;
+        const statBlock = document.querySelector('.stat') as Element;
         input.addEventListener('input', function () {
-            const newArr = PRODUCTS.filter((el) => {
+            const newArr = [...PRODUCTS].filter((el) => {
                 return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
             });
+            if (newArr.length > 0) {
+                statBlock.innerHTML = `Found: ${newArr.length}`;
+            } else {
+                const statBlock = document.querySelector('.stat') as Element;
+                statBlock.innerHTML = 'Not found';
+            }
             app.products.renderProducts(newArr);
         });
     }
     async sort() {
         const input = document.querySelector('.sort-bar') as HTMLInputElement;
         input.addEventListener('change', function () {
-            console.log('величина инпута', input.value);
             if (input.value == 'price-ASC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.price > b.price ? 1 : -1));
-                console.log(newArr);
+                const newArr = [...PRODUCTS].sort((a, b) => (a.price > b.price ? 1 : -1));
+                app.products.renderProducts(newArr);
             }
             if (input.value == 'price-DESC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.price < b.price ? 1 : -1));
-                console.log(newArr);
+                const newArr = [...PRODUCTS].sort((a, b) => (a.price < b.price ? 1 : -1));
+                app.products.renderProducts(newArr);
             }
             if (input.value == 'rating-ASC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.rating > b.rating ? 1 : -1));
-                console.log(newArr);
+                const newArr = [...PRODUCTS].sort((a, b) => (a.rating > b.rating ? 1 : -1));
+                app.products.renderProducts(newArr);
             }
             if (input.value == 'rating-DESC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.rating < b.rating ? 1 : -1));
-                console.log(newArr);
+                const newArr = [...PRODUCTS].sort((a, b) => (a.rating < b.rating ? 1 : -1));
+                app.products.renderProducts(newArr);
             }
             if (input.value == 'discount-ASC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
-                console.log(newArr);
+                const newArr = [...PRODUCTS].sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
+                app.products.renderProducts(newArr);
             }
             if (input.value == 'discount-DESC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
-                console.log(newArr);
+                const newArr = [...PRODUCTS].sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
+                app.products.renderProducts(newArr);
             }
-
-            // const newArr = PRODUCTS.filter((el) => {
-            //     return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
         });
     }
 }

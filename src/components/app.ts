@@ -5,6 +5,7 @@ import Filters from './filters/filters';
 import ProductDetails from './product-details/product-details';
 import Router from './router';
 import Search from './search/search';
+import QueryString from './queryString';
 
 class App {
     cart: Cart;
@@ -13,6 +14,7 @@ class App {
     products: Products;
     renderSearch: Search;
     filters: Filters;
+    query: QueryString;
     constructor() {
         this.cart = new Cart(PRODUCTS[1]);
         this.renderDetails = new ProductDetails();
@@ -20,6 +22,7 @@ class App {
         this.products = new Products();
         this.renderSearch = new Search();
         this.filters = new Filters();
+        this.query = new QueryString();
     }
     start(): void {
         this.router.setRoutes();
@@ -43,6 +46,9 @@ class App {
                     }
                 });
             }
+        });
+        window.addEventListener('load', () => {
+            this.query.load();
         });
     }
 }
