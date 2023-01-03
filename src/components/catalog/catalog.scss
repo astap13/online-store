@@ -2,20 +2,29 @@
 .products__list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    padding: .5%;
-    gap: 2%;
-  }
-  
-  .products_item {
-    display: block;
-    list-style-type: none;
-    height: 220px;
-    width: 220px;
-    position: relative;
-    overflow: hidden;
-    margin-top: 5px;
-  }
+    justify-content: flex-start;
+    padding: 20px 20px;
+    gap: 20px;
+    width:  100%;
+}
+.main_container {
+  width: 100%;
+}
+.products {
+  display: flex;
+  justify-content: center;
+  background-color: darken($bg_color, 5);
+  width: 100%;
+}
+.products_item {
+  display: block;
+  list-style-type: none;
+  height: 220px;
+  width: 220px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 5px;
+}
 
 .products_img {
     width: 100%;
