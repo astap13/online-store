@@ -2,7 +2,7 @@ import './cart.scss';
 import { cartItems, IProductItem, cartItemType } from '../../types';
 import { capetalize, createElementWithClass } from '../../functions';
 
-export class Cart {
+class Cart {
     cart: cartItems;
     _cartSum: number;
     _cartNum: number;
