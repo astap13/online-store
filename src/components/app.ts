@@ -1,23 +1,25 @@
 import { PRODUCTS } from '../products';
 import Cart from './cart/cart';
 import Products from './catalog/catalog';
+import Filters from './filters/filters';
 import ProductDetails from './product-details/product-details';
-import { Router } from './router';
-// import Search from './search/search';
+import Router from './router';
+import Search from './search/search';
 
 class App {
     cart: Cart;
     renderDetails: ProductDetails;
     router: Router;
     products: Products;
-    // renderSearch: Search;
+    renderSearch: Search;
+    filters: Filters;
     constructor() {
-        super();
         this.cart = new Cart(PRODUCTS[1]);
         this.renderDetails = new ProductDetails();
         this.router = new Router();
         this.products = new Products();
-        // this.renderSearch = new Search();
+        this.renderSearch = new Search();
+        this.filters = new Filters();
     }
     start(): void {
         this.router.setRoutes();
