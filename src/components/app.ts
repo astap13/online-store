@@ -13,6 +13,7 @@ class App {
     products: Products;
     renderSearch: Search;
     filters: Filters;
+    search: Search;
     constructor() {
         this.cart = new Cart(PRODUCTS[1]);
         this.renderDetails = new ProductDetails();
@@ -20,6 +21,7 @@ class App {
         this.products = new Products();
         this.renderSearch = new Search();
         this.filters = new Filters();
+        this.search = new Search();
     }
     start(): void {
         this.router.setRoutes();
