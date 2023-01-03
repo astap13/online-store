@@ -19,14 +19,16 @@ class Filters {
             array.push(el.category);
         });
         const arrayOfCategory = Array.from(new Set(array));
-        console.log(arrayOfCategory);
         arrayOfCategory.forEach((element) => {
             const filterListItem = document.createElement('div');
             filterListItem.className = 'checkbox-line';
+            const elementId = element.split('-').join('_').toLowerCase();
             filterListItem.innerHTML = `
-                <input type="checkbox" id="${element}">
-                <label>${element}</label>
-                <span>(${array.filter((item) => item === element).length}/${5})</span>
+                <label>
+                    <input type="checkbox" id="${elementId}">
+                    ${element}
+                    <span>(${array.filter((item) => item === element).length}/${5})</span>
+                </label>
             `;
             filterListCategory.append(filterListItem);
         });
@@ -40,14 +42,15 @@ class Filters {
             array.push(el.brand);
         });
         const arrayOfBrands = Array.from(new Set(array));
-        console.log(arrayOfBrands);
         arrayOfBrands.forEach((element) => {
             const filterListItem = document.createElement('div');
             filterListItem.className = 'checkbox-line';
             filterListItem.innerHTML = `
-                <input type="checkbox" id="${element}">
-                <label>${element}</label>
-                <span>(${array.filter((item) => item === element).length}/${5})</span>
+                <label>
+                    <input type="checkbox" id="${element}">
+                    ${element}
+                    <span>(${array.filter((item) => item === element).length}/${5})</span>
+                </label>
             `;
             filterListBrands.append(filterListItem);
         });
