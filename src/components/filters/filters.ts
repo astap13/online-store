@@ -22,7 +22,7 @@ class Filters {
         arrayOfCategory.forEach((element) => {
             const filterListItem = document.createElement('div');
             filterListItem.className = 'checkbox-line';
-            const elementId = element.split('-').join('_').toLowerCase();
+            const elementId = element.split(' ').join('_').toLowerCase();
             filterListItem.innerHTML = `
                 <label>
                     <input type="checkbox" id="${elementId}">
@@ -45,9 +45,10 @@ class Filters {
         arrayOfBrands.forEach((element) => {
             const filterListItem = document.createElement('div');
             filterListItem.className = 'checkbox-line';
+            const elementId = element.split(' ').join('_').toLowerCase();
             filterListItem.innerHTML = `
                 <label>
-                    <input type="checkbox" id="${element}">
+                    <input type="checkbox" id="${elementId}">
                     ${element}
                     <span>(${array.filter((item) => item === element).length}/${5})</span>
                 </label>
