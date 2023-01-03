@@ -5,14 +5,14 @@ import ProductDetails from './product-details/product-details';
 import { Router } from './router';
 // import Search from './search/search';
 
-class App {
+class App extends Product {
     cart: Cart;
     renderDetails: ProductDetails;
     router: Router;
     products: Products;
     // renderSearch: Search;
     constructor() {
-        // super();
+        super();
         this.cart = new Cart(PRODUCTS[1]);
         this.renderDetails = new ProductDetails();
         this.router = new Router();
