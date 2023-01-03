@@ -5,7 +5,7 @@ import ProductDetails from './product-details/product-details';
 import { Router } from './router';
 // import Search from './search/search';
 
-class App extends Product {
+class App {
     cart: Cart;
     renderDetails: ProductDetails;
     router: Router;
