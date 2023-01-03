@@ -1,8 +1,4 @@
 import { IProductItem } from '../../types';
-import Filters from '../filters/filters';
-import Search from '../search/search';
-export const SearchOfProucts = new Search();
-export const FiltersOfProducts = new Filters();
 
 export class Products {
     renderProducts(arrProducts: IProductItem[]) {
@@ -34,8 +30,6 @@ export class Products {
         const HTMLListContainer = `<ul class="products__list">${HTMLCatalog}</ul>`;
 
         rootProducts.innerHTML = HTMLListContainer;
-        SearchOfProucts.renderSearch();
-        FiltersOfProducts.renderFilters();
     }
 }
 

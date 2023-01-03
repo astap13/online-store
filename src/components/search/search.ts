@@ -1,8 +1,5 @@
 import { app } from '../../main';
 import { PRODUCTS } from '../../products';
-import { IProductItem } from '../../types';
-import { Products } from '../catalog/catalog';
-// export const RenderOfProd = new Products();
 
 class Search {
     static search() {
@@ -10,14 +7,15 @@ class Search {
     }
 
     async renderSearch() {
-        const root = document.querySelector('.products') as HTMLElement;
+        const root = document.querySelector('.main_container') as HTMLElement;
         const route = '/pages/search.html';
         const html = await fetch(route).then((data) => data.text());
         const searchElement = document.createElement('div');
         searchElement.innerHTML = html;
         root.prepend(searchElement);
         const stat = PRODUCTS.length;
-        document.querySelector('.stat')!.innerHTML = `Found: ${stat}`;
+        const statBlock = document.querySelector('.stat');
+        if (statBlock) statBlock.innerHTML = `Found: ${stat}`;
         this.viewMode();
         this.search();
         this.sort();
@@ -27,7 +25,6 @@ class Search {
         const bigBtn = document.querySelector('.big-v') as HTMLButtonElement;
         const itemInfo = document.querySelectorAll('div.item_info') as NodeListOf<Element>;
         const item = document.querySelectorAll('li.products_item') as NodeListOf<Element>;
-        const products = document.querySelectorAll('.products_item');
         smallBtn.addEventListener('click', () => {
             if (bigBtn.classList.contains('active-mode')) {
                 smallBtn.classList.toggle('active-mode');
@@ -57,20 +54,11 @@ class Search {
     search() {
         const input = document.querySelector('.searhProducts') as HTMLInputElement;
         input.addEventListener('input', function () {
-            // console.log(PRODUCTS);
-            // console.log('123', Object.values(PRODUCTS[0]));
-            // console.log('123', Object.values(PRODUCTS[0]).includes(input.value));
             const newArr = PRODUCTS.filter((el) => {
                 return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
             });
-
-            console.log(newArr);
-            // renderResults(newArr);
+            app.products.renderProducts(newArr);
         });
-
-        // const renderResults = (newArr: IProductItem[]) => {
-        //     app.products.renderProducts(newArr);
-        // };
     }
     async sort() {
         const input = document.querySelector('.sort-bar') as HTMLInputElement;
@@ -104,9 +92,6 @@ class Search {
             // const newArr = PRODUCTS.filter((el) => {
             //     return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
         });
-
-        // console.log(newArr);
-        // renderResults(newArr);
     }
 }
 

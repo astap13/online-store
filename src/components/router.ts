@@ -53,7 +53,8 @@ class Router {
         switch (path) {
             case '/':
                 app.products.renderProducts(PRODUCTS);
-                // app.renderSearch.renderSearch();
+                app.renderSearch.renderSearch();
+                app.filters.renderFilters();
                 break;
             case '/cart':
                 app.cart.renderCart();
@@ -66,4 +67,4 @@ class Router {
     }
 }
 
-export { Router };
+export default Router;
