@@ -28,10 +28,16 @@ class App {
             if (target.classList.contains('btn_product_item')) {
                 target.classList.forEach((item) => {
                     const arr = item.split('_');
-                    if (arr[0] === 'product' && arr[1] === 'item' && arr[3] === 'to') {
-                        this.cart.addToCart(PRODUCTS[Number(arr[6]) - 1]);
+                    if (item.includes('product_item_add_to_cart')) {
+                        if (target.textContent?.includes('Add to cart')) {
+                            this.cart.addToCart(PRODUCTS[Number(arr[6]) - 1]);
+                            target.textContent = 'Drop from card';
+                        } else {
+                            this.cart.drop(PRODUCTS[Number(arr[6]) - 1]);
+                            target.textContent = 'Add to cart';
+                        }
                         this.cart.setSumNum();
-                    } else if (arr[0] === 'product' && arr[1] === 'item' && arr[2] === 'details') {
+                    } else if (item.includes('product_item_details_id')) {
                         this.router.route(event);
                         console.log((target as HTMLAnchorElement).href);
                     }
