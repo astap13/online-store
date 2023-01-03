@@ -1,7 +1,7 @@
 import { PRODUCTS } from '../products';
-import { Cart } from './cart/cart';
-import { Products } from './catalog/catalog';
-import { ProductDetails } from './product-details/product-details';
+import Cart from './cart/cart';
+import Products from './catalog/catalog';
+import ProductDetails from './product-details/product-details';
 import { Router } from './router';
 // import Search from './search/search';
 
