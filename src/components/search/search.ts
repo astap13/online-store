@@ -63,34 +63,30 @@ class Search {
     async sort() {
         const input = document.querySelector('.sort-bar') as HTMLInputElement;
         input.addEventListener('change', function () {
-            console.log('величина инпута', input.value);
             if (input.value == 'price-ASC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.price > b.price ? 1 : -1));
+                const newArr = [...PRODUCTS].sort((a, b) => (a.price > b.price ? 1 : -1));
                 app.products.renderProducts(newArr);
             }
             if (input.value == 'price-DESC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.price < b.price ? 1 : -1));
+                const newArr = [...PRODUCTS].sort((a, b) => (a.price < b.price ? 1 : -1));
                 app.products.renderProducts(newArr);
             }
             if (input.value == 'rating-ASC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.rating > b.rating ? 1 : -1));
+                const newArr = [...PRODUCTS].sort((a, b) => (a.rating > b.rating ? 1 : -1));
                 app.products.renderProducts(newArr);
             }
             if (input.value == 'rating-DESC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.rating < b.rating ? 1 : -1));
+                const newArr = [...PRODUCTS].sort((a, b) => (a.rating < b.rating ? 1 : -1));
                 app.products.renderProducts(newArr);
             }
             if (input.value == 'discount-ASC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
+                const newArr = [...PRODUCTS].sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
                 app.products.renderProducts(newArr);
             }
             if (input.value == 'discount-DESC') {
-                const newArr = PRODUCTS.sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
+                const newArr = [...PRODUCTS].sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
                 app.products.renderProducts(newArr);
             }
-
-            // const newArr = PRODUCTS.filter((el) => {
-            //     return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
         });
     }
 }
