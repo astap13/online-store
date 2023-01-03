@@ -84,7 +84,7 @@ class Search {
                 app.products.renderProducts(newArr);
             }
             if (input.value == 'discount-ASC') {
-                const newArr = [...PRODUCTS].sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
+                const newArr = [...PRODUCTS].sort((a, b) => (a.discountPercentage > b.discountPercentage ? 1 : -1));
                 app.products.renderProducts(newArr);
             }
             if (input.value == 'discount-DESC') {
