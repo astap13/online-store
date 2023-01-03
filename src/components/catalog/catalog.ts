@@ -1,13 +1,15 @@
-import { PRODUCTS } from '../../products';
+import { IProductItem } from '../../types';
+import Filters from '../filters/filters';
 import Search from '../search/search';
 export const SearchOfProucts = new Search();
+export const FiltersOfProducts = new Filters();
 
-class Products {
-    renderProducts() {
+export class Products {
+    renderProducts(arrProducts: IProductItem[]) {
         const rootProducts = document.querySelector('.products') as HTMLDivElement;
         let HTMLCatalog = '';
 
-        PRODUCTS.forEach((element) => {
+        arrProducts.forEach((element) => {
             HTMLCatalog += `
             <li class='products_item'>
                 <span>${element.title}</span>
@@ -33,8 +35,7 @@ class Products {
 
         rootProducts.innerHTML = HTMLListContainer;
         SearchOfProucts.renderSearch();
-        // SearchOfProucts.viewMode();
-        // SearchOfProucts.search();
+        FiltersOfProducts.renderFilters();
     }
 }
 

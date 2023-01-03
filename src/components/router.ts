@@ -52,7 +52,8 @@ class Router {
         main.innerHTML = html;
         switch (path) {
             case '/':
-                app.renderProducts();
+                app.products.renderProducts(PRODUCTS);
+                // app.renderSearch.renderSearch();
                 break;
             case '/cart':
                 app.cart.renderCart();
