@@ -8,6 +8,9 @@ import Search from './search/search';
 import QueryString from './queryString';
 
 class App {
+    search() {
+        throw new Error('Method not implemented.');
+    }
     cart: Cart;
     renderDetails: ProductDetails;
     router: Router;
