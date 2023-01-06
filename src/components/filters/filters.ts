@@ -1,5 +1,6 @@
 import { app } from '../../main';
 import { PRODUCTS } from '../../products';
+import { IProductItem } from '../../types';
 
 class Filters {
     async renderFilters() {
@@ -15,6 +16,7 @@ class Filters {
         this.filterBrand();
         this.sliderPrice();
         this.resetFilters();
+        this.sliderStock();
     }
 
     async renderItemsCategory() {
@@ -112,9 +114,53 @@ class Filters {
         const toSlider = document.querySelector('.sliders_control_price #toSlider') as HTMLInputElement;
         const fromData = document.querySelector('.from-data_price') as HTMLElement;
         const toData = document.querySelector('.to-data_price') as HTMLDivElement;
+        const sort = [...PRODUCTS].sort((a, b) => (a.price > b.price ? 1 : -1));
+        fromSlider.min = sort[0].price.toString();
+        fromSlider.min = sort[0].price.toString();
+        fromSlider.max = sort[sort.length - 1].price.toString();
+        toSlider.max = sort[sort.length - 1].price.toString();
+        fromSlider.value = sort[0].price.toString();
+        toSlider.value = sort[sort.length - 1].price.toString();
+        fromData.innerHTML = `${sort[0].price.toString()}`;
+        toData.innerHTML = `${sort[sort.length - 1].price.toString()}`;
         sliderContainer.addEventListener('change', function () {
             fromData.innerHTML = fromSlider.value;
             toData.innerHTML = toSlider.value;
+            const newArr: IProductItem[] = [];
+            PRODUCTS.forEach((el) => {
+                if (el.price >= Number(fromSlider.value) && el.price <= Number(toSlider.value)) {
+                    newArr.push(el);
+                }
+            });
+            app.products.renderProducts(newArr);
+        });
+    }
+
+    async sliderStock() {
+        const sliderContainer = document.querySelector('.sliders_control_stock') as HTMLDivElement;
+        const fromSlider = document.querySelector('.sliders_control_stock #fromSlider') as HTMLInputElement;
+        const toSlider = document.querySelector('.sliders_control_stock #toSlider') as HTMLInputElement;
+        const fromData = document.querySelector('.from-data_stock') as HTMLElement;
+        const toData = document.querySelector('.to-data_stock') as HTMLDivElement;
+        const sort = [...PRODUCTS].sort((a, b) => (a.stock > b.stock ? 1 : -1));
+        fromSlider.min = sort[0].stock.toString();
+        fromSlider.min = sort[0].stock.toString();
+        fromSlider.max = sort[sort.length - 1].stock.toString();
+        toSlider.max = sort[sort.length - 1].stock.toString();
+        fromSlider.value = sort[0].stock.toString();
+        toSlider.value = sort[sort.length - 1].stock.toString();
+        fromData.innerHTML = `${sort[0].stock.toString()}`;
+        toData.innerHTML = `${sort[sort.length - 1].stock.toString()}`;
+        sliderContainer.addEventListener('change', function () {
+            fromData.innerHTML = fromSlider.value;
+            toData.innerHTML = toSlider.value;
+            const newArr: IProductItem[] = [];
+            PRODUCTS.forEach((el) => {
+                if (el.stock >= Number(fromSlider.value) && el.stock <= Number(toSlider.value)) {
+                    newArr.push(el);
+                }
+            });
+            app.products.renderProducts(newArr);
         });
     }
 }
