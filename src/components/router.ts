@@ -31,13 +31,10 @@ class Router {
     async handleLocation(): Promise<void> {
         let path: string = window.location.pathname;
         let num = 0;
-        console.log(path);
         if (path.includes('/product-details')) {
             num = +path.split('/')[2];
-            console.log(num);
             path = '/product-details';
         }
-        console.log(path);
         const routes: IRoutes = {
             '/cart': '/pages/cart.html',
             '/': '/pages/main.html',
@@ -45,7 +42,6 @@ class Router {
             '404': '/pages/404.html',
         };
         const route = routes[path] || routes[404];
-        console.log(route);
         const html = await fetch(route).then((data) => data.text());
         const main = document.querySelector('.main') as HTMLElement;
         main.innerHTML = '';
@@ -58,6 +54,7 @@ class Router {
                 break;
             case '/cart':
                 app.cart.renderCart();
+                app.cart.renderSum();
                 break;
             case '/product-details':
                 app.renderDetails.renderItemPage(PRODUCTS[num - 1]);

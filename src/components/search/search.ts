@@ -1,4 +1,3 @@
-import { createElementWithClass } from '../../functions';
 import { app } from '../../main';
 import { PRODUCTS } from '../../products';
 
@@ -22,6 +21,7 @@ class Search {
         const bigBtn = document.querySelector('.big-v') as HTMLButtonElement;
         const itemInfo = document.querySelectorAll('div.item_info') as NodeListOf<Element>;
         const item = document.querySelectorAll('li.products_item') as NodeListOf<Element>;
+        const btnContainer = document.querySelectorAll('.button_container') as NodeListOf<Element>;
         smallBtn.addEventListener('click', () => {
             if (bigBtn.classList.contains('active-mode')) {
                 smallBtn.classList.toggle('active-mode');
@@ -31,6 +31,9 @@ class Search {
                 });
                 item.forEach((el) => {
                     el.classList.toggle('itemSmall');
+                });
+                btnContainer.forEach((el) => {
+                    el.classList.toggle('small_mode_btn');
                 });
             }
         });
@@ -43,6 +46,9 @@ class Search {
                 });
                 item.forEach((el) => {
                     el.classList.toggle('itemSmall');
+                });
+                btnContainer.forEach((el) => {
+                    el.classList.toggle('small_mode_btn');
                 });
             }
         });

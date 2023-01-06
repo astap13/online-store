@@ -1,4 +1,4 @@
-import { createElementWithClass } from '../../functions';
+import { createElementWithClass, createInput } from '../../functions';
 import { app } from '../../main';
 
 class Checkout {
@@ -7,12 +7,6 @@ class Checkout {
         this.check = '1';
     }
     openPopup() {
-        function createInput(classname: string, type?: string, placeholder?: string) {
-            const element = createElementWithClass('input', classname) as HTMLInputElement;
-            if (type) element.type = type;
-            if (placeholder) element.placeholder = placeholder;
-            return element;
-        }
         const formBlock = document.querySelector('.buy_block') as HTMLElement;
         formBlock.innerHTML = '<span>Personal details</span>';
         const modalBlock = document.querySelector('.modal_buy') as HTMLElement;
@@ -121,10 +115,11 @@ class Checkout {
             });
             if (valid) {
                 setTimeout(() => {
-                    app.cart.cart.forEach((item) => {
-                        item.amount = 0;
-                        app.cart.cleanCart();
-                    });
+                    const cart = app.cart.cart;
+                    cart.splice(0, cart.length);
+                    for (let i = 0; i < cart.length; i++) {
+                        console.log(cart[i]);
+                    }
                     app.router.route(event);
                 }, 3000);
             }

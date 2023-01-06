@@ -3,10 +3,28 @@ $bg_color: rgb(215, 145, 145);
 $accent_color: rgb(99, 134, 200);
 $block_color: rgb(87, 171, 96);
 $shadow_color: rgb(215, 145, 145);
-$border_color: rgb(215, 145, 145);
+$border_color: rgb(0, 0, 0);
 $font_color_light: rgb(215, 145, 145);
 $font_color_dark: rgb(215, 145, 145);
-$btn_color: rgb(56, 130, 191);
+$btn_color: black;
+$btn_color_text: white;
+$btn_color_active: rgb(56, 191, 128);
+* {
+  font-family: 'Roboto', sans-serif;
+}
+input[type='text'], input[type='search'], input[type='number']{
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  color: black;
+  &::placeholder {
+    color: black;
+  }
+  &:focus{
+    outline: none;
+    box-shadow: 0 0 10px black;
+}
+}
 .body {
   display: flex;
   flex-direction: column;

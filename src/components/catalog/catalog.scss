@@ -24,6 +24,24 @@
   position: relative;
   overflow: hidden;
   margin-top: 5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  &:hover {
+    //transform: scale(1.05);
+    transition: 0.2s;
+    background-size: cover;
+    background-origin: content-box;
+
+  }
+  &:hover .item_info{
+    transition: 0.2s;
+    left: -200px;
+  }
+}
+.item_title {
+  background-color: rgba(255, 255, 255, 0.5);
+  text-align: center;
 }
 
 .products_img {
@@ -34,11 +52,12 @@
 }
 
 .item_info {
+    transition: 0.2s;
     display: block;
     position: absolute;
     background: white;
     height: 92px;
-
+    left: 0;
     p {
         margin: 1px;
         font-size: 12px;
@@ -59,6 +78,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      color: $btn_color_text;
     }
 }
 

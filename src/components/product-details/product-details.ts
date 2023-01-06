@@ -61,6 +61,7 @@ class ProductDetails {
                 specHead.textContent = capetalize(key);
             }
             specMain.textContent = capetalize(element[key]?.toString() as string);
+            if (key === 'price') specMain.textContent = `€${element[key]?.toFixed(2)}`;
             spec.append(specMain);
             (document.querySelector('.product-details__specs') as HTMLElement).append(spec);
         }
@@ -72,14 +73,13 @@ class ProductDetails {
             addToCartBtn.textContent = 'ADD TO CART';
         }
         addToCartBtn.addEventListener('click', () => {
-            if (!app.cart.cart.find((el) => el.description === element.description)) {
+            if (!JSON.stringify(app.cart.cart).includes(element.description)) {
                 app.cart.addToCart(element);
                 addToCartBtn.textContent = 'DROP FROM CART';
             } else {
                 app.cart.drop(element);
                 addToCartBtn.textContent = 'ADD TO CART';
             }
-            app.cart.cleanCart();
         });
         const buyNowBtn = createElementWithClass('a', 'product_details__btn') as HTMLAnchorElement;
         buyNowBtn.href = '/cart';
