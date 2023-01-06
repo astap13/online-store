@@ -71,7 +71,6 @@ class Filters {
                     const newArr = [...PRODUCTS].filter((el) => {
                         return Object.values(el).includes(elem.id.toLowerCase());
                     });
-                    console.log(newArr);
                     app.products.renderProducts(newArr);
                 }
             });
@@ -87,8 +86,6 @@ class Filters {
                     const newArr = [...PRODUCTS].filter((el) => {
                         return Object.values(el).join('').toLowerCase().includes(elem.id);
                     });
-                    console.log(elem.id);
-                    console.log(newArr);
                     app.products.renderProducts(newArr);
                 }
             });
