@@ -1,29 +1,33 @@
-import { IQueryParams } from '../types';
-
 class QueryString {
-    params: IQueryParams;
+    params: Map<string, string>;
     constructor() {
-        this.params = {};
+        this.params = new Map();
     }
     add(key: string, value: string) {
         console.log('query add');
-        const href = window.location.href;
-        if (window.location.search.length < 2) {
-            window.history.pushState({}, '', `${href}?${key}=${value}`);
-        } else {
-            window.history.pushState({}, '', `${href}&${key}=${value}`);
-        }
+        this.params.set(key, value);
+        let pathname = '';
+        this.params.delete('');
+        this.params.forEach((item, index) => {
+            if (pathname.length === 0) {
+                pathname += `?${index}=${item}`;
+            } else {
+                pathname += `&${index}=${item}`;
+            }
+        });
+        window.history.pushState({}, '', `${pathname}`);
     }
-    load(): IQueryParams {
+    load(): Map<string, string> {
         console.log('query load');
         const query = window.location.search.substring(1).split('&');
-        const params: IQueryParams = {};
-        query.forEach((item) => {
-            const [key, val] = item.split('=');
-            params[key] = val;
-        });
+        const params: Map<string, string> = new Map();
+        if (query) {
+            query.forEach((item) => {
+                const [key, val] = item.split('=');
+                params.set(key, val);
+            });
+        }
         this.params = params;
-        console.log(params);
         return params;
     }
 }
