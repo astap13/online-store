@@ -47,9 +47,17 @@ class App {
                 });
             }
         });
+        this.addEventListeners();
+    }
+    addEventListeners() {
         window.addEventListener('load', () => {
             this.query.load();
+            this.cart.loadCart();
         });
+        window.addEventListener('beforeunload', () => {
+            this.cart.saveCart();
+        });
+        this.cart.setEventListerners();
     }
 }
 
