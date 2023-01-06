@@ -8,14 +8,14 @@ import Search from './search/search';
 import QueryString from './queryString';
 
 class App {
-    search() {
+    /* search() {
         throw new Error('Method not implemented.');
-    }
+    } */
     cart: Cart;
     renderDetails: ProductDetails;
     router: Router;
     products: Products;
-    renderSearch: Search;
+    search: Search;
     filters: Filters;
     query: QueryString;
     constructor() {
@@ -23,7 +23,7 @@ class App {
         this.renderDetails = new ProductDetails();
         this.router = new Router();
         this.products = new Products();
-        this.renderSearch = new Search();
+        this.search = new Search();
         this.filters = new Filters();
         this.query = new QueryString();
     }

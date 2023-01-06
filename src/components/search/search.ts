@@ -2,6 +2,10 @@ import { app } from '../../main';
 import { PRODUCTS } from '../../products';
 
 class Search {
+    bigTile: boolean;
+    constructor() {
+        this.bigTile = true;
+    }
     async renderSearch() {
         const root = document.querySelector('.main_container') as HTMLElement;
         const route = '/pages/search.html';
@@ -19,15 +23,15 @@ class Search {
     async viewMode() {
         const smallBtn = document.querySelector('.small-v') as HTMLButtonElement;
         const bigBtn = document.querySelector('.big-v') as HTMLButtonElement;
-        const itemInfo = document.querySelectorAll('div.item_info') as NodeListOf<Element>;
-        const item = document.querySelectorAll('li.products_item') as NodeListOf<Element>;
-        const btnContainer = document.querySelectorAll('.button_container') as NodeListOf<Element>;
         smallBtn.addEventListener('click', () => {
+            const itemInfo = document.querySelectorAll('div.item_info') as NodeListOf<Element>;
+            const item = document.querySelectorAll('li.products_item') as NodeListOf<Element>;
+            const btnContainer = document.querySelectorAll('.button_container') as NodeListOf<Element>;
             if (bigBtn.classList.contains('active-mode')) {
                 smallBtn.classList.toggle('active-mode');
                 bigBtn.classList.toggle('active-mode');
                 itemInfo.forEach((el) => {
-                    el.classList.toggle('hide');
+                    el.classList.add('hide');
                 });
                 item.forEach((el) => {
                     el.classList.toggle('itemSmall');
@@ -35,14 +39,18 @@ class Search {
                 btnContainer.forEach((el) => {
                     el.classList.toggle('small_mode_btn');
                 });
+                this.bigTile = false;
             }
         });
         bigBtn.addEventListener('click', () => {
+            const itemInfo = document.querySelectorAll('div.item_info') as NodeListOf<Element>;
+            const item = document.querySelectorAll('li.products_item') as NodeListOf<Element>;
+            const btnContainer = document.querySelectorAll('.button_container') as NodeListOf<Element>;
             if (smallBtn.classList.contains('active-mode')) {
                 smallBtn.classList.toggle('active-mode');
                 bigBtn.classList.toggle('active-mode');
                 itemInfo.forEach((el) => {
-                    el.classList.toggle('hide');
+                    el.classList.remove('hide');
                 });
                 item.forEach((el) => {
                     el.classList.toggle('itemSmall');
@@ -50,6 +58,7 @@ class Search {
                 btnContainer.forEach((el) => {
                     el.classList.toggle('small_mode_btn');
                 });
+                this.bigTile = true;
             }
         });
     }
