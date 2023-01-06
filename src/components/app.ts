@@ -6,11 +6,9 @@ import ProductDetails from './product-details/product-details';
 import Router from './router';
 import Search from './search/search';
 import QueryString from './queryString';
+import { IProductItem } from '../types';
 
 class App {
-    /* search() {
-        throw new Error('Method not implemented.');
-    } */
     cart: Cart;
     renderDetails: ProductDetails;
     router: Router;
@@ -18,6 +16,7 @@ class App {
     search: Search;
     filters: Filters;
     query: QueryString;
+    catalogItems: IProductItem[];
     constructor() {
         this.cart = new Cart(PRODUCTS[1]);
         this.renderDetails = new ProductDetails();
@@ -26,6 +25,7 @@ class App {
         this.search = new Search();
         this.filters = new Filters();
         this.query = new QueryString();
+        this.catalogItems = PRODUCTS;
     }
     start(): void {
         this.router.setRoutes();

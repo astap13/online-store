@@ -10,7 +10,6 @@ export class Products {
         if (bigstyle === 'itemSmall') {
             infoClass = 'hide';
         }
-        console.log(bigstyle);
         arrProducts.forEach((element) => {
             let textBtn = 'Add to cart';
             if (app.cart.cart.find((item) => item.description === element.description)) {
