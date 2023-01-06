@@ -13,6 +13,8 @@ class Filters {
         this.renderItemsCategory();
         this.filterCategory();
         this.filterBrand();
+        this.sliderPrice();
+        this.resetFilters();
     }
 
     async renderItemsCategory() {
@@ -90,6 +92,32 @@ class Filters {
                     app.products.renderProducts(newArr);
                 }
             });
+        });
+    }
+
+    async resetFilters() {
+        document.querySelector('.reset-btn')?.addEventListener('click', function () {
+            const checkboxesCategory = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
+            const checkboxesBrend = document.querySelectorAll('.brend_checkbox') as NodeListOf<HTMLInputElement>;
+            checkboxesCategory.forEach((el) => {
+                el.checked = false;
+            });
+            checkboxesBrend.forEach((el) => {
+                el.checked = false;
+            });
+            app.products.renderProducts(PRODUCTS);
+        });
+    }
+
+    async sliderPrice() {
+        const sliderContainer = document.querySelector('.sliders_control_price') as HTMLDivElement;
+        const fromSlider = document.querySelector('.sliders_control_price #fromSlider') as HTMLInputElement;
+        const toSlider = document.querySelector('.sliders_control_price #toSlider') as HTMLInputElement;
+        const fromData = document.querySelector('.from-data_price') as HTMLElement;
+        const toData = document.querySelector('.to-data_price') as HTMLDivElement;
+        sliderContainer.addEventListener('change', function () {
+            fromData.innerHTML = fromSlider.value;
+            toData.innerHTML = toSlider.value;
         });
     }
 }

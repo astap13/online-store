@@ -5,7 +5,7 @@
     background: antiquewhite;
 }
 
-.sliders_control {
+.sliders_control_price, .sliders_control_stock {
   position: relative;
   min-height: 50px;
 }
@@ -75,4 +75,10 @@ input[type="range"] {
 #fromSlider {
   height: 0;
   z-index: 1;
+}
+
+.price-slider_price, .price-slider_price_stock {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px;
 }
