@@ -17,8 +17,6 @@ class Filters {
         root.append(filtersElement);
         this.renderItemsCategory();
         this.renderFiltersBrands();
-        /* this.filterCategory(PRODUCTS);
-        this.filterBrand(PRODUCTS); */
         this.renderSliderPrice();
         this.resetFilters();
         this.renderSliderStock();
@@ -80,7 +78,6 @@ class Filters {
             });
         });
     }
-    // тут мы проходим по всем фильтрам поиску и сортировке
     async filterAll(arr: IProductItem[]): Promise<IProductItem[]> {
         const products = [...arr];
         const filtredCat = await this.filterCategory(products);
@@ -106,14 +103,10 @@ class Filters {
         });
     }
     async filterCategory(arr: IProductItem[]): Promise<IProductItem[]> {
-        // const checkboxContainer = document.querySelector('.filter-list-category') as HTMLElement;
         const checkboxes = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
         let newArr: IProductItem[] = [...arr];
         checkboxes.forEach((elem) => {
             if (elem.checked == true) {
-                /* newArr = [...arr].filter((el) => {
-                    return Object.values(el).includes(elem.id.toLowerCase());
-                }); */
                 console.log(111);
                 newArr = [];
                 arr.forEach((item) => {
@@ -121,19 +114,14 @@ class Filters {
                         newArr.push(item);
                     }
                 });
-                //newArr = [...arr].filter((el) => el.category.toLowerCase() === elem.id.toLowerCase());
-                // app.products.renderProducts(newArr);
                 app.filters.products = newArr;
             }
         });
         return newArr;
-        /* checkboxContainer.addEventListener('change', function () {
-        }); */
     }
 
     async filterBrand(arr: IProductItem[]): Promise<IProductItem[]> {
         const products = arr;
-        // const checkboxContainer = document.querySelector('.filter-list-brand') as HTMLElement;
         const checkboxes = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
         let newArr: IProductItem[] = arr;
         checkboxes.forEach((elem) => {
@@ -146,8 +134,6 @@ class Filters {
             }
         });
         return newArr;
-        /* checkboxContainer?.addEventListener('change', function () {
-        }); */
     }
 
     async resetFilters() {
@@ -167,32 +153,17 @@ class Filters {
 
     renderSliderPrice() {
         const products = this.products;
-        //const sliderContainer = document.querySelector('.sliders_control_price') as HTMLDivElement;
         const fromSlider = document.querySelector('.sliders_control_price #fromSlider') as HTMLInputElement;
         const toSlider = document.querySelector('.sliders_control_price #toSlider') as HTMLInputElement;
         const fromData = document.querySelector('.from-data_price') as HTMLElement;
         const toData = document.querySelector('.to-data_price') as HTMLDivElement;
         const sort = [...products].sort((a, b) => (a.price > b.price ? 1 : -1));
-        //fromSlider.min = sort[0].price.toString();
         fromSlider.min = sort[0].price.toString();
         fromSlider.max = sort[sort.length - 1].price.toString();
-        //fromSlider.value = sort[10].price.toString();
         toSlider.max = sort[sort.length - 1].price.toString();
         toSlider.value = sort[sort.length - 1].price.toString();
         fromData.innerHTML = `${sort[0].price.toString()}`;
-        //toData.innerHTML = `${sort[sort.length - 1].price.toString()}`;
         toData.innerHTML = `${toSlider.value}`;
-        /* sliderContainer.addEventListener('change', () => {
-            fromData.innerHTML = fromSlider.value;
-            toData.innerHTML = toSlider.value;
-            const newArr: IProductItem[] = [];
-            products.forEach((el) => {
-                if (el.price >= Number(fromSlider.value) && el.price <= Number(toSlider.value)) {
-                    newArr.push(el);
-                }
-            });
-            app.products.renderProducts(newArr);
-        }); */
         fromSlider.addEventListener('input', () => {
             let to = Number(toSlider.value);
             let from = Number(fromSlider.value);
@@ -208,13 +179,6 @@ class Filters {
             this.filterAll(newArr);
         });
         toSlider.addEventListener('input', () => {
-            /* let to = toSlider;
-            let from = fromSlider;
-            if (toSlider.value < fromSlider.value) {
-                to = fromSlider;
-                from = toSlider;
-            } */
-            //if (toSlider.value < fromSlider.value + 1) toSlider.value = fromSlider.value + 1; todo чтобы один слайдер не заходил за другой
             let to = Number(toSlider.value);
             let from = Number(fromSlider.value);
             if (to < from) [to, from] = [from, to];
@@ -250,23 +214,10 @@ class Filters {
         const sort = [...products].sort((a, b) => (a.stock > b.stock ? 1 : -1));
         fromSlider.min = sort[0].stock.toString();
         fromSlider.max = sort[sort.length - 1].stock.toString();
-        //fromSlider.value = sort[10].price.toString();
         toSlider.max = sort[sort.length - 1].stock.toString();
         toSlider.value = sort[sort.length - 1].stock.toString();
         fromData.innerHTML = `${sort[0].stock.toString()}`;
-        //toData.innerHTML = `${sort[sort.length - 1].price.toString()}`;
         toData.innerHTML = `${toSlider.value}`;
-        /* sliderContainer.addEventListener('change', () => {
-            fromData.innerHTML = fromSlider.value;
-            toData.innerHTML = toSlider.value;
-            const newArr: IProductItem[] = [];
-            products.forEach((el) => {
-                if (el.price >= Number(fromSlider.value) && el.price <= Number(toSlider.value)) {
-                    newArr.push(el);
-                }
-            });
-            app.products.renderProducts(newArr);
-        }); */
         fromSlider.addEventListener('input', () => {
             let to = Number(toSlider.value);
             let from = Number(fromSlider.value);
@@ -282,13 +233,6 @@ class Filters {
             this.filterAll(newArr);
         });
         toSlider.addEventListener('input', () => {
-            /* let to = toSlider;
-            let from = fromSlider;
-            if (toSlider.value < fromSlider.value) {
-                to = fromSlider;
-                from = toSlider;
-            } */
-            //if (toSlider.value < fromSlider.value + 1) toSlider.value = fromSlider.value + 1; todo чтобы один слайдер не заходил за другой
             let to = Number(toSlider.value);
             let from = Number(fromSlider.value);
             if (to < from) [to, from] = [from, to];
