@@ -49,7 +49,7 @@ class Router {
         switch (path) {
             case '/':
                 app.products.renderProducts(PRODUCTS);
-                app.renderSearch.renderSearch();
+                app.search.renderSearch();
                 app.filters.renderFilters();
                 break;
             case '/cart':

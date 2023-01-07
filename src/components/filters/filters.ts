@@ -3,6 +3,10 @@ import { PRODUCTS } from '../../products';
 import { IProductItem } from '../../types';
 
 class Filters {
+    products: IProductItem[];
+    constructor() {
+        this.products = PRODUCTS;
+    }
     async renderFilters() {
         const root = document.querySelector('.filters') as HTMLElement;
         const route = '/pages/filters.html';
@@ -12,11 +16,21 @@ class Filters {
         filtersElement.innerHTML = html;
         root.append(filtersElement);
         this.renderItemsCategory();
-        this.filterCategory();
-        this.filterBrand();
-        this.sliderPrice();
+        this.renderFiltersBrands();
+        this.renderSliderPrice();
         this.resetFilters();
-        this.sliderStock();
+        this.renderSliderStock();
+        const input = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
+        input.forEach((i) => {
+            i.addEventListener('input', () => {
+                this.filterAll(PRODUCTS);
+                app.query.add('category', i.id);
+                if (!i.checked) {
+                    console.log('query.remove');
+                    //todo query remove
+                }
+            });
+        });
     }
 
     async renderItemsCategory() {
@@ -31,15 +45,14 @@ class Filters {
             filterListItem.className = 'checkbox-line';
             const elementId = element.split(' ').join('_').toLowerCase();
             filterListItem.innerHTML = `
-                <label>
-                    <input class="category_checkbox" type="checkbox" id="${elementId}">
+                <label aria-label='${element}'>
+                    <input class="category_checkbox checkbox_filters" type="checkbox" id="${elementId}">
                     ${element}
-                    <span>(${array.filter((item) => item === element).length}/${5})</span>
+                    <span>(${array.filter((item) => item === element).length}/5)</span>
                 </label>
             `;
             filterListCategory.append(filterListItem);
         });
-        this.renderFiltersBrands();
     }
 
     async renderFiltersBrands() {
@@ -55,46 +68,81 @@ class Filters {
             const elementId = element.split(' ').join('_').toLowerCase();
             filterListItem.innerHTML = `
                 <label>
-                    <input class="brend_checkbox" type="checkbox" id="${elementId}">
+                    <input class="brand_checkbox checkbox_filters" type="checkbox" id="${elementId}">
                     ${element}
                     <span>(${array.filter((item) => item === element).length}/${5})</span>
                 </label>
             `;
             filterListBrands.append(filterListItem);
         });
+        const input = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
+        input.forEach((i) => {
+            i.addEventListener('input', () => {
+                app.query.add('brand', i.id);
+                this.filterAll(PRODUCTS);
+            });
+        });
     }
+    async filterAll(arr: IProductItem[]): Promise<IProductItem[]> {
+        const products = [...arr];
+        const filtredCat = await this.filterCategory(products);
+        const filtredCatBra = await this.filterBrand(filtredCat);
+        const filtredSear = await app.search.searchFilter(filtredCatBra);
+        const sorted = await app.search.sort(filtredSear);
+        const byPrice = this.filterByPrice(sorted);
+        const byStock = this.filterByStock(byPrice);
+        this.updateFiltersData(byStock);
+        app.products.renderProducts(byStock);
+        app.catalogItems = byStock;
+        app.search.showStat();
+        return byStock;
+    }
+    updateFiltersData(byStock: IProductItem[]): void {
+        const filterListCategories = document.querySelector('.filter-list-category') as HTMLDivElement;
+        const inputs = filterListCategories.querySelectorAll('.checkbox-line');
 
-    async filterCategory() {
-        const checkboxContainer = document.querySelector('.filter-list-category') as HTMLElement;
+        inputs.forEach((input) => {
+            const inputCat = input.querySelector('label')?.ariaLabel;
+            const newValue = byStock.filter((item) => item.category === inputCat).length;
+            input.querySelector('span')!.innerHTML = `(${newValue}/${5})`;
+        });
+    }
+    async filterCategory(arr: IProductItem[]): Promise<IProductItem[]> {
         const checkboxes = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
-        checkboxContainer?.addEventListener('change', function () {
-            checkboxes.forEach((elem) => {
-                if (elem.checked == true) {
-                    const newArr = [...PRODUCTS].filter((el) => {
-                        return Object.values(el).includes(elem.id.toLowerCase());
-                    });
-                    app.products.renderProducts(newArr);
-                }
-            });
+        let newArr: IProductItem[] = [...arr];
+        checkboxes.forEach((elem) => {
+            if (elem.checked == true) {
+                console.log(111);
+                newArr = [];
+                arr.forEach((item) => {
+                    if (item.category.toLowerCase() === elem.id) {
+                        newArr.push(item);
+                    }
+                });
+                app.filters.products = newArr;
+            }
         });
+        return newArr;
     }
 
-    async filterBrand() {
-        const checkboxContainer = document.querySelector('.filter-list-brand') as HTMLElement;
-        const checkboxes = document.querySelectorAll('.brend_checkbox') as NodeListOf<HTMLInputElement>;
-        checkboxContainer?.addEventListener('change', function () {
-            checkboxes.forEach((elem) => {
-                if (elem.checked == true) {
-                    const newArr = [...PRODUCTS].filter((el) => {
-                        return Object.values(el).join('').toLowerCase().includes(elem.id);
-                    });
-                    app.products.renderProducts(newArr);
-                }
-            });
+    async filterBrand(arr: IProductItem[]): Promise<IProductItem[]> {
+        const products = arr;
+        const checkboxes = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
+        let newArr: IProductItem[] = arr;
+        checkboxes.forEach((elem) => {
+            if (elem.checked == true) {
+                newArr = [...products].filter((el) => {
+                    return Object.values(el).join('').toLowerCase().includes(elem.id);
+                });
+                app.products.renderProducts(newArr);
+                app.filters.products = newArr;
+            }
         });
+        return newArr;
     }
 
     async resetFilters() {
+        const products = this.products;
         document.querySelector('.reset-btn')?.addEventListener('click', function () {
             const checkboxesCategory = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
             const checkboxesBrend = document.querySelectorAll('.brend_checkbox') as NodeListOf<HTMLInputElement>;
@@ -104,64 +152,121 @@ class Filters {
             checkboxesBrend.forEach((el) => {
                 el.checked = false;
             });
-            app.products.renderProducts(PRODUCTS);
+            app.products.renderProducts(products);
         });
     }
 
-    async sliderPrice() {
-        const sliderContainer = document.querySelector('.sliders_control_price') as HTMLDivElement;
+    renderSliderPrice() {
+        const products = this.products;
         const fromSlider = document.querySelector('.sliders_control_price #fromSlider') as HTMLInputElement;
         const toSlider = document.querySelector('.sliders_control_price #toSlider') as HTMLInputElement;
         const fromData = document.querySelector('.from-data_price') as HTMLElement;
         const toData = document.querySelector('.to-data_price') as HTMLDivElement;
-        const sort = [...PRODUCTS].sort((a, b) => (a.price > b.price ? 1 : -1));
-        fromSlider.min = sort[0].price.toString();
+        const sort = [...products].sort((a, b) => (a.price > b.price ? 1 : -1));
         fromSlider.min = sort[0].price.toString();
         fromSlider.max = sort[sort.length - 1].price.toString();
         toSlider.max = sort[sort.length - 1].price.toString();
-        fromSlider.value = sort[0].price.toString();
         toSlider.value = sort[sort.length - 1].price.toString();
         fromData.innerHTML = `${sort[0].price.toString()}`;
-        toData.innerHTML = `${sort[sort.length - 1].price.toString()}`;
-        sliderContainer.addEventListener('change', function () {
-            fromData.innerHTML = fromSlider.value;
-            toData.innerHTML = toSlider.value;
+        toData.innerHTML = `${toSlider.value}`;
+        fromSlider.addEventListener('input', () => {
+            let to = Number(toSlider.value);
+            let from = Number(fromSlider.value);
+            if (to < from) [to, from] = [from, to];
+            fromData.innerHTML = from.toString();
+            toData.innerHTML = to.toString();
             const newArr: IProductItem[] = [];
-            PRODUCTS.forEach((el) => {
-                if (el.price >= Number(fromSlider.value) && el.price <= Number(toSlider.value)) {
+            products.forEach((el) => {
+                if (el.price >= from && el.price <= to) {
                     newArr.push(el);
                 }
             });
-            app.products.renderProducts(newArr);
+            this.filterAll(newArr);
+            app.query.add('price', `${from}|${to}`);
+        });
+        toSlider.addEventListener('input', () => {
+            let to = Number(toSlider.value);
+            let from = Number(fromSlider.value);
+            if (to < from) [to, from] = [from, to];
+            fromData.innerHTML = from.toString();
+            toData.innerHTML = to.toString();
+            const newArr: IProductItem[] = [];
+            products.forEach((el) => {
+                if (el.price >= from && el.price <= to) {
+                    newArr.push(el);
+                }
+            });
+            this.filterAll(newArr);
+            app.query.add('price', `${from}|${to}`);
         });
     }
+    filterByPrice(arr: IProductItem[]): IProductItem[] {
+        const fromSlider = document.querySelector('.sliders_control_price #fromSlider') as HTMLInputElement;
+        const toSlider = document.querySelector('.sliders_control_price #toSlider') as HTMLInputElement;
+        const newArr: IProductItem[] = [];
+        arr.forEach((el) => {
+            if (el.price >= Number(fromSlider.value) && el.price <= Number(toSlider.value)) {
+                newArr.push(el);
+            }
+        });
+        return newArr;
+    }
 
-    async sliderStock() {
-        const sliderContainer = document.querySelector('.sliders_control_stock') as HTMLDivElement;
+    renderSliderStock() {
+        const products = this.products;
         const fromSlider = document.querySelector('.sliders_control_stock #fromSlider') as HTMLInputElement;
         const toSlider = document.querySelector('.sliders_control_stock #toSlider') as HTMLInputElement;
         const fromData = document.querySelector('.from-data_stock') as HTMLElement;
         const toData = document.querySelector('.to-data_stock') as HTMLDivElement;
-        const sort = [...PRODUCTS].sort((a, b) => (a.stock > b.stock ? 1 : -1));
-        fromSlider.min = sort[0].stock.toString();
+        const sort = [...products].sort((a, b) => (a.stock > b.stock ? 1 : -1));
         fromSlider.min = sort[0].stock.toString();
         fromSlider.max = sort[sort.length - 1].stock.toString();
         toSlider.max = sort[sort.length - 1].stock.toString();
-        fromSlider.value = sort[0].stock.toString();
         toSlider.value = sort[sort.length - 1].stock.toString();
         fromData.innerHTML = `${sort[0].stock.toString()}`;
-        toData.innerHTML = `${sort[sort.length - 1].stock.toString()}`;
-        sliderContainer.addEventListener('change', function () {
-            fromData.innerHTML = fromSlider.value;
-            toData.innerHTML = toSlider.value;
+        toData.innerHTML = `${toSlider.value}`;
+        fromSlider.addEventListener('input', () => {
+            let to = Number(toSlider.value);
+            let from = Number(fromSlider.value);
+            if (to < from) [to, from] = [from, to];
+            fromData.innerHTML = from.toString();
+            toData.innerHTML = to.toString();
             const newArr: IProductItem[] = [];
-            PRODUCTS.forEach((el) => {
-                if (el.stock >= Number(fromSlider.value) && el.stock <= Number(toSlider.value)) {
+            products.forEach((el) => {
+                if (el.stock >= from && el.stock <= to) {
                     newArr.push(el);
                 }
             });
-            app.products.renderProducts(newArr);
+            this.filterAll(newArr);
         });
+        toSlider.addEventListener('input', () => {
+            let to = Number(toSlider.value);
+            let from = Number(fromSlider.value);
+            if (to < from) [to, from] = [from, to];
+            fromData.innerHTML = from.toString();
+            toData.innerHTML = to.toString();
+            const newArr: IProductItem[] = [];
+            products.forEach((el) => {
+                if (el.stock >= from && el.stock <= to) {
+                    newArr.push(el);
+                }
+            });
+            this.filterAll(newArr);
+        });
+    }
+    filterByStock(arr: IProductItem[]): IProductItem[] {
+        const fromSlider = document.querySelector('.sliders_control_stock #fromSlider') as HTMLInputElement;
+        const toSlider = document.querySelector('.sliders_control_stock #toSlider') as HTMLInputElement;
+        const newArr: IProductItem[] = [];
+        arr.forEach((el) => {
+            if (el.stock >= Number(fromSlider.value) && el.stock <= Number(toSlider.value)) {
+                newArr.push(el);
+            }
+        });
+        return newArr;
+    }
+    setListenersFilter() {
+        console.log('listen');
     }
 }
 

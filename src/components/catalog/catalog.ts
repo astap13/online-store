@@ -5,16 +5,20 @@ export class Products {
     renderProducts(arrProducts: IProductItem[]) {
         const rootProducts = document.querySelector('.products') as HTMLDivElement;
         let HTMLCatalog = '';
-
+        const bigstyle = app.search.bigTile ? '' : 'itemSmall';
+        let infoClass = '';
+        if (bigstyle === 'itemSmall') {
+            infoClass = 'hide';
+        }
         arrProducts.forEach((element) => {
             let textBtn = 'Add to cart';
             if (app.cart.cart.find((item) => item.description === element.description)) {
                 textBtn = 'Drop from card';
             }
             HTMLCatalog += `
-            <li class='products_item' style="background-image: url('${element.thumbnail}'), url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png')">
+            <li class='products_item ${bigstyle}' style="background-image: url('${element.thumbnail}'), url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png')">
                 <div class='item_title'>${element.title}</div>
-                <div class='item_info'>
+                <div class='item_info ${infoClass}'>
                     <p class='item_content'>Category: ${element.category}</p>
                     <p class='item_content'>Brand: ${element.brand}</p>
                     <p class='item_content'>Price: ${element.price}EU</p>
