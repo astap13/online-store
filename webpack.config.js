@@ -53,8 +53,15 @@ const baseConfig = {
                     globOptions: {
                         ignore: ['*.ts', '*.scss'],
                     }
-            },
-        ],
+                },
+                { 
+                    from: 'src/redirects' ,
+                    to: '',
+                    globOptions: {
+                        ignore: ['*.ts', '*.scss'],
+                    }
+                },
+            ],
           }),
         //new CleanWebpackPlugin(),
     ],
