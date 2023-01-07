@@ -5,6 +5,7 @@ import { app } from '../../main';
 
 class ProductDetails {
     renderItemPage(element: IProductItem): void {
+        app.cart.loadCart();
         const node = document.querySelector('.product-details') as HTMLElement;
         (node.querySelector('.product-details__title') as HTMLElement).textContent = capetalize(element.title);
         // Place path to product
@@ -90,18 +91,11 @@ class ProductDetails {
                 app.cart.addToCart(element);
             }
             app.router.route(e);
-            this.buyNow();
             setTimeout(() => {
                 app.cart.checkout.openPopup();
             }, 200);
         });
         (document.querySelector('.product-details__buy') as HTMLElement).append(addToCartBtn, buyNowBtn);
-    }
-    buyNow(): void {
-        console.log('buyNow');
-    }
-    addRemoveToCart(): void {
-        console.log('addRemoveToCart');
     }
 }
 

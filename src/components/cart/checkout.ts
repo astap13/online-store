@@ -117,9 +117,6 @@ class Checkout {
                 setTimeout(() => {
                     const cart = app.cart.cart;
                     cart.splice(0, cart.length);
-                    for (let i = 0; i < cart.length; i++) {
-                        console.log(cart[i]);
-                    }
                     app.router.route(event);
                 }, 3000);
             }
@@ -130,8 +127,6 @@ class Checkout {
         modalBlock.classList.remove('modal_buy__active');
     }
     validate(target: HTMLInputElement) {
-        //const target = event.target as HTMLInputElement;
-        //const target = targettt as InputEvent
         const value = target.value.split(' ');
         target.required = true;
         switch (target.placeholder) {
