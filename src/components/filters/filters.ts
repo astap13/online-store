@@ -67,7 +67,7 @@ class Filters {
             filterListItem.className = 'checkbox-line';
             const elementId = element.split(' ').join('_').toLowerCase();
             filterListItem.innerHTML = `
-                <label>
+                <label aria-label='${element}'>
                     <input class="brand_checkbox checkbox_filters" type="checkbox" id="${elementId}">
                     ${element}
                     <span>(${array.filter((item) => item === element).length}/${5})</span>
@@ -91,19 +91,27 @@ class Filters {
         const sorted = await app.search.sort(filtredSear);
         const byPrice = this.filterByPrice(sorted);
         const byStock = this.filterByStock(byPrice);
-        this.updateFiltersData(byStock);
         app.products.renderProducts(byStock);
         app.catalogItems = byStock;
         app.search.showStat();
+        this.updateFiltersData(byStock);
         return byStock;
     }
     updateFiltersData(byStock: IProductItem[]): void {
         const filterListCategories = document.querySelector('.filter-list-category') as HTMLDivElement;
-        const inputs = filterListCategories.querySelectorAll('.checkbox-line');
+        const filterListBrands = document.querySelector('.filter-list-brand') as HTMLDivElement;
+        const inputsOfCategories = filterListCategories.querySelectorAll('.checkbox-line');
+        const inputsOfBrands = filterListBrands.querySelectorAll('.checkbox-line');
 
-        inputs.forEach((input) => {
+        inputsOfCategories.forEach((input) => {
             const inputCat = input.querySelector('label')?.ariaLabel;
             const newValue = byStock.filter((item) => item.category === inputCat).length;
+            input.querySelector('span')!.innerHTML = `(${newValue}/${5})`;
+        });
+
+        inputsOfBrands.forEach((input) => {
+            const inputCat = input.querySelector('label')?.ariaLabel;
+            const newValue = byStock.filter((item) => item.brand === inputCat).length;
             input.querySelector('span')!.innerHTML = `(${newValue}/${5})`;
         });
     }
