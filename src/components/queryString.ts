@@ -4,15 +4,20 @@ class QueryString {
         this.params = new Map();
     }
     add(key: string, value: string) {
-        console.log('query add');
+        console.log(`queryAdd(${key}=${value})`);
+        this.params = this.load();
         this.params.set(key, value);
         let pathname = '';
         this.params.delete('');
         this.params.forEach((item, index) => {
-            if (pathname.length === 0) {
-                pathname += `?${index}=${item}`;
+            if (item !== '') {
+                if (pathname.length === 0) {
+                    pathname += `?${index}=${item}`;
+                } else {
+                    pathname += `&${index}=${item}`;
+                }
             } else {
-                pathname += `&${index}=${item}`;
+                this.params.delete(index);
             }
         });
         window.history.pushState({}, '', `${pathname}`);

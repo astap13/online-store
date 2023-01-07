@@ -20,10 +20,15 @@ class Filters {
         this.renderSliderPrice();
         this.resetFilters();
         this.renderSliderStock();
-        const input = document.querySelectorAll('.checkbox_filters') as NodeListOf<HTMLInputElement>;
+        const input = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
         input.forEach((i) => {
             i.addEventListener('input', () => {
                 this.filterAll(PRODUCTS);
+                app.query.add('category', i.id);
+                if (!i.checked) {
+                    console.log('query.remove');
+                    //todo query remove
+                }
             });
         });
     }
@@ -73,7 +78,7 @@ class Filters {
         const input = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
         input.forEach((i) => {
             i.addEventListener('input', () => {
-                app.query.add('category', i.id);
+                app.query.add('brand', i.id);
                 this.filterAll(PRODUCTS);
             });
         });
@@ -177,6 +182,7 @@ class Filters {
                 }
             });
             this.filterAll(newArr);
+            app.query.add('price', `${from}|${to}`);
         });
         toSlider.addEventListener('input', () => {
             let to = Number(toSlider.value);
@@ -191,6 +197,7 @@ class Filters {
                 }
             });
             this.filterAll(newArr);
+            app.query.add('price', `${from}|${to}`);
         });
     }
     filterByPrice(arr: IProductItem[]): IProductItem[] {
