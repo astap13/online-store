@@ -35,20 +35,27 @@ class Cart {
         };
     }
     async renderCart(): Promise<void> {
+        this.page = 1;
+        this.itemsOnPage = 3;
         const route = '/pages/cart.html';
         const html = await fetch(route).then((data) => data.text());
         const cartElement = document.createElement('div');
         const itemsOnPage = document.querySelector('.cart_items_on_page') as HTMLInputElement;
         const params = app.query.load();
         if (params.has('items')) {
-            itemsOnPage.value = params.get('items') as string;
-        } else {
-            itemsOnPage.value = this.itemsOnPage.toString();
+            const itemOnPage = params.get('items') as string;
+            if (itemOnPage) {
+                this.itemsOnPage = +itemOnPage;
+            }
         }
+        itemsOnPage.value = this.itemsOnPage.toString();
         const cartPage = document.querySelector('.cart_page_number') as HTMLElement;
         if (cartPage && params.has('page')) {
             const page = params.get('page') as string;
-            cartPage.textContent = page;
+            if (page) {
+                this.page = +page;
+                cartPage.textContent = page;
+            }
         }
         itemsOnPage.addEventListener('input', () => {
             if (+itemsOnPage.value > 10) itemsOnPage.value = '10';
@@ -145,7 +152,6 @@ class Cart {
                 const val = promoInput.value;
                 if (val === 'rs') this.activePromos.rs = 10;
                 if (val === 'epam') this.activePromos.epam = 10;
-                // document.querySelector(`.${promoInput.value}_promo`)?.classList.remove('hide');
                 promoInput.value = '';
                 promoAdd.innerHTML = '';
                 this.renderPromos();
@@ -186,7 +192,6 @@ class Cart {
         this.renderPromos();
     }
     addToCart(item: IProductItem): void {
-        console.log('addToCart');
         const productInCart: cartItemType = {
             ...item,
             amount: 1,
@@ -200,7 +205,6 @@ class Cart {
         this.setSumNum();
     }
     increaseAmountItem(item: cartItemType): void {
-        console.log('increaseAmountItem');
         this.cart.forEach((el) => {
             if (el.id === item.id) {
                 el.amount++;
@@ -210,7 +214,6 @@ class Cart {
         this.setSumNum();
     }
     decreaseAmountItem(item: cartItemType): void {
-        console.log('decreaseAmountItem');
         if (item.amount === 1) {
             this.drop(item);
         } else {
@@ -266,10 +269,6 @@ class Cart {
         number--;
         this.setCartByPages(this.itemsOnPage);
         return this.cartByPage[number] as cartItems;
-    }
-    showCart(): void {
-        console.log(this.cart);
-        console.log(this.cartNum, this.cartSum);
     }
     renderPromos() {
         if (!window.location.href.includes('/cart')) return;
