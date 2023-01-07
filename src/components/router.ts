@@ -35,6 +35,7 @@ class Router {
         this.handleLocation();
     }
     async handleLocation(): Promise<void> {
+        app.cart.loadCart();
         let path: string = window.location.pathname;
         let num = 0;
         if (path.includes('/product-details')) {
