@@ -93,10 +93,11 @@ class Filters {
         const filtredSear = await app.search.searchFilter(filtredCatBra);
         const sorted = await app.search.sort(filtredSear);
         const byPrice = this.filterByPrice(sorted);
-        app.products.renderProducts(byPrice);
-        app.catalogItems = byPrice;
+        const byStock = this.filterByStock(byPrice);
+        app.products.renderProducts(byStock);
+        app.catalogItems = byStock;
         app.search.showStat();
-        return byPrice;
+        return byStock;
     }
     async filterCategory(arr: IProductItem[]): Promise<IProductItem[]> {
         // const checkboxContainer = document.querySelector('.filter-list-category') as HTMLElement;
@@ -238,31 +239,76 @@ class Filters {
 
     renderSliderStock() {
         const products = this.products;
-        const sliderContainer = document.querySelector('.sliders_control_stock') as HTMLDivElement;
         const fromSlider = document.querySelector('.sliders_control_stock #fromSlider') as HTMLInputElement;
         const toSlider = document.querySelector('.sliders_control_stock #toSlider') as HTMLInputElement;
         const fromData = document.querySelector('.from-data_stock') as HTMLElement;
         const toData = document.querySelector('.to-data_stock') as HTMLDivElement;
-        const sort = [...this.products].sort((a, b) => (a.stock > b.stock ? 1 : -1));
-        fromSlider.min = sort[0].stock.toString();
+        const sort = [...products].sort((a, b) => (a.stock > b.stock ? 1 : -1));
         fromSlider.min = sort[0].stock.toString();
         fromSlider.max = sort[sort.length - 1].stock.toString();
+        //fromSlider.value = sort[10].price.toString();
         toSlider.max = sort[sort.length - 1].stock.toString();
-        fromSlider.value = sort[0].stock.toString();
         toSlider.value = sort[sort.length - 1].stock.toString();
         fromData.innerHTML = `${sort[0].stock.toString()}`;
-        toData.innerHTML = `${sort[sort.length - 1].stock.toString()}`;
-        sliderContainer.addEventListener('change', function () {
+        //toData.innerHTML = `${sort[sort.length - 1].price.toString()}`;
+        toData.innerHTML = `${toSlider.value}`;
+        /* sliderContainer.addEventListener('change', () => {
             fromData.innerHTML = fromSlider.value;
             toData.innerHTML = toSlider.value;
             const newArr: IProductItem[] = [];
             products.forEach((el) => {
-                if (el.stock >= Number(fromSlider.value) && el.stock <= Number(toSlider.value)) {
+                if (el.price >= Number(fromSlider.value) && el.price <= Number(toSlider.value)) {
                     newArr.push(el);
                 }
             });
             app.products.renderProducts(newArr);
+        }); */
+        fromSlider.addEventListener('input', () => {
+            let to = Number(toSlider.value);
+            let from = Number(fromSlider.value);
+            if (to < from) [to, from] = [from, to];
+            fromData.innerHTML = from.toString();
+            toData.innerHTML = to.toString();
+            const newArr: IProductItem[] = [];
+            products.forEach((el) => {
+                if (el.stock >= from && el.stock <= to) {
+                    newArr.push(el);
+                }
+            });
+            this.filterAll(newArr);
         });
+        toSlider.addEventListener('input', () => {
+            /* let to = toSlider;
+            let from = fromSlider;
+            if (toSlider.value < fromSlider.value) {
+                to = fromSlider;
+                from = toSlider;
+            } */
+            //if (toSlider.value < fromSlider.value + 1) toSlider.value = fromSlider.value + 1; todo чтобы один слайдер не заходил за другой
+            let to = Number(toSlider.value);
+            let from = Number(fromSlider.value);
+            if (to < from) [to, from] = [from, to];
+            fromData.innerHTML = from.toString();
+            toData.innerHTML = to.toString();
+            const newArr: IProductItem[] = [];
+            products.forEach((el) => {
+                if (el.stock >= from && el.stock <= to) {
+                    newArr.push(el);
+                }
+            });
+            this.filterAll(newArr);
+        });
+    }
+    filterByStock(arr: IProductItem[]): IProductItem[] {
+        const fromSlider = document.querySelector('.sliders_control_stock #fromSlider') as HTMLInputElement;
+        const toSlider = document.querySelector('.sliders_control_stock #toSlider') as HTMLInputElement;
+        const newArr: IProductItem[] = [];
+        arr.forEach((el) => {
+            if (el.stock >= Number(fromSlider.value) && el.stock <= Number(toSlider.value)) {
+                newArr.push(el);
+            }
+        });
+        return newArr;
     }
     setListenersFilter() {
         console.log('listen');
