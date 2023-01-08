@@ -110,13 +110,15 @@ class Filters {
         inputsOfCategories.forEach((input) => {
             const inputCat = input.querySelector('label')?.ariaLabel;
             const newValue = byStock.filter((item) => item.category === inputCat).length;
-            input.querySelector('span')!.innerHTML = `(${newValue}/${5})`;
+            const newValue2 = PRODUCTS.filter((item) => item.category === inputCat).length;
+            input.querySelector('span')!.innerHTML = `(${newValue}/${newValue2})`;
         });
 
         inputsOfBrands.forEach((input) => {
             const inputCat = input.querySelector('label')?.ariaLabel;
             const newValue = byStock.filter((item) => item.brand === inputCat).length;
-            input.querySelector('span')!.innerHTML = `(${newValue}/${5})`;
+            const newValue2 = PRODUCTS.filter((item) => item.brand === inputCat).length;
+            input.querySelector('span')!.innerHTML = `(${newValue}/${newValue2})`;
         });
     }
     async filterCategory(arr: IProductItem[]): Promise<IProductItem[]> {
