@@ -118,10 +118,9 @@ class Filters {
     async filterCategory(arr: IProductItem[]): Promise<IProductItem[]> {
         const checkboxes = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
         let newArr: IProductItem[] = [...arr];
+        newArr = [];
         checkboxes.forEach((elem) => {
             if (elem.checked == true) {
-                console.log(111);
-                newArr = [];
                 arr.forEach((item) => {
                     if (item.category.toLowerCase() === elem.id) {
                         newArr.push(item);
@@ -143,7 +142,7 @@ class Filters {
                     return Object.values(el).join('').toLowerCase().includes(elem.id);
                 });
                 app.products.renderProducts(newArr);
-                app.filters.products = newArr;
+                // app.filters.products = newArr;
             }
         });
         return newArr;
