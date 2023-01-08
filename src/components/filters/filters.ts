@@ -115,14 +115,16 @@ class Filters {
             const inputCat = input.querySelector('label')?.ariaLabel;
             const newValue = byStock.filter((item) => item.category === inputCat).length;
             const newValue2 = PRODUCTS.filter((item) => item.category === inputCat).length;
-            input.querySelector('span')!.innerHTML = `(${newValue}/${newValue2})`;
+            const span = input.querySelector('span') as HTMLSpanElement;
+            span.innerHTML = `(${newValue}/${newValue2})`;
         });
 
         inputsOfBrands.forEach((input) => {
             const inputCat = input.querySelector('label')?.ariaLabel;
             const newValue = byStock.filter((item) => item.brand === inputCat).length;
             const newValue2 = PRODUCTS.filter((item) => item.brand === inputCat).length;
-            input.querySelector('span')!.innerHTML = `(${newValue}/${newValue2})`;
+            const span = input.querySelector('span') as HTMLSpanElement;
+            span.innerHTML = `(${newValue}/${newValue2})`;
         });
     }
     async filterCategory(arr: IProductItem[]): Promise<IProductItem[]> {
@@ -130,7 +132,7 @@ class Filters {
         let newArr: IProductItem[] = [...arr];
         newArr = [];
         const unchecked = [];
-        checkboxes.forEach((elem, id) => {
+        checkboxes.forEach((elem) => {
             if (elem.checked == true) {
                 arr.forEach((item) => {
                     if (item.category.toLowerCase() === elem.id) {
@@ -154,7 +156,7 @@ class Filters {
         let newArr: IProductItem[] = [...arr];
         newArr = [];
         const unchecked = [];
-        checkboxes.forEach((elem, id) => {
+        checkboxes.forEach((elem) => {
             if (elem.checked == true) {
                 arr.forEach((item) => {
                     if (item.brand.toLowerCase() === elem.id.split('_').join(' ')) {
