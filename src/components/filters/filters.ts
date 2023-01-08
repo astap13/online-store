@@ -23,15 +23,10 @@ class Filters {
         const input = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
         input.forEach((i) => {
             i.addEventListener('input', () => {
-                console.log(i.checked);
-                if (i.checked) {
-                    app.query.add('category', i.id);
-                } else {
-                    app.query.add('category', '');
-                }
                 this.filterAll(PRODUCTS);
             });
         });
+        this.loadAllFilter();
     }
 
     async renderItemsCategory() {
@@ -83,10 +78,6 @@ class Filters {
         const input = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
         input.forEach((i) => {
             i.addEventListener('input', () => {
-                app.query.add('brand', i.id);
-                if (!i.checked) {
-                    app.query.add('brand', '');
-                }
                 this.filterAll(PRODUCTS);
             });
         });
@@ -108,46 +99,46 @@ class Filters {
     updateFiltersData(byStock: IProductItem[]): void {
         const filterListCategories = document.querySelector('.filter-list-category') as HTMLDivElement;
         const filterListBrands = document.querySelector('.filter-list-brand') as HTMLDivElement;
-        const inputsOfCategories = filterListCategories.querySelectorAll('.checkbox-line');
-        const inputsOfBrands = filterListBrands.querySelectorAll('.checkbox-line');
-
-        inputsOfCategories.forEach((input) => {
-            const inputCat = input.querySelector('label')?.ariaLabel;
-            const newValue = byStock.filter((item) => item.category === inputCat).length;
-            const newValue2 = PRODUCTS.filter((item) => item.category === inputCat).length;
-            const span = input.querySelector('span') as HTMLSpanElement;
-            span.innerHTML = `(${newValue}/${newValue2})`;
-        });
-
-        inputsOfBrands.forEach((input) => {
-            const inputCat = input.querySelector('label')?.ariaLabel;
-            const newValue = byStock.filter((item) => item.brand === inputCat).length;
-            const newValue2 = PRODUCTS.filter((item) => item.brand === inputCat).length;
-            const span = input.querySelector('span') as HTMLSpanElement;
-            span.innerHTML = `(${newValue}/${newValue2})`;
-        });
+        if (filterListBrands && filterListCategories) {
+            const inputsOfCategories = filterListCategories.querySelectorAll('.checkbox-line');
+            const inputsOfBrands = filterListBrands.querySelectorAll('.checkbox-line');
+            inputsOfCategories.forEach((input) => {
+                const inputCat = input.querySelector('label')?.ariaLabel;
+                const newValue = byStock.filter((item) => item.category === inputCat).length;
+                const newValue2 = PRODUCTS.filter((item) => item.category === inputCat).length;
+                const span = input.querySelector('span') as HTMLSpanElement;
+                span.innerHTML = `(${newValue}/${newValue2})`;
+            });
+            inputsOfBrands.forEach((input) => {
+                const inputCat = input.querySelector('label')?.ariaLabel;
+                const newValue = byStock.filter((item) => item.brand === inputCat).length;
+                const newValue2 = PRODUCTS.filter((item) => item.brand === inputCat).length;
+                const span = input.querySelector('span') as HTMLSpanElement;
+                span.innerHTML = `(${newValue}/${newValue2})`;
+            });
+        }
     }
     async filterCategory(arr: IProductItem[]): Promise<IProductItem[]> {
         const checkboxes = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
         let newArr: IProductItem[] = [...arr];
         newArr = [];
-        const unchecked = [];
+        const checked: string[] = [];
         checkboxes.forEach((elem) => {
             if (elem.checked == true) {
+                checked.push(elem.id);
                 arr.forEach((item) => {
                     if (item.category.toLowerCase() === elem.id) {
                         newArr.push(item);
                     }
                 });
                 app.filters.products = newArr;
-            } else {
-                unchecked.push(elem.id);
             }
         });
-        if (unchecked.length === checkboxes.length) {
-            console.log(11);
+        if (checked.length === 0) {
             return arr;
         }
+        const query = checked.join('|');
+        app.query.add('category', query);
         return newArr;
     }
 
@@ -155,22 +146,23 @@ class Filters {
         const checkboxes = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
         let newArr: IProductItem[] = [...arr];
         newArr = [];
-        const unchecked = [];
+        const checked: string[] = [];
         checkboxes.forEach((elem) => {
             if (elem.checked == true) {
+                checked.push(elem.id);
                 arr.forEach((item) => {
                     if (item.brand.toLowerCase() === elem.id.split('_').join(' ')) {
                         newArr.push(item);
                     }
                 });
                 app.filters.products = newArr;
-            } else {
-                unchecked.push(elem.id);
             }
         });
-        if (unchecked.length === checkboxes.length) {
+        if (checked.length === 0) {
             return arr;
         }
+        const query = checked.join('|');
+        app.query.add('brand', query);
         return newArr;
     }
 
@@ -236,13 +228,16 @@ class Filters {
     filterByPrice(arr: IProductItem[]): IProductItem[] {
         const fromSlider = document.querySelector('.sliders_control_price #fromSlider') as HTMLInputElement;
         const toSlider = document.querySelector('.sliders_control_price #toSlider') as HTMLInputElement;
-        const newArr: IProductItem[] = [];
-        arr.forEach((el) => {
-            if (el.price >= Number(fromSlider.value) && el.price <= Number(toSlider.value)) {
-                newArr.push(el);
-            }
-        });
-        return newArr;
+        if (fromSlider && toSlider) {
+            const newArr: IProductItem[] = [];
+            arr.forEach((el) => {
+                if (el.price >= Number(fromSlider.value) && el.price <= Number(toSlider.value)) {
+                    newArr.push(el);
+                }
+            });
+            return newArr;
+        }
+        return arr;
     }
 
     renderSliderStock() {
@@ -291,15 +286,38 @@ class Filters {
         const fromSlider = document.querySelector('.sliders_control_stock #fromSlider') as HTMLInputElement;
         const toSlider = document.querySelector('.sliders_control_stock #toSlider') as HTMLInputElement;
         const newArr: IProductItem[] = [];
-        arr.forEach((el) => {
-            if (el.stock >= Number(fromSlider.value) && el.stock <= Number(toSlider.value)) {
-                newArr.push(el);
-            }
-        });
-        return newArr;
+        if (fromSlider && toSlider) {
+            arr.forEach((el) => {
+                if (el.stock >= Number(fromSlider.value) && el.stock <= Number(toSlider.value)) {
+                    newArr.push(el);
+                }
+            });
+            return newArr;
+        }
+        return arr;
     }
     setListenersFilter() {
         console.log('listen');
+    }
+    loadAllFilter() {
+        const params = app.query.load();
+        const category = params.get('category');
+        const checkboxesCat = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
+        checkboxesCat.forEach((el) => {
+            if (category?.includes(el.id)) {
+                el.checked = true;
+            }
+        });
+        const brand = params.get('brand');
+        const checkboxesBra = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
+        checkboxesBra.forEach((el) => {
+            if (brand?.includes(el.id)) {
+                el.checked = true;
+                console.log(true);
+            }
+        });
+
+        console.log(category);
     }
 }
 
