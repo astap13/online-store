@@ -48,7 +48,9 @@ class Filters {
                 <label aria-label='${element}'>
                     <input class="category_checkbox checkbox_filters" type="checkbox" id="${elementId}">
                     ${element}
-                    <span>(${array.filter((item) => item === element).length}/5)</span>
+                    <span>(${array.filter((item) => item === element).length}/${
+                PRODUCTS.filter((item) => item.category === element).length
+            })</span>
                 </label>
             `;
             filterListCategory.append(filterListItem);
@@ -70,7 +72,9 @@ class Filters {
                 <label aria-label='${element}'>
                     <input class="brand_checkbox checkbox_filters" type="checkbox" id="${elementId}">
                     ${element}
-                    <span>(${array.filter((item) => item === element).length}/${5})</span>
+                    <span>(${array.filter((item) => item === element).length}/${
+                PRODUCTS.filter((item) => item.brand === element).length
+            })</span>
                 </label>
             `;
             filterListBrands.append(filterListItem);
