@@ -23,12 +23,13 @@ class Filters {
         const input = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
         input.forEach((i) => {
             i.addEventListener('input', () => {
-                this.filterAll(PRODUCTS);
-                app.query.add('category', i.id);
-                if (!i.checked) {
-                    console.log('query.remove');
-                    //todo query remove
+                console.log(i.checked);
+                if (i.checked) {
+                    app.query.add('category', i.id);
+                } else {
+                    app.query.add('category', '');
                 }
+                this.filterAll(PRODUCTS);
             });
         });
     }
@@ -83,6 +84,9 @@ class Filters {
         input.forEach((i) => {
             i.addEventListener('input', () => {
                 app.query.add('brand', i.id);
+                if (!i.checked) {
+                    app.query.add('brand', '');
+                }
                 this.filterAll(PRODUCTS);
             });
         });
@@ -125,7 +129,8 @@ class Filters {
         const checkboxes = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
         let newArr: IProductItem[] = [...arr];
         newArr = [];
-        checkboxes.forEach((elem) => {
+        const unchecked = [];
+        checkboxes.forEach((elem, id) => {
             if (elem.checked == true) {
                 arr.forEach((item) => {
                     if (item.category.toLowerCase() === elem.id) {
@@ -133,24 +138,37 @@ class Filters {
                     }
                 });
                 app.filters.products = newArr;
+            } else {
+                unchecked.push(elem.id);
             }
         });
+        if (unchecked.length === checkboxes.length) {
+            console.log(11);
+            return arr;
+        }
         return newArr;
     }
 
     async filterBrand(arr: IProductItem[]): Promise<IProductItem[]> {
-        const products = arr;
         const checkboxes = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
-        let newArr: IProductItem[] = arr;
-        checkboxes.forEach((elem) => {
+        let newArr: IProductItem[] = [...arr];
+        newArr = [];
+        const unchecked = [];
+        checkboxes.forEach((elem, id) => {
             if (elem.checked == true) {
-                newArr = [...products].filter((el) => {
-                    return Object.values(el).join('').toLowerCase().includes(elem.id);
+                arr.forEach((item) => {
+                    if (item.brand.toLowerCase() === elem.id.split('_').join(' ')) {
+                        newArr.push(item);
+                    }
                 });
-                app.products.renderProducts(newArr);
-                // app.filters.products = newArr;
+                app.filters.products = newArr;
+            } else {
+                unchecked.push(elem.id);
             }
         });
+        if (unchecked.length === checkboxes.length) {
+            return arr;
+        }
         return newArr;
     }
 

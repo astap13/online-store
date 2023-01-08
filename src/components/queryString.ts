@@ -20,6 +20,8 @@ class QueryString {
                 this.params.delete(index);
             }
         });
+        console.log(this.params);
+        if (this.params.size === 0) pathname = '';
         window.history.pushState({}, '', `${pathname}`);
     }
     load(): Map<string, string> {
