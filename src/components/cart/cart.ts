@@ -80,7 +80,12 @@ class Cart {
             const cartItem = createElementWithClass('div', 'cart_item');
             const cartNumberItem = createElementWithClass('div', 'cart_item_number');
             const cartItemInfo = createElementWithClass('div', 'cart_item_info');
-            const cartItemSpecs = createElementWithClass('div', 'cart_item_specs');
+            const cartItemSpecs = createElementWithClass('a', 'cart_item_specs') as HTMLAnchorElement;
+            cartItemSpecs.classList.add('link_route');
+            cartItemSpecs.href = `/product-details/${product.id}`;
+            cartItemSpecs.addEventListener('click', (e) => {
+                app.router.route(e);
+            });
             const cartAmount = createElementWithClass('div', 'cart_item_amount');
             const cartItemImg = createElementWithClass('img', 'cart_item_img') as HTMLImageElement;
             cartNumberItem.textContent = (this.itemsOnPage * this.page + id - this.itemsOnPage + 1).toString();
@@ -185,7 +190,7 @@ class Cart {
         const cartSum = document.querySelector('.cart_sum') as HTMLElement;
         if (numOfProducts && totalOfProducts) {
             numOfProducts.textContent = `Products: ${this.cartNum}`;
-            totalOfProducts.textContent = `Total: €${this.cartSum}`;
+            totalOfProducts.textContent = `Total: €${this.cartSum.toFixed(2)}`;
         }
         cartItems.textContent = `${this.cartNum}`;
         cartSum.textContent = `€${this.cartSum.toFixed(2)}`;

@@ -221,6 +221,7 @@ input[type=number]::-webkit-inner-spin-button {
         font-size: 24px;
     }
     .buy_block {
+        position: relative;
         background-color: $block_color;
         padding: 40px;
         display: flex;
@@ -228,25 +229,82 @@ input[type=number]::-webkit-inner-spin-button {
         align-items: center;
         border-radius: 20px;
         gap: 10px;
+        max-width: 400px;
+        .input_line {
+            position: relative;
+            width: 100%;
+            .input_error {
+                width: 90%;
+                transition: 0.3s;
+                position: absolute;
+                background-color: $accent_color;
+                height: 49px;
+                font-size: 18px;
+                border-radius: 10px;
+                z-index: 1;
+                left: 12px;
+                top: 0;
+                vertical-align: middle;
+                box-sizing: border-box;
+                padding: 5px;
+                font-size: 18px;
+                @media (max-width: 1200px){
+                    position: relative;
+                    height: 0px;
+                    transform: scaleY(0);
+                }
+            }
+            .input_error__active {
+                left: 400px;
+                transition: 0.3s;
+                @media (max-width: 1200px){
+                    left: 0;
+                    margin-top: 10px;
+                    height: 49px;
+                    transform: scaleY(1);
+                }
+            }
+        }
         .cart_buy_personal_input {
             border-radius: 10px;
             padding: 10px;
             box-sizing: border-box;
             font-size: 20px;
             width: 100%;
-            border: none;
             transition: 0.3s;
+            position: relative;
+            border: 3px solid transparent;
+            z-index: 2;
             &:focus {
                 outline: none;
                 transform: translateX(10px);
                 transition: 0.3s;
             }
         }
-        .cart_buy_personal_input:invalid {
+        .input_invalid {
             box-shadow: inset 0px 0px 10px red;
+            border: 3px solid red;
+            transition: 0.2s;
+            animation: shake 0.3s;
+        }
+        .invalid {
+            box-shadow: inset 0px 0px 10px red;
+            border: 3px solid red;
             transition: 0.2s;
         }
+        @keyframes shake {
+            25% {
+                transform: translateX(4px);
+            }
+            50% {
+                transform: translateX(-4px);
+            }
+            75% {
+                transform: translateX(4px);
+            }
+        }
         .cart_credit_card {
+            position: relative;
             border-radius: 10px;
             width: 300px;
             height: 150px;
@@ -257,6 +315,7 @@ input[type=number]::-webkit-inner-spin-button {
             padding: 20px;
             background-color: rgb(84, 141, 221);
             gap: 10px;
+            z-index: 18;
             .cart_buy_card_input {
 
                 &:focus {
@@ -266,6 +325,7 @@ input[type=number]::-webkit-inner-spin-button {
                 }
             }
             .card_number {
+                position: relative;
                 width: 250px;
                 padding: 5px;
                 font-size: 20px;
@@ -279,6 +339,8 @@ input[type=number]::-webkit-inner-spin-button {
                 text-align: center;
             }
             .logo_card {
+                position: relative;
+                z-index: 3;
                 height: 40px;
                 width: 100px;
                 object-fit: contain;
@@ -291,6 +353,28 @@ input[type=number]::-webkit-inner-spin-button {
             }
         }
     }
+}
+.card_errors {
+    position: absolute;
+    height: 150px;
+    width: 300px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #548ddd;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: 0.3s;
+    .card_number_error, .card_date_error, .card_cvv_error {
+        z-index: 1;
+    }
+}
+.card_errors__active {
+    display: flex;
+    flex-wrap: wrap;
+    left: 320px;
+    transition: 0.3s;
+    color: red;
 }
 .modal_buy__active {
     display: flex;
