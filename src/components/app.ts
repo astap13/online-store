@@ -28,7 +28,6 @@ class App {
         this.catalogItems = PRODUCTS;
     }
     start(): void {
-        this.query.load();
         this.router.setRoutes();
         document.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;
@@ -58,7 +57,6 @@ class App {
             this.query.load();
             this.cart.loadCart();
             this.filters.loadAllFilter();
-            this.filters.filterAll(PRODUCTS);
         });
         window.addEventListener('beforeunload', () => {
             this.cart.saveCart();

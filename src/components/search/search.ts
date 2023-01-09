@@ -21,14 +21,18 @@ class Search {
         if (statBlock) statBlock.innerHTML = `Found: ${stat}`;
         this.viewMode();
         const inputSort = document.querySelector('.sort-bar') as HTMLInputElement;
-        inputSort.addEventListener('change', () => {
-            app.filters.filterAll(PRODUCTS);
-        });
+        if (inputSort) {
+            inputSort.addEventListener('change', () => {
+                app.filters.filterAll(PRODUCTS);
+            });
+        }
         const input = document.querySelector('.searhProducts') as HTMLInputElement;
-        input.addEventListener('input', async () => {
-            app.catalogItems = await app.filters.filterAll(PRODUCTS);
-            this.showStat();
-        });
+        if (input) {
+            input.addEventListener('input', async () => {
+                app.catalogItems = await app.filters.filterAll(PRODUCTS);
+                this.showStat();
+            });
+        }
         this.loadSort();
     }
     showStat() {
@@ -45,6 +49,7 @@ class Search {
     async viewMode() {
         const smallBtn = document.querySelector('.small-v') as HTMLButtonElement;
         const bigBtn = document.querySelector('.big-v') as HTMLButtonElement;
+        if (!(smallBtn || bigBtn)) return;
         smallBtn.addEventListener('click', () => {
             const itemInfo = document.querySelectorAll('div.item_info') as NodeListOf<Element>;
             const item = document.querySelectorAll('li.products_item') as NodeListOf<Element>;
@@ -133,13 +138,17 @@ class Search {
     loadSort() {
         const params = app.query.load();
         const inputSort = document.querySelector('.sort-bar') as HTMLInputElement;
-        let sort = params.get('sort') as string;
-        if (sort === undefined) sort = 'sort-title';
-        inputSort.value = sort;
+        if (inputSort) {
+            let sort = params.get('sort') as string;
+            if (sort === undefined) sort = 'sort-title';
+            inputSort.value = sort;
+        }
         const inputSearch = document.querySelector('.searhProducts') as HTMLInputElement;
-        let search = params.get('search') as string;
-        if (search === undefined) search = '';
-        inputSearch.value = search;
+        if (inputSearch) {
+            let search = params.get('search') as string;
+            if (search === undefined) search = '';
+            inputSearch.value = search;
+        }
     }
 }
 

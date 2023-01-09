@@ -36,7 +36,6 @@ class Router {
         this.handleLocation();
     }
     async handleLocation(): Promise<void> {
-        app.cart.loadCart();
         let path: string = window.location.pathname;
         let num = 0;
         if (path.includes('/product-details')) {
@@ -58,9 +57,10 @@ class Router {
             case '/':
                 app.search.renderSearch();
                 app.filters.renderFilters();
+                app.query.load();
                 setTimeout(() => {
                     app.filters.filterAll(PRODUCTS);
-                }, 100);
+                }, 200);
                 break;
             case '/cart':
                 app.cart.renderCart();
