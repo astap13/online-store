@@ -53,10 +53,23 @@ const baseConfig = {
                     globOptions: {
                         ignore: ['*.ts', '*.scss'],
                     }
-            },
-        ],
+                },
+                { 
+                    from: 'src/redirects/_redirects' ,
+                    to: '',
+                    globOptions: {
+                        ignore: ['*.ts', '*.scss', '*.js'],
+                    }
+                },
+                {  // чтобы работало открытие сслыки типа 'https://example/product-details/5'
+                    from: path.posix.join(
+                        path.resolve(__dirname, 'src', 'redirects').replace(/\\/g, "/"),
+                        "*.js"
+                      ),
+                    to: 'product-details/index.js',
+                },
+            ],
           }),
-        //new CleanWebpackPlugin(),
     ],
 };
 

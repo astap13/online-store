@@ -28,6 +28,7 @@ class App {
         this.catalogItems = PRODUCTS;
     }
     start(): void {
+        this.query.load();
         this.router.setRoutes();
         document.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;
