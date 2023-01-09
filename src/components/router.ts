@@ -24,8 +24,9 @@ class Router {
     }
     route(event: Event): void {
         event = event || window.event;
+        const target = (event.target as HTMLAnchorElement).closest('.link_route') as HTMLAnchorElement;
         event.preventDefault();
-        window.history.pushState({}, '', (event.target as HTMLAnchorElement).href || (event.target as HTMLInputElement).src);
+        window.history.pushState({}, '', (event.target as HTMLAnchorElement).href || (event.target as HTMLInputElement).src || target.href);
         this.handleLocation();
     }
     async handleLocation(): Promise<void> {

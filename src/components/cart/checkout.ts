@@ -23,7 +23,23 @@ class Checkout {
                 app.cart.checkout.closePopup();
             }
         });
-        formBlock.append(inputName, inputPhone, inputAddress, inputEmail);
+        const arr = [inputName, inputPhone, inputAddress, inputEmail];
+        arr.forEach((el, id) => {
+            const line = createElementWithClass('div', 'input_line');
+            const err = createElementWithClass('div', 'input_error');
+            err.classList.add(`input_error_${id}`);
+            if (id === 0) err.textContent = 'Your name has to be 2 word/3 letters each minimum';
+            if (id === 1) err.textContent = 'Enter your phone number in format +123456789';
+            if (id === 2) err.textContent = 'Your adress has to be 3 word/5 letters each minimum';
+            if (id === 3) err.textContent = 'Enter your email';
+            line.append(el, err);
+            formBlock.append(line);
+        });
+        window.addEventListener('mousover', (event) => {
+            if ((event.target as HTMLElement).classList.contains('input_error__active')) {
+                (event.target as HTMLElement).classList.remove('input_error__active');
+            }
+        });
         formBlock.innerHTML += '<span>Credit card details</span>';
         const card = createElementWithClass('div', 'cart_credit_card');
         const logoCard = document.createElement('img');
@@ -99,27 +115,30 @@ class Checkout {
         inputCardDate.title = 'Please enter your date valid';
         inputCardCvv.classList.add('card_half_width');
         inputCardCvv.title = 'Please enter your cvv';
-        card.append(inputCardNumber, logoCard, inputCardDate, inputCardCvv);
+        const cardErrors = createElementWithClass('div', 'card_errors');
+        cardErrors.innerHTML =
+            '<div class="card_number_error hide">Card number error: enter your cart number</div><div class="card_date_error hide">Card date error: enter your cart date</div><div class="card_cvv_error hide">Cvv error: enter your cvv</div>';
+        card.append(inputCardNumber, logoCard, inputCardDate, inputCardCvv, cardErrors);
         formBlock.append(card, inputSubmit);
         inputSubmit.src = '/';
         inputSubmit.addEventListener('click', (event) => {
-            let valid = true;
+            const validArr: boolean[] = [];
             document.querySelectorAll('.cart_buy_personal_input').forEach((element) => {
-                app.cart.checkout.validate(element as HTMLInputElement);
+                validArr.push(app.cart.checkout.validate(element as HTMLInputElement));
+                if (!validArr[validArr.length - 1]) {
+                    element.classList.add('input_invalid');
+                }
                 element.addEventListener('input', () => {
                     app.cart.checkout.validate(element as HTMLInputElement);
                 });
-                if (!(element as HTMLInputElement).checkValidity()) {
-                    valid = false;
-                }
+                setTimeout(() => {
+                    element.classList.remove('input_invalid');
+                }, 350);
             });
-            if (valid) {
+            if (!validArr.includes(false)) {
                 setTimeout(() => {
                     const cart = app.cart.cart;
                     cart.splice(0, cart.length);
-                    for (let i = 0; i < cart.length; i++) {
-                        console.log(cart[i]);
-                    }
                     app.router.route(event);
                 }, 3000);
             }
@@ -129,62 +148,95 @@ class Checkout {
         const modalBlock = document.querySelector('.modal_buy') as HTMLElement;
         modalBlock.classList.remove('modal_buy__active');
     }
-    validate(target: HTMLInputElement) {
-        //const target = event.target as HTMLInputElement;
-        //const target = targettt as InputEvent
-        const value = target.value.split(' ');
+    validate(target: HTMLInputElement): boolean {
+        target.setCustomValidity('');
+        /* const cardErr = document.querySelector('.card_errors') as HTMLElement;
+        const cartNumberErr = document.querySelector('.card_number_error');
+        const cartDateErr = document.querySelector('.card_date_error');
+        const cartCvvErr = document.querySelector('.card_cvv_error'); */
+        const errors = document.querySelectorAll('.input_error');
+        const valueArr = target.value.split(' ');
+        const value = target.value;
         target.required = true;
+        let valid = true;
+        const arr: string[] = [];
         switch (target.placeholder) {
             case 'Name':
-                if (value.length >= 2) {
-                    let valid = true;
-                    value.forEach((word, id) => {
-                        if (word.length < 3) {
-                            valid = false;
-                        }
-                        if (id === value.length - 1 && !valid) {
-                            target.setCustomValidity('Invalid field.');
-                        } else if (valid) {
-                            target.setCustomValidity('');
-                        }
-                    });
-                } else {
-                    target.setCustomValidity('Invalid field.');
+                if (valueArr.length <= 1) valid = false;
+                valueArr.forEach((word) => {
+                    if (word.length >= 3) {
+                        arr.push(word);
+                    }
+                });
+                if (arr.length < 2) {
+                    valid = false;
+                }
+                errors[0].classList.remove('input_error__active');
+                if (!valid) {
+                    errors[0].classList.add('input_error__active');
                 }
                 break;
             case 'Phone number':
                 target.pattern = '[+][0-9]{9,}';
+                valid = target.checkValidity();
+                errors[1].classList.remove('input_error__active');
+                if (!valid) {
+                    errors[1].classList.add('input_error__active');
+                }
                 break;
             case 'Address':
-                if (value.length >= 3) {
-                    let valid = true;
-                    value.forEach((word, id) => {
-                        if (word.length < 5) {
-                            valid = false;
-                        }
-                        if (id === value.length - 1 && !valid) {
-                            target.setCustomValidity('Invalid field.');
-                        } else if (valid) {
-                            target.setCustomValidity('');
-                        }
-                    });
-                } else {
-                    target.setCustomValidity('Invalid field.');
+                if (valueArr.length <= 1) valid = false;
+                valueArr.forEach((word) => {
+                    if (word.length >= 5) {
+                        arr.push(word);
+                    }
+                });
+                if (arr.length < 3) {
+                    valid = false;
+                }
+                errors[2].classList.remove('input_error__active');
+                if (!valid) {
+                    errors[2].classList.add('input_error__active');
+                }
+                break;
+            case 'E-mail':
+                valid = target.checkValidity();
+                errors[3].classList.remove('input_error__active');
+                if (!valid) {
+                    errors[3].classList.add('input_error__active');
                 }
                 break;
             case 'Card number':
-                if (target.value.length < 19) target.setCustomValidity('Invalid field.');
-                else target.setCustomValidity('');
+                if (value.length < 19) valid = false;
+                /* cartNumberErr?.classList.add('hide');
+                if (!valid) {
+                    cardErr.classList.add('card_errors__active');
+                    cartNumberErr?.classList.remove('hide');
+                } */
                 break;
             case 'MM/YY':
-                if (target.value.length < 5) target.setCustomValidity('Invalid field.');
-                else target.setCustomValidity('');
+                if (target.value.length < 5) valid = false;
+                /* cardErr.classList.remove('card_errors__active');
+                cartDateErr?.classList.add('hide');
+                if (!valid) {
+                    cartDateErr?.classList.remove('hide');
+                } */
                 break;
             case 'cvv':
-                if (target.value.length < 3) target.setCustomValidity('Invalid field.');
-                else target.setCustomValidity('');
+                if (target.value.length < 3) valid = false;
+                /* cartCvvErr?.classList.add('hide');
+                if (!valid) {
+                    cardErr.classList.add('card_errors__active');
+                    cartCvvErr?.classList.remove('hide');
+                } */
                 break;
         }
+        if (!valid) {
+            target.classList.add('invalid');
+        } else {
+            target.classList.remove('invalid');
+        }
+        return valid;
     }
 }
 
