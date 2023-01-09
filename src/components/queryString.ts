@@ -20,7 +20,9 @@ class QueryString {
                 this.params.delete(index);
             }
         });
-        window.history.pushState({}, '', `${pathname}`);
+        console.log(this.params);
+        if (this.params.size === 0) pathname = '/';
+        window.history.pushState({}, '', pathname);
     }
     load(): Map<string, string> {
         console.log('query load');

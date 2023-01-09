@@ -20,8 +20,6 @@ class Search {
         const statBlock = document.querySelector('.stat') as HTMLElement;
         if (statBlock) statBlock.innerHTML = `Found: ${stat}`;
         this.viewMode();
-        this.search();
-        //this.sort();
         const inputSort = document.querySelector('.sort-bar') as HTMLInputElement;
         inputSort.addEventListener('change', () => {
             app.filters.filterAll(PRODUCTS);
@@ -30,15 +28,8 @@ class Search {
         input.addEventListener('input', async () => {
             app.catalogItems = await app.filters.filterAll(PRODUCTS);
             this.showStat();
-            /* if (statBlock) {
-                if (app.catalogItems.length > 0) {
-                    statBlock.innerHTML = `Found: ${app.catalogItems.length}`;
-                } else {
-                    const statBlock = document.querySelector('.stat') as Element;
-                    statBlock.innerHTML = 'Not found';
-                }
-            } */
         });
+        this.loadSort();
     }
     showStat() {
         const statBlock = document.querySelector('.stat') as HTMLElement;
@@ -93,33 +84,20 @@ class Search {
             }
         });
     }
-
-    search() {
-        /* const input = document.querySelector('.searhProducts') as HTMLInputElement;
-        const statBlock = document.querySelector('.stat') as Element;
-        input.addEventListener('input', function () {
-            const newArr = [...PRODUCTS].filter((el) => {
-                return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
-            });
-            if (newArr.length > 0) {
-                statBlock.innerHTML = `Found: ${newArr.length}`;
-            } else {
-                const statBlock = document.querySelector('.stat') as Element;
-                statBlock.innerHTML = 'Not found';
-            }
-            app.products.renderProducts(newArr);
-            return newArr;
-        }); */
-    }
     searchFilter(arr: IProductItem[]): IProductItem[] {
         const input = document.querySelector('.searhProducts') as HTMLInputElement;
-        const newArr = [...arr].filter((el) => {
-            return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
-        });
-        return newArr;
+        if (input) {
+            const newArr = [...arr].filter((el) => {
+                return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
+            });
+            app.query.add('search', input.value);
+            return newArr;
+        }
+        return arr;
     }
     async sort(arr: IProductItem[]): Promise<IProductItem[]> {
         const input = document.querySelector('.sort-bar') as HTMLInputElement;
+        if (!input) return arr;
         let newArr: IProductItem[] = arr;
         if (input.value == 'price-ASC') {
             newArr = [...arr].sort((a, b) => (a.price > b.price ? 1 : -1));
@@ -145,7 +123,23 @@ class Search {
             newArr = [...arr].sort((a, b) => (a.discountPercentage < b.discountPercentage ? 1 : -1));
             //app.products.renderProducts(newArr);
         }
+        if (input.value === 'sort-title') {
+            app.query.add('sort', '');
+        } else {
+            app.query.add('sort', input.value);
+        }
         return newArr;
+    }
+    loadSort() {
+        const params = app.query.load();
+        const inputSort = document.querySelector('.sort-bar') as HTMLInputElement;
+        let sort = params.get('sort') as string;
+        if (sort === undefined) sort = 'sort-title';
+        inputSort.value = sort;
+        const inputSearch = document.querySelector('.searhProducts') as HTMLInputElement;
+        let search = params.get('search') as string;
+        if (search === undefined) search = '';
+        inputSearch.value = search;
     }
 }
 

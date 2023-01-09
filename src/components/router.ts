@@ -56,9 +56,11 @@ class Router {
         main.innerHTML = html;
         switch (path) {
             case '/':
-                app.products.renderProducts(PRODUCTS);
                 app.search.renderSearch();
                 app.filters.renderFilters();
+                setTimeout(() => {
+                    app.filters.filterAll(PRODUCTS);
+                }, 100);
                 break;
             case '/cart':
                 app.cart.renderCart();

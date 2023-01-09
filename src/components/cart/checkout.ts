@@ -15,8 +15,9 @@ class Checkout {
         const inputPhone = createInput('cart_buy_personal_input', 'text', 'Phone number');
         const inputAddress = createInput('cart_buy_personal_input', 'text', 'Address');
         const inputEmail = createInput('cart_buy_personal_input', 'email', 'E-mail');
-        const inputSubmit = createInput('cart_buy_btn', 'button');
-        inputSubmit.value = 'Comfirm';
+        const inputSubmit = createElementWithClass('a', 'cart_buy_btn') as HTMLAnchorElement; /*  createInput('cart_buy_btn', 'button') */
+        inputSubmit.classList.add('link_route');
+        inputSubmit.textContent = 'Comfirm';
         modalBlock.addEventListener('mousedown', (event) => {
             const target = event.target as HTMLElement;
             if (target.classList.contains('modal_buy')) {
@@ -120,8 +121,10 @@ class Checkout {
             '<div class="card_number_error hide">Card number error: enter your cart number</div><div class="card_date_error hide">Card date error: enter your cart date</div><div class="card_cvv_error hide">Cvv error: enter your cvv</div>';
         card.append(inputCardNumber, logoCard, inputCardDate, inputCardCvv, cardErrors);
         formBlock.append(card, inputSubmit);
-        inputSubmit.src = '/';
+        inputSubmit.href = '/';
         inputSubmit.addEventListener('click', (event) => {
+            event.preventDefault();
+            let valid = true;
             const validArr: boolean[] = [];
             document.querySelectorAll('.cart_buy_personal_input').forEach((element) => {
                 validArr.push(app.cart.checkout.validate(element as HTMLInputElement));
@@ -135,6 +138,14 @@ class Checkout {
                     element.classList.remove('input_invalid');
                 }, 350);
             });
+            if (valid) {
+                inputSubmit.innerHTML = `
+                    <div class="spinner7">
+                        <div class="circ2"></div>
+                        <div class="circ3"></div>
+                        <div class="circ4"></div>
+                        <div class="circ5"></div>
+                    </div>`;
             if (!validArr.includes(false)) {
                 setTimeout(() => {
                     const cart = app.cart.cart;

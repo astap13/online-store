@@ -57,6 +57,8 @@ class App {
         window.addEventListener('load', () => {
             this.query.load();
             this.cart.loadCart();
+            this.filters.loadAllFilter();
+            this.filters.filterAll(PRODUCTS);
         });
         window.addEventListener('beforeunload', () => {
             this.cart.saveCart();

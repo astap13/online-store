@@ -33,8 +33,9 @@ export class Products {
             `;
         });
         const HTMLListContainer = `<ul class="products__list">${HTMLCatalog}</ul>`;
-
-        rootProducts.innerHTML = HTMLListContainer;
+        if (rootProducts) {
+            rootProducts.innerHTML = HTMLListContainer;
+        }
     }
 }
 

@@ -97,7 +97,7 @@ export const PRODUCTS = [
         discountPercentage: 11.02,
         rating: 4.57,
         stock: 83,
-        brand: 'APPle',
+        brand: 'Apple',
         category: 'laptops',
         thumbnail: 'https://i.dummyjson.com/data/products/6/thumbnail.png',
         images: [
@@ -731,7 +731,7 @@ export const PRODUCTS = [
         category: 'tops',
         thumbnail: 'https://i.dummyjson.com/data/products/40/thumbnail.jpg',
         images: ['https://i.dummyjson.com/data/products/40/1.jpg', 'https://i.dummyjson.com/data/products/40/2.jpg'],
-    } /*,
+    },
     {
         id: 41,
         title: 'NIGHT SUIT',
@@ -917,7 +917,7 @@ export const PRODUCTS = [
             'https://i.dummyjson.com/data/products/50/2.jpg',
             'https://i.dummyjson.com/data/products/50/3.jpg',
         ],
-    },
+    } /*,
     {
         id: 51,
         title: 'half sleeves T shirts',
