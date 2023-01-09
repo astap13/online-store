@@ -157,6 +157,7 @@ class Checkout {
         const errors = document.querySelectorAll('.input_error');
         const valueArr = target.value.split(' ');
         const value = target.value;
+
         target.required = true;
         let valid = true;
         const arr: string[] = [];

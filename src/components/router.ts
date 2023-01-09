@@ -13,6 +13,12 @@ class Router {
         };
     }
     setRoutes(): void {
+        window.addEventListener('click', (e) => {
+            const target = e.target as HTMLAnchorElement;
+            if (target.classList.contains('link_route')) {
+                this.route(e);
+            }
+        });
         document.querySelectorAll('.link_route').forEach((element) => {
             element.addEventListener('click', (event) => {
                 this.route(event);
@@ -30,6 +36,7 @@ class Router {
         this.handleLocation();
     }
     async handleLocation(): Promise<void> {
+        app.cart.loadCart();
         let path: string = window.location.pathname;
         let num = 0;
         if (path.includes('/product-details')) {

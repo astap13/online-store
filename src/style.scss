@@ -71,3 +71,25 @@ a {
   height: 60px;
   align-items: center;
 }
+.page404 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  .link404 {
+    padding: 20px;
+    background-color: $btn_color;
+    color: white;
+    border-radius: 20px;
+    transition: 0.5s;
+    border: 2px solid $btn_color;
+    &:hover {
+      background-color: white;
+      color: black;
+      transition: 0.5s;
+    }
+  }
+}
