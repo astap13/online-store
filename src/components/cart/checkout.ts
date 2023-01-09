@@ -16,7 +16,7 @@ class Checkout {
         const inputAddress = createInput('cart_buy_personal_input', 'text', 'Address');
         const inputEmail = createInput('cart_buy_personal_input', 'email', 'E-mail');
         const inputSubmit = createElementWithClass('a', 'cart_buy_btn') as HTMLAnchorElement; /*  createInput('cart_buy_btn', 'button') */
-        inputSubmit.classList.add('link_route');
+        //inputSubmit.classList.add('link_route');
         inputSubmit.textContent = 'Comfirm';
         modalBlock.addEventListener('mousedown', (event) => {
             const target = event.target as HTMLElement;
@@ -124,7 +124,6 @@ class Checkout {
         inputSubmit.href = '/';
         inputSubmit.addEventListener('click', (event) => {
             event.preventDefault();
-            let valid = true;
             const validArr: boolean[] = [];
             document.querySelectorAll('.cart_buy_personal_input').forEach((element) => {
                 validArr.push(app.cart.checkout.validate(element as HTMLInputElement));
@@ -138,7 +137,7 @@ class Checkout {
                     element.classList.remove('input_invalid');
                 }, 350);
             });
-            if (valid) {
+            if (!validArr.includes(false)) {
                 inputSubmit.innerHTML = `
                     <div class="spinner7">
                         <div class="circ2"></div>
@@ -146,10 +145,11 @@ class Checkout {
                         <div class="circ4"></div>
                         <div class="circ5"></div>
                     </div>`;
-            if (!validArr.includes(false)) {
                 setTimeout(() => {
-                    const cart = app.cart.cart;
-                    cart.splice(0, cart.length);
+                    app.cart.cart.splice(0, app.cart.cart.length);
+                    for (let i = 0; i < app.cart.cart.length; i++) {
+                        app.cart.drop(app.cart.cart[i]);
+                    }
                     app.router.route(event);
                 }, 3000);
             }

@@ -48,28 +48,30 @@ class Cart {
                 this.itemsOnPage = +itemOnPage;
             }
         }
-        itemsOnPage.value = this.itemsOnPage.toString();
-        const cartPage = document.querySelector('.cart_page_number') as HTMLElement;
-        if (cartPage && params.has('page')) {
-            const page = params.get('page') as string;
-            if (page) {
-                this.page = +page;
-                cartPage.textContent = page;
+        if (itemsOnPage) {
+            itemsOnPage.value = this.itemsOnPage.toString();
+            const cartPage = document.querySelector('.cart_page_number') as HTMLElement;
+            if (cartPage && params.has('page')) {
+                const page = params.get('page') as string;
+                if (page) {
+                    this.page = +page;
+                    cartPage.textContent = page;
+                }
             }
-        }
-        itemsOnPage.addEventListener('input', () => {
-            if (+itemsOnPage.value > 10) itemsOnPage.value = '10';
-            this.itemsOnPage = +itemsOnPage.value;
+            itemsOnPage.addEventListener('input', () => {
+                if (+itemsOnPage.value > 10) itemsOnPage.value = '10';
+                this.itemsOnPage = +itemsOnPage.value;
+                this.renderItems(this.getPage(this.page));
+                app.query.add('items', itemsOnPage.value);
+            });
+            cartElement.innerHTML = '';
+            cartElement.innerHTML = html;
             this.renderItems(this.getPage(this.page));
-            app.query.add('items', itemsOnPage.value);
-        });
-        cartElement.innerHTML = '';
-        cartElement.innerHTML = html;
-        this.renderItems(this.getPage(this.page));
-        this.setSumNum();
-        if (this.cart.length < 1) {
-            const cart = document.querySelector('.cart') as HTMLElement;
-            cart.innerHTML = '<h1>Cart is Empty</h1>';
+            this.setSumNum();
+            if (this.cart.length < 1) {
+                const cart = document.querySelector('.cart') as HTMLElement;
+                cart.innerHTML = '<h1>Cart is Empty</h1>';
+            }
         }
     }
     renderItems(cart: cartItems) {

@@ -1,7 +1,7 @@
-$main_color: rgb(165, 108, 108);
-$bg_color: rgb(215, 145, 145);
+$main_color: rgb(141, 141, 141);
+$bg_color: rgb(255, 255, 255);
 $accent_color: rgb(99, 134, 200);
-$block_color: rgb(87, 171, 96);
+$block_color: rgb(91, 181, 201);
 $shadow_color: rgb(215, 145, 145);
 $border_color: rgb(0, 0, 0);
 $font_color_light: rgb(215, 145, 145);
@@ -11,6 +11,24 @@ $btn_color_text: white;
 $btn_color_active: rgb(56, 191, 128);
 * {
   font-family: 'Roboto', sans-serif;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: antiquewhite;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 input[type='text'], input[type='search'], input[type='number']{
   border-radius: 5px;
@@ -44,11 +62,28 @@ a {
   padding: 0 20px;
   height: 60px;
   align-items: center;
+  padding: 10px 20px;
+  .link_to_cart, .home_link {
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 10px;
+    transition: 0.5s;
+    &:hover {
+      border: 2px solid white;
+      transition: 0.5s;
+    }
+  }
 }
 .main {
   background-color: $bg_color;
   display: flex;
   flex-grow: 1;
+  
+  background-color: $main_color;
+}
+.main_container {
+  border-radius: 20px;
+  background-color: white;
 }
 .filters {
   width: 30%;
@@ -56,7 +91,7 @@ a {
   height: fit-content;
   min-height: 500px;
   background-color: $main_color;
-  border: 1px solid black;
+  padding: 20px;
 }
 .item {
   height: 100px;

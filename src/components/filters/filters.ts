@@ -3,10 +3,10 @@ import { PRODUCTS } from '../../products';
 import { IProductItem } from '../../types';
 
 class Filters {
-    products: IProductItem[];
-    constructor() {
+    //products: IProductItem[];
+    /* constructor() {
         this.products = PRODUCTS;
-    }
+    } */
     async renderFilters() {
         const root = document.querySelector('.filters') as HTMLElement;
         const route = '/pages/filters.html';
@@ -49,7 +49,9 @@ class Filters {
             })</span>
                 </label>
             `;
-            filterListCategory.append(filterListItem);
+            if (filterListCategory) {
+                filterListCategory.append(filterListItem);
+            }
         });
     }
 
@@ -73,7 +75,9 @@ class Filters {
             })</span>
                 </label>
             `;
-            filterListBrands.append(filterListItem);
+            if (filterListBrands) {
+                filterListBrands.append(filterListItem);
+            }
         });
         const input = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
         input.forEach((i) => {
@@ -90,12 +94,12 @@ class Filters {
         const sorted = await app.search.sort(filtredSear);
         const byPrice = this.filterByPrice(sorted);
         const byStock = this.filterByStock(byPrice);
-        app.products.renderProducts(byStock);
-        app.catalogItems = byStock;
+        const result = byStock;
+        app.products.renderProducts(result);
+        app.catalogItems = result;
+        this.updateFiltersData(result);
         app.search.showStat();
-        this.updateFiltersData(byStock);
-        app.search.showStat();
-        return byStock;
+        return result;
     }
     updateFiltersData(byStock: IProductItem[]): void {
         const filterListCategories = document.querySelector('.filter-list-category') as HTMLDivElement;
@@ -132,10 +136,11 @@ class Filters {
                         newArr.push(item);
                     }
                 });
-                app.filters.products = newArr;
+                //app.filters.products = newArr;
             }
         });
         if (checked.length === 0) {
+            app.query.add('category', '');
             return arr;
         }
         const query = checked.join('|');
@@ -149,17 +154,18 @@ class Filters {
         newArr = [];
         const checked: string[] = [];
         checkboxes.forEach((elem) => {
-            if (elem.checked == true) {
+            if (elem.checked === true) {
                 checked.push(elem.id);
                 arr.forEach((item) => {
                     if (item.brand.toLowerCase() === elem.id.split('_').join(' ')) {
                         newArr.push(item);
                     }
                 });
-                app.filters.products = newArr;
+                //app.filters.products = newArr;
             }
         });
         if (checked.length === 0) {
+            app.query.add('brand', '');
             return arr;
         }
         const query = checked.join('|');
@@ -168,32 +174,69 @@ class Filters {
     }
 
     async resetFilters() {
-        document.querySelector('.reset-btn')?.addEventListener('click', () => {
+        const resetBtn = document.querySelector('.reset-btn') as HTMLButtonElement;
+        if (!resetBtn) {
+            return;
+        }
+        resetBtn.addEventListener('click', () => {
             const checkboxesCategory = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
             const checkboxesBrend = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
+            window.history.pushState({}, '', '/');
             checkboxesCategory.forEach((el) => {
                 el.checked = false;
             });
             checkboxesBrend.forEach((el) => {
                 el.checked = false;
             });
-            window.history.pushState({}, '', '/');
+            const sort = document.querySelector('.sort-bar') as HTMLInputElement;
+            if (sort) sort.value = 'sort-title';
+            const search = document.querySelector('.searhProducts') as HTMLInputElement;
+            if (search) search.value = '';
+            const fromPrice = document.querySelector('#fromSliderPrice') as HTMLInputElement;
+            const toPrice = document.querySelector('#toSliderPrice') as HTMLInputElement;
+            if (fromPrice && toPrice) {
+                fromPrice.value = '12';
+                toPrice.value = toPrice.max;
+            }
+            const fromStock = document.querySelector('#fromSliderStock') as HTMLInputElement;
+            const toStock = document.querySelector('#toSliderStock') as HTMLInputElement;
+            if (fromStock && toStock) {
+                fromStock.value = '2';
+                toStock.value = toStock.max;
+            }
+            this.setSliderData();
             this.filterAll(PRODUCTS);
         });
     }
-
+    setSliderData() {
+        const fromSliderPrice = document.querySelector('#fromSliderPrice') as HTMLInputElement;
+        const toSliderPrice = document.querySelector('#toSliderPrice') as HTMLInputElement;
+        const fromDataPrice = document.querySelector('.from-data_price') as HTMLElement;
+        const toDataPrice = document.querySelector('.to-data_price') as HTMLDivElement;
+        fromDataPrice.innerHTML = `${fromSliderPrice.value}`;
+        toDataPrice.innerHTML = `${toSliderPrice.value}`;
+        const fromSliderStock = document.querySelector('#fromSliderStock') as HTMLInputElement;
+        const toSliderStock = document.querySelector('#toSliderStock') as HTMLInputElement;
+        const fromDataStock = document.querySelector('.from-data_stock') as HTMLElement;
+        const toDataStock = document.querySelector('.to-data_stock') as HTMLDivElement;
+        fromDataStock.innerHTML = `${fromSliderStock.value}`;
+        toDataStock.innerHTML = `${toSliderStock.value}`;
+    }
     renderSliderPrice() {
-        const products = this.products;
-        const fromSlider = document.querySelector('.sliders_control_price #fromSlider') as HTMLInputElement;
-        const toSlider = document.querySelector('.sliders_control_price #toSlider') as HTMLInputElement;
+        const products = PRODUCTS;
+        const fromSlider = document.querySelector('#fromSliderPrice') as HTMLInputElement;
+        const toSlider = document.querySelector('#toSliderPrice') as HTMLInputElement;
         const fromData = document.querySelector('.from-data_price') as HTMLElement;
         const toData = document.querySelector('.to-data_price') as HTMLDivElement;
+        if (!(fromSlider || toSlider || toSlider || fromData || toData)) {
+            return;
+        }
         const sort = [...products].sort((a, b) => (a.price > b.price ? 1 : -1));
         fromSlider.min = sort[0].price.toString();
         fromSlider.max = sort[sort.length - 1].price.toString();
-        toSlider.max = sort[sort.length - 1].price.toString();
+        toSlider.max = fromSlider.max;
         toSlider.value = sort[sort.length - 1].price.toString();
-        fromData.innerHTML = `${sort[0].price.toString()}`;
+        fromData.innerHTML = `${fromSlider.value}`;
         toData.innerHTML = `${toSlider.value}`;
         fromSlider.addEventListener('input', () => {
             let to = Number(toSlider.value);
@@ -227,8 +270,8 @@ class Filters {
         });
     }
     filterByPrice(arr: IProductItem[]): IProductItem[] {
-        const fromSlider = document.querySelector('.sliders_control_price #fromSlider') as HTMLInputElement;
-        const toSlider = document.querySelector('.sliders_control_price #toSlider') as HTMLInputElement;
+        const fromSlider = document.querySelector('#fromSliderPrice') as HTMLInputElement;
+        const toSlider = document.querySelector('#toSliderPrice') as HTMLInputElement;
         if (fromSlider && toSlider) {
             const newArr: IProductItem[] = [];
             arr.forEach((el) => {
@@ -242,16 +285,20 @@ class Filters {
     }
 
     renderSliderStock() {
-        const products = this.products;
-        const fromSlider = document.querySelector('.sliders_control_stock #fromSlider') as HTMLInputElement;
-        const toSlider = document.querySelector('.sliders_control_stock #toSlider') as HTMLInputElement;
+        const products = PRODUCTS;
+        const fromSlider = document.querySelector('#fromSliderStock') as HTMLInputElement;
+        const toSlider = document.querySelector('#toSliderStock') as HTMLInputElement;
         const fromData = document.querySelector('.from-data_stock') as HTMLElement;
         const toData = document.querySelector('.to-data_stock') as HTMLDivElement;
+        if (!(fromSlider || toSlider || toSlider || fromData || toData)) {
+            return;
+        }
         const sort = [...products].sort((a, b) => (a.stock > b.stock ? 1 : -1));
         fromSlider.min = sort[0].stock.toString();
         fromSlider.max = sort[sort.length - 1].stock.toString();
-        toSlider.max = sort[sort.length - 1].stock.toString();
-        toSlider.value = sort[sort.length - 1].stock.toString();
+        toSlider.max = fromSlider.max;
+        toSlider.value = toSlider.max;
+        fromSlider.value = fromSlider.min;
         fromData.innerHTML = `${sort[0].stock.toString()}`;
         toData.innerHTML = `${toSlider.value}`;
         fromSlider.addEventListener('input', () => {
@@ -267,6 +314,7 @@ class Filters {
                 }
             });
             this.filterAll(newArr);
+            app.query.add('stock', `${from}|${to}`);
         });
         toSlider.addEventListener('input', () => {
             let to = Number(toSlider.value);
@@ -281,11 +329,12 @@ class Filters {
                 }
             });
             this.filterAll(newArr);
+            app.query.add('stock', `${from}|${to}`);
         });
     }
     filterByStock(arr: IProductItem[]): IProductItem[] {
-        const fromSlider = document.querySelector('.sliders_control_stock #fromSlider') as HTMLInputElement;
-        const toSlider = document.querySelector('.sliders_control_stock #toSlider') as HTMLInputElement;
+        const fromSlider = document.querySelector('#fromSliderStock') as HTMLInputElement;
+        const toSlider = document.querySelector('#toSliderStock') as HTMLInputElement;
         const newArr: IProductItem[] = [];
         if (fromSlider && toSlider) {
             arr.forEach((el) => {
@@ -296,9 +345,6 @@ class Filters {
             return newArr;
         }
         return arr;
-    }
-    setListenersFilter() {
-        console.log('listen');
     }
     loadAllFilter() {
         const params = app.query.load();
@@ -314,11 +360,28 @@ class Filters {
         checkboxesBra.forEach((el) => {
             if (brand?.includes(el.id)) {
                 el.checked = true;
-                console.log(true);
             }
         });
-
-        console.log(category);
+        const fromSliderStock = document.querySelector('#fromSliderStock') as HTMLInputElement;
+        const toSliderStock = document.querySelector('#toSliderStock') as HTMLInputElement;
+        if (fromSliderStock && toSliderStock) {
+            if (params.get('stock')) {
+                const from = params.get('stock')?.split('|')[0] as string;
+                const to = params.get('stock')?.split('|')[1] as string;
+                fromSliderStock.value = from;
+                toSliderStock.value = to;
+            }
+        }
+        const fromSliderPrice = document.querySelector('#fromSliderPrice') as HTMLInputElement;
+        const toSliderPrice = document.querySelector('#toSliderPrice') as HTMLInputElement;
+        if (fromSliderPrice && toSliderPrice) {
+            if (params.get('price')) {
+                const from = params.get('price')?.split('|')[0] as string;
+                const to = params.get('price')?.split('|')[1] as string;
+                fromSliderPrice.value = from;
+                toSliderPrice.value = to;
+            }
+        }
     }
 }
 
