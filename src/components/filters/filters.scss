@@ -1,8 +1,10 @@
 .filter-list-category, .filter-list-brand {
-    height: 170px;
+    height: fit-content;
+    max-height: 300px;
     width: 100%;
     overflow-x: hidden;
     background: antiquewhite;
+    
 }
 
 .sliders_control_price, .sliders_control_stock {

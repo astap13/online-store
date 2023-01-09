@@ -15,8 +15,9 @@ class Checkout {
         const inputPhone = createInput('cart_buy_personal_input', 'text', 'Phone number');
         const inputAddress = createInput('cart_buy_personal_input', 'text', 'Address');
         const inputEmail = createInput('cart_buy_personal_input', 'email', 'E-mail');
-        const inputSubmit = createInput('cart_buy_btn', 'button');
-        inputSubmit.value = 'Comfirm';
+        const inputSubmit = createElementWithClass('a', 'cart_buy_btn') as HTMLAnchorElement; /*  createInput('cart_buy_btn', 'button') */
+        inputSubmit.classList.add('link_route');
+        inputSubmit.textContent = 'Comfirm';
         modalBlock.addEventListener('mousedown', (event) => {
             const target = event.target as HTMLElement;
             if (target.classList.contains('modal_buy')) {
@@ -101,8 +102,9 @@ class Checkout {
         inputCardCvv.title = 'Please enter your cvv';
         card.append(inputCardNumber, logoCard, inputCardDate, inputCardCvv);
         formBlock.append(card, inputSubmit);
-        inputSubmit.src = '/';
+        inputSubmit.href = '/';
         inputSubmit.addEventListener('click', (event) => {
+            event.preventDefault();
             let valid = true;
             document.querySelectorAll('.cart_buy_personal_input').forEach((element) => {
                 app.cart.checkout.validate(element as HTMLInputElement);
@@ -114,6 +116,13 @@ class Checkout {
                 }
             });
             if (valid) {
+                inputSubmit.innerHTML = `
+                    <div class="spinner7">
+                        <div class="circ2"></div>
+                        <div class="circ3"></div>
+                        <div class="circ4"></div>
+                        <div class="circ5"></div>
+                    </div>`;
                 setTimeout(() => {
                     const cart = app.cart.cart;
                     cart.splice(0, cart.length);
