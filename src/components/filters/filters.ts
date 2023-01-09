@@ -26,7 +26,9 @@ class Filters {
                 this.filterAll(PRODUCTS);
             });
         });
-        this.loadAllFilter();
+        setTimeout(() => {
+            this.loadAllFilter();
+        }, 100);
     }
 
     async renderItemsCategory() {
@@ -94,7 +96,7 @@ class Filters {
         const sorted = await app.search.sort(filtredSear);
         const byPrice = this.filterByPrice(sorted);
         const byStock = this.filterByStock(byPrice);
-        const result = sorted;
+        const result = byStock;
         app.products.renderProducts(result);
         app.catalogItems = result;
         this.updateFiltersData(result);
@@ -169,7 +171,6 @@ class Filters {
             return arr;
         }
         const query = checked.join('|');
-        console.log(query);
         app.query.add('brand', query);
         return newArr;
     }
@@ -209,8 +210,6 @@ class Filters {
             return;
         }
         const sort = [...products].sort((a, b) => (a.price > b.price ? 1 : -1));
-        console.log(sort);
-        console.log(sort[sort.length - 1].price.toString());
         fromSlider.min = sort[0].price.toString();
         fromSlider.max = sort[sort.length - 1].price.toString();
         toSlider.max = fromSlider.max;
@@ -249,8 +248,8 @@ class Filters {
         });
     }
     filterByPrice(arr: IProductItem[]): IProductItem[] {
-        const fromSlider = document.querySelector('#fromSliderStock') as HTMLInputElement;
-        const toSlider = document.querySelector('#toSliderStock') as HTMLInputElement;
+        const fromSlider = document.querySelector('#fromSliderPrice') as HTMLInputElement;
+        const toSlider = document.querySelector('#toSliderPrice') as HTMLInputElement;
         if (fromSlider && toSlider) {
             const newArr: IProductItem[] = [];
             arr.forEach((el) => {
@@ -265,8 +264,8 @@ class Filters {
 
     renderSliderStock() {
         const products = this.products;
-        const fromSlider = document.querySelector('#fromSliderPrice') as HTMLInputElement;
-        const toSlider = document.querySelector('#toSliderPrice') as HTMLInputElement;
+        const fromSlider = document.querySelector('#fromSliderStock') as HTMLInputElement;
+        const toSlider = document.querySelector('#toSliderStock') as HTMLInputElement;
         const fromData = document.querySelector('.from-data_stock') as HTMLElement;
         const toData = document.querySelector('.to-data_stock') as HTMLDivElement;
         if (!(fromSlider || toSlider || toSlider || fromData || toData)) {
@@ -276,7 +275,8 @@ class Filters {
         fromSlider.min = sort[0].stock.toString();
         fromSlider.max = sort[sort.length - 1].stock.toString();
         toSlider.max = fromSlider.max;
-        toSlider.value = sort[sort.length - 1].stock.toString();
+        toSlider.value = toSlider.max;
+        fromSlider.value = fromSlider.min;
         fromData.innerHTML = `${sort[0].stock.toString()}`;
         toData.innerHTML = `${toSlider.value}`;
         fromSlider.addEventListener('input', () => {
@@ -292,6 +292,7 @@ class Filters {
                 }
             });
             this.filterAll(newArr);
+            app.query.add('stock', `${from}|${to}`);
         });
         toSlider.addEventListener('input', () => {
             let to = Number(toSlider.value);
@@ -306,6 +307,7 @@ class Filters {
                 }
             });
             this.filterAll(newArr);
+            app.query.add('stock', `${from}|${to}`);
         });
     }
     filterByStock(arr: IProductItem[]): IProductItem[] {
@@ -322,9 +324,6 @@ class Filters {
         }
         return arr;
     }
-    setListenersFilter() {
-        console.log('listen');
-    }
     loadAllFilter() {
         const params = app.query.load();
         const category = params.get('category');
@@ -339,9 +338,28 @@ class Filters {
         checkboxesBra.forEach((el) => {
             if (brand?.includes(el.id)) {
                 el.checked = true;
-                console.log(true);
             }
         });
+        const fromSliderStock = document.querySelector('#fromSliderStock') as HTMLInputElement;
+        const toSliderStock = document.querySelector('#toSliderStock') as HTMLInputElement;
+        if (fromSliderStock && toSliderStock) {
+            if (params.get('stock')) {
+                const from = params.get('stock')?.split('|')[0] as string;
+                const to = params.get('stock')?.split('|')[1] as string;
+                fromSliderStock.value = from;
+                toSliderStock.value = to;
+            }
+        }
+        const fromSliderPrice = document.querySelector('#fromSliderPrice') as HTMLInputElement;
+        const toSliderPrice = document.querySelector('#toSliderPrice') as HTMLInputElement;
+        if (fromSliderPrice && toSliderPrice) {
+            if (params.get('price')) {
+                const from = params.get('price')?.split('|')[0] as string;
+                const to = params.get('price')?.split('|')[1] as string;
+                fromSliderPrice.value = from;
+                toSliderPrice.value = to;
+            }
+        }
     }
 }
 
