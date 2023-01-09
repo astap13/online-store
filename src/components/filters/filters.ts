@@ -18,7 +18,7 @@ class Filters {
         this.renderItemsCategory();
         this.renderFiltersBrands();
         this.renderSliderPrice();
-        this.resetFilters();
+        //this.resetFilters();
         this.renderSliderStock();
         const input = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
         input.forEach((i) => {
@@ -94,11 +94,12 @@ class Filters {
         const sorted = await app.search.sort(filtredSear);
         const byPrice = this.filterByPrice(sorted);
         const byStock = this.filterByStock(byPrice);
-        app.products.renderProducts(byStock);
-        app.catalogItems = byStock;
-        this.updateFiltersData(byStock);
+        const result = sorted;
+        app.products.renderProducts(result);
+        app.catalogItems = result;
+        this.updateFiltersData(result);
         app.search.showStat();
-        return byStock;
+        return result;
     }
     updateFiltersData(byStock: IProductItem[]): void {
         const filterListCategories = document.querySelector('.filter-list-category') as HTMLDivElement;
@@ -208,6 +209,8 @@ class Filters {
             return;
         }
         const sort = [...products].sort((a, b) => (a.price > b.price ? 1 : -1));
+        console.log(sort);
+        console.log(sort[sort.length - 1].price.toString());
         fromSlider.min = sort[0].price.toString();
         fromSlider.max = sort[sort.length - 1].price.toString();
         toSlider.max = fromSlider.max;
@@ -270,7 +273,6 @@ class Filters {
             return;
         }
         const sort = [...products].sort((a, b) => (a.stock > b.stock ? 1 : -1));
-        console.log(sort);
         fromSlider.min = sort[0].stock.toString();
         fromSlider.max = sort[sort.length - 1].stock.toString();
         toSlider.max = fromSlider.max;
