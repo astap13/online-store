@@ -90,6 +90,7 @@ class Search {
             const newArr = [...arr].filter((el) => {
                 return Object.values(el).join('').toLowerCase().includes(input.value.toLowerCase());
             });
+            app.query.add('search', input.value);
             return newArr;
         }
         return arr;
@@ -130,11 +131,15 @@ class Search {
         return newArr;
     }
     loadSort() {
-        const params = app.query.params;
-        const input = document.querySelector('.sort-bar') as HTMLInputElement;
+        const params = app.query.load();
+        const inputSort = document.querySelector('.sort-bar') as HTMLInputElement;
         let sort = params.get('sort') as string;
         if (sort === undefined) sort = 'sort-title';
-        input.value = sort;
+        inputSort.value = sort;
+        const inputSearch = document.querySelector('.searhProducts') as HTMLInputElement;
+        let search = params.get('search') as string;
+        if (search === undefined) search = '';
+        inputSearch.value = search;
     }
 }
 

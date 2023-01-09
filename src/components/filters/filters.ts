@@ -94,6 +94,7 @@ class Filters {
         app.catalogItems = byStock;
         app.search.showStat();
         this.updateFiltersData(byStock);
+        app.search.showStat();
         return byStock;
     }
     updateFiltersData(byStock: IProductItem[]): void {
@@ -167,17 +168,17 @@ class Filters {
     }
 
     async resetFilters() {
-        const products = this.products;
-        document.querySelector('.reset-btn')?.addEventListener('click', function () {
+        document.querySelector('.reset-btn')?.addEventListener('click', () => {
             const checkboxesCategory = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
-            const checkboxesBrend = document.querySelectorAll('.brend_checkbox') as NodeListOf<HTMLInputElement>;
+            const checkboxesBrend = document.querySelectorAll('.brand_checkbox') as NodeListOf<HTMLInputElement>;
             checkboxesCategory.forEach((el) => {
                 el.checked = false;
             });
             checkboxesBrend.forEach((el) => {
                 el.checked = false;
             });
-            app.products.renderProducts(products);
+            window.history.pushState({}, '', '/');
+            this.filterAll(PRODUCTS);
         });
     }
 
