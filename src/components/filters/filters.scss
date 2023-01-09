@@ -4,9 +4,47 @@
     width: 100%;
     overflow-x: hidden;
     background: antiquewhite;
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+  
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: antiquewhite;
+    }
     
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+    
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    label {
+        cursor: pointer;
+    }
+    input[type='checkbox'] {
+        cursor: pointer;
+    }
 }
-
+.filter_btn {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.4s;
+    &:hover {
+        background-color: black;
+        color: white;
+        transition: 0.4s;
+    }
+}
 .sliders_control_price, .sliders_control_stock {
   position: relative;
   min-height: 50px;
@@ -83,4 +121,8 @@ input[type="range"] {
   display: flex;
   justify-content: space-around;
   margin: 10px;
+}
+.reset-total {
+  display: flex;
+  justify-content: space-between;
 }

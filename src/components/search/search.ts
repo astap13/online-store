@@ -46,47 +46,50 @@ class Search {
             }
         }
     }
+    toggleView(view: string) {
+        const smallBtn = document.querySelector('.small-v') as HTMLButtonElement;
+        const bigBtn = document.querySelector('.big-v') as HTMLButtonElement;
+        const itemInfo = document.querySelectorAll('div.item_info') as NodeListOf<Element>;
+        const item = document.querySelectorAll('li.products_item') as NodeListOf<Element>;
+        const btnContainer = document.querySelectorAll('.button_container') as NodeListOf<Element>;
+        if (view === 'big') {
+            smallBtn.classList.remove('active-mode');
+            bigBtn.classList.add('active-mode');
+            itemInfo.forEach((el) => {
+                el.classList.remove('hide');
+            });
+            item.forEach((el) => {
+                el.classList.remove('itemSmall');
+            });
+            btnContainer.forEach((el) => {
+                el.classList.remove('small_mode_btn');
+            });
+            this.bigTile = false;
+        } else if (view === 'small') {
+            smallBtn.classList.add('active-mode');
+            bigBtn.classList.remove('active-mode');
+            itemInfo.forEach((el) => {
+                el.classList.add('hide');
+            });
+            item.forEach((el) => {
+                el.classList.add('itemSmall');
+            });
+            btnContainer.forEach((el) => {
+                el.classList.add('small_mode_btn');
+            });
+            this.bigTile = true;
+        }
+        app.query.add('view', view);
+    }
     async viewMode() {
         const smallBtn = document.querySelector('.small-v') as HTMLButtonElement;
         const bigBtn = document.querySelector('.big-v') as HTMLButtonElement;
         if (!(smallBtn || bigBtn)) return;
         smallBtn.addEventListener('click', () => {
-            const itemInfo = document.querySelectorAll('div.item_info') as NodeListOf<Element>;
-            const item = document.querySelectorAll('li.products_item') as NodeListOf<Element>;
-            const btnContainer = document.querySelectorAll('.button_container') as NodeListOf<Element>;
-            if (bigBtn.classList.contains('active-mode')) {
-                smallBtn.classList.toggle('active-mode');
-                bigBtn.classList.toggle('active-mode');
-                itemInfo.forEach((el) => {
-                    el.classList.add('hide');
-                });
-                item.forEach((el) => {
-                    el.classList.toggle('itemSmall');
-                });
-                btnContainer.forEach((el) => {
-                    el.classList.toggle('small_mode_btn');
-                });
-                this.bigTile = false;
-            }
+            this.toggleView('small');
         });
         bigBtn.addEventListener('click', () => {
-            const itemInfo = document.querySelectorAll('div.item_info') as NodeListOf<Element>;
-            const item = document.querySelectorAll('li.products_item') as NodeListOf<Element>;
-            const btnContainer = document.querySelectorAll('.button_container') as NodeListOf<Element>;
-            if (smallBtn.classList.contains('active-mode')) {
-                smallBtn.classList.toggle('active-mode');
-                bigBtn.classList.toggle('active-mode');
-                itemInfo.forEach((el) => {
-                    el.classList.remove('hide');
-                });
-                item.forEach((el) => {
-                    el.classList.toggle('itemSmall');
-                });
-                btnContainer.forEach((el) => {
-                    el.classList.toggle('small_mode_btn');
-                });
-                this.bigTile = true;
-            }
+            this.toggleView('big');
         });
     }
     searchFilter(arr: IProductItem[]): IProductItem[] {
@@ -148,6 +151,9 @@ class Search {
             let search = params.get('search') as string;
             if (search === undefined) search = '';
             inputSearch.value = search;
+        }
+        if (params.get('view')) {
+            this.toggleView(params.get('view') as string);
         }
     }
 }

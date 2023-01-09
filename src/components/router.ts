@@ -57,7 +57,9 @@ class Router {
             case '/':
                 app.search.renderSearch();
                 app.filters.renderFilters();
+                app.filters.resetFilters();
                 app.query.load();
+                app.filters.loadAllFilter();
                 setTimeout(() => {
                     app.filters.filterAll(PRODUCTS);
                 }, 200);

@@ -137,22 +137,21 @@ class Checkout {
                     element.classList.remove('input_invalid');
                 }, 350);
             });
-            inputSubmit.innerHTML = `
-                <div class="spinner7">
-                    <div class="circ2"></div>
-                    <div class="circ3"></div>
-                    <div class="circ4"></div>
-                    <div class="circ5"></div>
-                </div>`;
-            setTimeout(() => {
-                app.cart.cart.splice(0, app.cart.cart.length);
-                for (let i = 0; i < app.cart.cart.length; i++) {
-                    app.cart.drop(app.cart.cart[i]);
-                }
-                app.router.route(event);
-            }, 100);
             if (!validArr.includes(false)) {
-                console.log('valid');
+                inputSubmit.innerHTML = `
+                    <div class="spinner7">
+                        <div class="circ2"></div>
+                        <div class="circ3"></div>
+                        <div class="circ4"></div>
+                        <div class="circ5"></div>
+                    </div>`;
+                setTimeout(() => {
+                    app.cart.cart.splice(0, app.cart.cart.length);
+                    for (let i = 0; i < app.cart.cart.length; i++) {
+                        app.cart.drop(app.cart.cart[i]);
+                    }
+                    app.router.route(event);
+                }, 3000);
             }
         });
     }
