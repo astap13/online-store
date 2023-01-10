@@ -45,6 +45,42 @@
         transition: 0.4s;
     }
 }
+.copy-btn{
+  position: relative;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: -2;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: green;
+    border-radius: 2px;
+    transition: all .2s;
+    z-index: -1;
+  }
+  &:active {
+    color: #fff;
+    &:before {
+      width: 100%;
+    }
+  }
+  
+}
 .sliders_control_price, .sliders_control_stock {
   position: relative;
   min-height: 50px;
