@@ -32,7 +32,10 @@ export class Products {
             </li>
             `;
         });
-        const HTMLListContainer = `<ul class="products__list">${HTMLCatalog}</ul>`;
+        let HTMLListContainer = `<ul class="products__list">${HTMLCatalog}</ul>`;
+        if (arrProducts.length === 0) {
+            HTMLListContainer = '<h1 style="text-align:center">Items not found</h1>';
+        }
         if (rootProducts) {
             rootProducts.innerHTML = HTMLListContainer;
         }
