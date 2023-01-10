@@ -138,6 +138,7 @@ class Checkout {
                 }, 350);
             });
             if (!validArr.includes(false)) {
+                card.innerHTML = '<h1 style="text-align:center">Your order confirmed!</h1>';
                 inputSubmit.innerHTML = `
                     <div class="spinner7">
                         <div class="circ2"></div>
