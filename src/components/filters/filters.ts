@@ -20,6 +20,7 @@ class Filters {
         this.renderSliderPrice();
         this.resetFilters();
         this.renderSliderStock();
+        this.copy();
         const input = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
         input.forEach((i) => {
             i.addEventListener('input', () => {
@@ -382,6 +383,17 @@ class Filters {
                 toSliderPrice.value = to;
             }
         }
+    }
+    copy() {
+        const btn = document.querySelector('.copy-btn') as HTMLInputElement;
+        btn.addEventListener('click', function () {
+            const copytext = document.createElement('input');
+            copytext.value = window.location.href;
+            document.body.appendChild(copytext);
+            copytext.select();
+            document.execCommand('copy');
+            document.body.removeChild(copytext);
+        });
     }
 }
 
