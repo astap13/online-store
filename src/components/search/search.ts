@@ -154,6 +154,11 @@ class Search {
         }
         if (params.get('view')) {
             this.toggleView(params.get('view') as string);
+            if (params.get('view') === 'small') {
+                this.bigTile = false;
+            } else {
+                this.bigTile = true;
+            }
         }
     }
 }
