@@ -60,9 +60,10 @@ class Router {
                 app.filters.resetFilters();
                 app.query.load();
                 app.filters.loadAllFilter();
+                app.products.renderPreloader();
                 setTimeout(() => {
                     app.filters.filterAll(PRODUCTS);
-                }, 200);
+                }, 500);
                 break;
             case '/cart':
                 app.cart.renderCart();

@@ -37,6 +37,16 @@ export class Products {
             rootProducts.innerHTML = HTMLListContainer;
         }
     }
+    renderPreloader() {
+        const rootProducts = document.querySelector('.products') as HTMLDivElement;
+        rootProducts.innerHTML = `
+        <div class="preloader_products">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>`;
+    }
 }
 
 export default Products;
