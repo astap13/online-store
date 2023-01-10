@@ -7,8 +7,10 @@ export class Products {
         let HTMLCatalog = '';
         const bigstyle = app.search.bigTile ? '' : 'itemSmall';
         let infoClass = '';
+        let smallMode = '';
         if (bigstyle === 'itemSmall') {
             infoClass = 'hide';
+            smallMode = 'small_mode_btn'
         }
         arrProducts.forEach((element) => {
             let textBtn = 'Add to cart';
@@ -26,7 +28,7 @@ export class Products {
                     <p class='item_content'>Rating: ${element.rating}</p>
                     <p class='item_content'>Stock: ${element.stock}</p>
                 </div>
-                <div class='button_container'>
+                <div class='button_container ${smallMode}'>
                 <button class='btn_product_item product_item_add_to_cart_id_${element.id}'>${textBtn}</button>
                 <a class='btn_product_item product_item_details_id_${element.id}' href="/product-details/${element.id}">Details</a></div>
             </li>
