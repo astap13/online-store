@@ -152,6 +152,7 @@ class Checkout {
                         app.cart.drop(app.cart.cart[i]);
                     }
                     app.router.route(event);
+                    app.cart.saveCart();
                 }, 3000);
             }
         });

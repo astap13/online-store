@@ -123,6 +123,21 @@ class Filters {
                 span.innerHTML = `(${newValue}/${newValue2})`;
             });
         }
+        const fromSliderStock = document.querySelector('#fromSliderStock') as HTMLInputElement;
+        const toSliderStock = document.querySelector('#toSliderStock') as HTMLInputElement;
+        const fromDataStock = document.querySelector('.from-data_stock') as HTMLElement;
+        const toDataStock = document.querySelector('.to-data_stock') as HTMLDivElement;
+        const fromSliderPrice = document.querySelector('#fromSliderPrice') as HTMLInputElement;
+        const toSliderPrice = document.querySelector('#toSliderPrice') as HTMLInputElement;
+        const fromDataPrice = document.querySelector('.from-data_price') as HTMLElement;
+        const toDataPrice = document.querySelector('.to-data_price') as HTMLDivElement;
+        const sortPrice = [...byStock].sort((a, b) => (a.price < b.price ? 1 : 0));
+        const sortStock = [...byStock].sort((a, b) => (a.stock > b.stock ? 1 : 0));
+        console.log(sortStock);
+        fromSliderStock.value = sortStock[sortStock.length - 1].stock.toString();
+        toSliderStock.value = sortStock[0].stock.toString();
+        fromDataStock.textContent = fromSliderStock.value;
+        toDataStock.textContent = toSliderStock.value;
     }
     async filterCategory(arr: IProductItem[]): Promise<IProductItem[]> {
         const checkboxes = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;

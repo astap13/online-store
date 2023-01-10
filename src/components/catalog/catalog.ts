@@ -10,7 +10,7 @@ export class Products {
         let smallMode = '';
         if (bigstyle === 'itemSmall') {
             infoClass = 'hide';
-            smallMode = 'small_mode_btn'
+            smallMode = 'small_mode_btn';
         }
         arrProducts.forEach((element) => {
             let textBtn = 'Add to cart';

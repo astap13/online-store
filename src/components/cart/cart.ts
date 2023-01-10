@@ -211,6 +211,7 @@ class Cart {
             if (elem) elem.amount++;
         }
         this.setSumNum();
+        this.saveCart();
     }
     increaseAmountItem(item: cartItemType): void {
         this.cart.forEach((el) => {
@@ -220,6 +221,7 @@ class Cart {
             if (el.amount > el.stock) el.amount = el.stock;
         });
         this.setSumNum();
+        this.saveCart();
     }
     decreaseAmountItem(item: cartItemType): void {
         if (item.amount === 1) {
@@ -228,8 +230,10 @@ class Cart {
             item.amount--;
         }
         this.setSumNum();
+        this.saveCart();
     }
     drop(item: IProductItem) {
+        if (this.cart.length >= 1) this.cart.pop();
         for (let i = 0; i < this.cart.length; i++) {
             if (this.cart[i].description === item.description) {
                 this.cart.splice(i, 1);

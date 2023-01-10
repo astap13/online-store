@@ -5,7 +5,9 @@ import { app } from '../../main';
 
 class ProductDetails {
     renderItemPage(element: IProductItem): void {
-        app.cart.loadCart();
+        if (app.cart.cart.length < 1) {
+            app.cart.loadCart();
+        }
         const node = document.querySelector('.product-details') as HTMLElement;
         (node.querySelector('.product-details__title') as HTMLElement).textContent = capetalize(element.title);
         // Place path to product
