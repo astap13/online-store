@@ -35,6 +35,11 @@ class Cart {
         };
     }
     async renderCart(): Promise<void> {
+        if (this.cart.length < 1) {
+            const cart = document.querySelector('.cart') as HTMLElement;
+            cart.innerHTML = '<h1>Cart is Empty</h1>';
+            return;
+        }
         this.page = 1;
         this.itemsOnPage = 3;
         const route = '/pages/cart.html';
@@ -68,10 +73,6 @@ class Cart {
             cartElement.innerHTML = html;
             this.renderItems(this.getPage(this.page));
             this.setSumNum();
-            if (this.cart.length < 1) {
-                const cart = document.querySelector('.cart') as HTMLElement;
-                cart.innerHTML = '<h1>Cart is Empty</h1>';
-            }
         }
     }
     renderItems(cart: cartItems) {
