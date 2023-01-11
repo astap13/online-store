@@ -32,7 +32,7 @@ class Checkout {
             if (id === 0) err.textContent = 'Your name has to be 2 word/3 letters each minimum';
             if (id === 1) err.textContent = 'Enter your phone number in format +123456789';
             if (id === 2) err.textContent = 'Your adress has to be 3 word/5 letters each minimum';
-            if (id === 3) err.textContent = 'Enter your email';
+            if (id === 3) err.textContent = 'Enter valid email format without "#%&!*" symbols';
             line.append(el, err);
             formBlock.append(line);
         });
@@ -170,7 +170,7 @@ class Checkout {
         const errors = document.querySelectorAll('.input_error');
         const valueArr = target.value.split(' ');
         const value = target.value;
-
+        const invalidSymbols = '#%&!*';
         target.required = true;
         let valid = true;
         const arr: string[] = [];
@@ -221,6 +221,9 @@ class Checkout {
                     value.split('@')[1].split('.')[1].length < 2
                 ) {
                     valid = false;
+                }
+                for (let i = 0; i < invalidSymbols.length; i++) {
+                    if (value.includes(invalidSymbols[i])) valid = false;
                 }
                 errors[3].classList.remove('input_error__active');
                 if (!valid) {
