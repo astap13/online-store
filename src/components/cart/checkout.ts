@@ -14,7 +14,7 @@ class Checkout {
         const inputName = createInput('cart_buy_personal_input', 'text', 'Name');
         const inputPhone = createInput('cart_buy_personal_input', 'text', 'Phone number');
         const inputAddress = createInput('cart_buy_personal_input', 'text', 'Address');
-        const inputEmail = createInput('cart_buy_personal_input', 'email', 'E-mail');
+        const inputEmail = createInput('cart_buy_personal_input', 'text', 'E-mail');
         const inputSubmit = createElementWithClass('a', 'cart_buy_btn') as HTMLAnchorElement; /*  createInput('cart_buy_btn', 'button') */
         //inputSubmit.classList.add('link_route');
         inputSubmit.textContent = 'Comfirm';
@@ -214,7 +214,14 @@ class Checkout {
                 }
                 break;
             case 'E-mail':
-                valid = target.checkValidity();
+                if (
+                    valueArr.length > 1 ||
+                    value.split('@')[0].length < 3 ||
+                    value.split('@')[1].split('.')[0].length < 2 ||
+                    value.split('@')[1].split('.')[1].length < 2
+                ) {
+                    valid = false;
+                }
                 errors[3].classList.remove('input_error__active');
                 if (!valid) {
                     errors[3].classList.add('input_error__active');
@@ -222,27 +229,12 @@ class Checkout {
                 break;
             case 'Card number':
                 if (value.length < 19) valid = false;
-                /* cartNumberErr?.classList.add('hide');
-                if (!valid) {
-                    cardErr.classList.add('card_errors__active');
-                    cartNumberErr?.classList.remove('hide');
-                } */
                 break;
             case 'MM/YY':
                 if (target.value.length < 5) valid = false;
-                /* cardErr.classList.remove('card_errors__active');
-                cartDateErr?.classList.add('hide');
-                if (!valid) {
-                    cartDateErr?.classList.remove('hide');
-                } */
                 break;
             case 'cvv':
                 if (target.value.length < 3) valid = false;
-                /* cartCvvErr?.classList.add('hide');
-                if (!valid) {
-                    cardErr.classList.add('card_errors__active');
-                    cartCvvErr?.classList.remove('hide');
-                } */
                 break;
         }
         if (!valid) {
