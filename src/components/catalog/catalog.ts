@@ -5,10 +5,12 @@ export class Products {
     renderProducts(arrProducts: IProductItem[]) {
         const rootProducts = document.querySelector('.products') as HTMLDivElement;
         let HTMLCatalog = '';
-        const bigstyle = app.search.bigTile ? '' : 'itemSmall';
+        const params = app.query.load();
+        let bigstyle = '';
         let infoClass = '';
         let smallMode = '';
-        if (bigstyle === 'itemSmall') {
+        if (params.get('view') === 'small') {
+            bigstyle = 'itemSmall';
             infoClass = 'hide';
             smallMode = 'small_mode_btn';
         }
