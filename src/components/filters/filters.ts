@@ -123,7 +123,7 @@ class Filters {
                 span.innerHTML = `(${newValue}/${newValue2})`;
             });
         }
-        const fromSliderStock = document.querySelector('#fromSliderStock') as HTMLInputElement;
+        /* const fromSliderStock = document.querySelector('#fromSliderStock') as HTMLInputElement;
         const toSliderStock = document.querySelector('#toSliderStock') as HTMLInputElement;
         const fromDataStock = document.querySelector('.from-data_stock') as HTMLElement;
         const toDataStock = document.querySelector('.to-data_stock') as HTMLDivElement;
@@ -137,7 +137,7 @@ class Filters {
         fromSliderStock.value = sortStock[sortStock.length - 1].stock.toString();
         toSliderStock.value = sortStock[0].stock.toString();
         fromDataStock.textContent = fromSliderStock.value;
-        toDataStock.textContent = toSliderStock.value;
+        toDataStock.textContent = toSliderStock.value; */
     }
     async filterCategory(arr: IProductItem[]): Promise<IProductItem[]> {
         const checkboxes = document.querySelectorAll('.category_checkbox') as NodeListOf<HTMLInputElement>;
