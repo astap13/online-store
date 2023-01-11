@@ -49,7 +49,7 @@ class Cart {
         const params = app.query.load();
         if (params.has('items')) {
             const itemOnPage = params.get('items') as string;
-            if (itemOnPage) {
+            if (!isNaN(Number(itemOnPage))) {
                 this.itemsOnPage = +itemOnPage;
             }
         }
@@ -57,11 +57,18 @@ class Cart {
             itemsOnPage.value = this.itemsOnPage.toString();
             const cartPage = document.querySelector('.cart_page_number') as HTMLElement;
             if (cartPage && params.has('page')) {
-                const page = params.get('page') as string;
-                if (page) {
+                let page = params.get('page') as string;
+                if (!isNaN(Number(page))) {
+                    if (+page - 1 > this.cart.length / +this.itemsOnPage) {
+                        page = Math.ceil(this.cart.length / +this.itemsOnPage).toString();
+                        console.log(this.cart.length / +this.itemsOnPage);
+                    }
                     this.page = +page;
                     cartPage.textContent = page;
+                } else {
+                    cartPage.textContent = this.page.toString();
                 }
+                console.log(this.page);
             }
             itemsOnPage.addEventListener('input', () => {
                 if (+itemsOnPage.value > 10) itemsOnPage.value = '10';
@@ -233,7 +240,7 @@ class Cart {
         this.saveCart();
     }
     drop(item: IProductItem) {
-        if (this.cart.length >= 1) this.cart.pop();
+        if (this.cart.length <= 1) this.cart.pop();
         for (let i = 0; i < this.cart.length; i++) {
             if (this.cart[i].description === item.description) {
                 this.cart.splice(i, 1);
@@ -250,6 +257,7 @@ class Cart {
                 this.renderItems(this.getPage(this.page));
             }
         }
+        this.saveCart();
         this.setSumNum();
     }
     saveCart() {
@@ -280,6 +288,13 @@ class Cart {
     getPage(number: number) {
         number--;
         this.setCartByPages(this.itemsOnPage);
+        if (!this.cartByPage[number]) {
+            this.page--;
+            app.query.add('page', this.page.toString());
+            const itemsOnPage = document.querySelector('.cart_page_number') as HTMLElement;
+            itemsOnPage.textContent = this.page.toString();
+            return this.cartByPage[this.cartByPage.length - 1] as cartItems;
+        }
         return this.cartByPage[number] as cartItems;
     }
     renderPromos() {
