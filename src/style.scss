@@ -1,0 +1,130 @@
+$main_color: rgb(141, 141, 141);
+$bg_color: rgb(255, 255, 255);
+$accent_color: rgb(99, 134, 200);
+$block_color: rgb(91, 181, 201);
+$shadow_color: rgb(215, 145, 145);
+$border_color: rgb(0, 0, 0);
+$font_color_light: rgb(215, 145, 145);
+$font_color_dark: rgb(215, 145, 145);
+$btn_color: black;
+$btn_color_text: white;
+$btn_color_active: rgb(56, 191, 128);
+* {
+  font-family: 'Roboto', sans-serif;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: antiquewhite;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+input[type='text'], input[type='search'], input[type='number']{
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  color: black;
+  &::placeholder {
+    color: black;
+  }
+  &:focus{
+    outline: none;
+    box-shadow: 0 0 10px black;
+}
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 100vh;
+  height: max-content;
+  justify-content: center;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.header {
+  background-color: $main_color;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 60px;
+  align-items: center;
+  padding: 10px 20px;
+  .link_to_cart, .home_link {
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 10px;
+    transition: 0.5s;
+    &:hover {
+      border: 2px solid white;
+      transition: 0.5s;
+    }
+  }
+}
+.main {
+  background-color: $bg_color;
+  display: flex;
+  flex-grow: 1;
+  
+  background-color: $main_color;
+}
+.main_container {
+  border-radius: 20px;
+  background-color: white;
+}
+.filters {
+  width: 30%;
+  min-width: 200px;
+  height: fit-content;
+  min-height: 500px;
+  background-color: $main_color;
+  padding: 20px;
+}
+.item {
+  height: 100px;
+  width: 100px;
+  border: 2px solid red;
+}
+.footer {
+  background-color: $main_color;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  height: 60px;
+  align-items: center;
+}
+.page404 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  .link404 {
+    padding: 20px;
+    background-color: $btn_color;
+    color: white;
+    border-radius: 20px;
+    transition: 0.5s;
+    border: 2px solid $btn_color;
+    &:hover {
+      background-color: white;
+      color: black;
+      transition: 0.5s;
+    }
+  }
+}

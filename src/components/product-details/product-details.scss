@@ -1,0 +1,104 @@
+@import "/src/style.scss";
+.product-details {
+    margin: 0 20px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: white;
+    width: 100%;
+    border-radius: 20px;
+    padding: 20px;
+}
+.product_item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+.product-details__title {
+    text-align: center;
+}
+.product-details__route {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+.product-details__main {
+    border: 2px solid $border_color;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 20px;
+    border-radius: 20px;
+}
+.product-details__galery {
+    gap: 30px;
+    display: flex;
+    justify-content: space-between;
+    .product_images {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        
+        .product_gallery_image {
+            width: 100px;
+            height: auto;
+            transition: 0.3s;
+            cursor: pointer;
+            border-radius: 5px;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png');
+        }
+        .product_galery_active {
+            box-shadow: 5px 5px 5px black;
+            transition: 0.3s;
+        }
+    }
+    .image__active {
+        width: 50%;
+        object-fit: contain;
+        flex-grow: 1;
+        max-width: 300px;
+        height: fit-content;
+        border-radius: 20px;
+        align-self: center;
+    }
+}
+.product-details__specs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    .product_spec {
+        border: 1px solid $border_color;
+        text-align: center;
+        border-radius: 10px;
+        .spec_head {
+            background-color: $accent_color;
+            border-radius: 10px 10px 0 0;
+            padding: 10px;
+            max-width: 500px;
+        }
+        .spec_main {
+            padding: 10px;
+            max-width: 500px;
+        }
+    }
+}
+.product-details__buy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    .product_details__btn {
+        border-radius: 10px;
+        background-color: $btn_color;
+        color: $btn_color_text;
+        padding: 10px 20px;
+        white-space: nowrap;
+        text-align: center;
+        cursor: pointer;
+        width: 140px;
+    }
+}
